@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^www. [NC]
+RewriteRule (.*) https://www.YourWebsite.fr/$1 [R=301,L]
+
+ErrorDocument 404 /404.html

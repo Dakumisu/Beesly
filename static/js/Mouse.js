@@ -1,0 +1,69 @@
+import * as THREE from 'three'
+
+class Mouse {
+   constructor(opt) {
+      this.scene = opt.scene
+
+      this.init()
+      this.mouseMove()
+   }
+
+   init() {
+      this.mouseDom = new THREE.Vector2( {
+         x: 0,
+         y: 0
+      })
+
+      this.mouseScene = new THREE.Vector3( {
+         x: 0,
+         y: 0,
+         z: 0
+      })
+
+      this.mouseFrag = new THREE.Vector3( {
+         x: 0,
+         y: 0,
+         z: 0
+      })
+
+      this.mouseMap = new THREE.Vector3({
+         x: 0,
+         y: 0,
+         z: 0
+      })
+   }
+
+   mouseMove() {
+      document.addEventListener('mousemove', e => {
+         this.mouseDom.x = e.clientX
+         this.mouseDom.y = - e.clientY
+
+         this.mouseFrag.x = (this.mouseDom.x / window.innerWidth)
+         this.mouseFrag.y = -(this.mouseDom.y / window.innerHeight)
+
+         this.mouseScene.x = (this.mouseDom.x / window.innerWidth) * 2 - 1
+         this.mouseScene.y = (this.mouseDom.y / window.innerHeight) * 2 + 1
+
+         this.mouseMap.x = this.cursorMap(this.mouseScene.x, -1, 1, -this.viewSize().width / 2, this.viewSize().width / 2)
+         this.mouseMap.y = this.cursorMap(this.mouseScene.y, -1, 1, -this.viewSize().height / 2, this.viewSize().height / 2)
+      })
+   }
+
+   cursorMap (mousePos, in_min, in_max, out_min, out_max) {
+      return ((mousePos - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+   }
+
+   viewSize() {
+      let cameraZ = this.scene.camera.position.z
+      let distance = cameraZ - 0
+      let aspect = this.scene.camera.aspect
+
+      let vFov = this.scene.camera.fov * Math.PI / 180
+      let height = 2 * Math.tan(vFov / 2) * distance
+      let width = height * aspect
+
+      return { width, height, vFov }
+   }
+}
+
+export default Mouse
