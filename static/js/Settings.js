@@ -1,4 +1,4 @@
-import * as dat from "dat.gui";
+import * as dat from "dat.gui"; // https://github.com/dataarts/dat.gui#readme
 
 class Settings {
    constructor() {

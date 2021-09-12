@@ -9,23 +9,28 @@ class Mouse {
    }
 
    init() {
+      // Position de la souris dans le DOM
       this.mouseDom = new THREE.Vector2( {
          x: 0,
          y: 0
       })
 
-      this.mouseScene = new THREE.Vector3( {
-         x: 0,
-         y: 0,
-         z: 0
-      })
-
+      // Position de la souris à utiliser dans fragment shader si besoin (x: [0, 1], y:[0, 1])
       this.mouseFrag = new THREE.Vector3( {
          x: 0,
          y: 0,
          z: 0
       })
 
+      // Position de la souris dans la scène (x: [-1, 1], y:[-1, 1])
+      this.mouseScene = new THREE.Vector3( {
+         x: 0,
+         y: 0,
+         z: 0
+      })
+      
+      // Position de la souris dans la scène par rapport à la taille du DOM et de la caméra (x: [?, ?], y:[?, ?])
+      // ❗ Expérimental
       this.mouseMap = new THREE.Vector3({
          x: 0,
          y: 0,
@@ -36,14 +41,14 @@ class Mouse {
    mouseMove() {
       document.addEventListener('mousemove', e => {
          this.mouseDom.x = e.clientX
-         this.mouseDom.y = - e.clientY
-
+         this.mouseDom.y = e.clientY
+         
          this.mouseFrag.x = (this.mouseDom.x / window.innerWidth)
-         this.mouseFrag.y = -(this.mouseDom.y / window.innerHeight)
+         this.mouseFrag.y = (this.mouseDom.y / window.innerHeight)
 
          this.mouseScene.x = (this.mouseDom.x / window.innerWidth) * 2 - 1
-         this.mouseScene.y = (this.mouseDom.y / window.innerHeight) * 2 + 1
-
+         this.mouseScene.y = - (this.mouseDom.y / window.innerHeight) * 2 + 1
+         
          this.mouseMap.x = this.cursorMap(this.mouseScene.x, -1, 1, -this.viewSize().width / 2, this.viewSize().width / 2)
          this.mouseMap.y = this.cursorMap(this.mouseScene.y, -1, 1, -this.viewSize().height / 2, this.viewSize().height / 2)
       })

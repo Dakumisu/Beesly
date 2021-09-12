@@ -1,12 +1,11 @@
 import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js' // https://threejs.org/docs/#examples/en/loaders/GLTFLoader
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js' // https://threejs.org/docs/#examples/en/loaders/DRACOLoader
 
 class LoadModel {
    constructor(opt) {
-      this.name = opt.name
-      this.model = opt.model
+      this.name = opt.name // nom du model
+      this.model = opt.model // lien du model (ex: '../assets/3D/model.glb')
       this.scene = opt.scene
 
       this.loader = new GLTFLoader()
@@ -19,9 +18,17 @@ class LoadModel {
 
    async init() {
       this.asyncMesh = await this.loader.loadAsync(this.model)
-      this.mesh = this.asyncMesh.scene.children[0]
+      this.modelMesh = this.asyncMesh.scene.children[0]
+      
+      const modelMaterial = new THREE.MeshBasicMaterial()
 
-      this.scene.add(this.mesh)
+      this.modelMesh.traverse((vertice) => {
+         if (vertice.isMesh) {
+            vertice.material = modelMaterial
+         }
+      })
+
+      this.scene.add(this.modelMesh)
    }
 }
 

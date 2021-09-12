@@ -2,13 +2,13 @@ import * as THREE from 'three'
 
 class Raycaster {
    constructor(opt) {
-      this.pos = opt.pos
-      this.dir = opt.dir
+      this.pos = opt.pos // Vector2 -> position du raycatser (ex: pos: { x: -1, y: 2 })
+      this.dir = opt.dir // Vector2 -> direction du raycatser (ex: dir: { x: 2, y: -4 })
       this.index = opt.index
       this.scene = opt.scene
 
       this.init()
-      // this.helper()
+      this.helper()
    }
    
    init() {
@@ -17,7 +17,7 @@ class Raycaster {
       this.rayDirection = new THREE.Vector3(this.dir.x, this.dir.y, 0)
       this.rayDirection.normalize()
 
-      this.raycaster.params.Points.threshold = .04
+      this.raycaster.params.Points.threshold = .04 // taille du rayon
    
       this.raycaster.set(this.rayOrigin, this.rayDirection)
    }
