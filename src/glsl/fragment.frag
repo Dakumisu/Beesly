@@ -1,3 +1,5 @@
+precision highp float;
+
 #define PI 3.1415926535897932384626433832795
 
 uniform float uTime;
@@ -11,4 +13,5 @@ void main() {
   vec3 color = vec3(uColor);
 
   gl_FragColor = vec4(color, uAlpha);
+  gl_FragColor = vec4(vUv, 0., uAlpha);
 }

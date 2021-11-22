@@ -1,10 +1,14 @@
 import * as THREE from 'three'
-import vertex from '../glsl/vertex.vert'
-import fragment from '../glsl/fragment.frag'
+
+import Scene from '@js/Scene'
+import { Store } from '@js/Store'
+
+import vertex from '@glsl/vertex.vert'
+import fragment from '@glsl/fragment.frag'
 
 class Blueprint {
    constructor(opt) {
-      this.scene = opt.scene
+      this.scene = Scene.scene
 
       this.init()
       this.resize()
@@ -19,7 +23,7 @@ class Blueprint {
             uTime: { value : 0 },
             uColor: { value: new THREE.Color(0xffffff) },
             uAlpha: { value: 1 },
-            uAspect : { value : new THREE.Vector2(this.scene.sizes.width, this.scene.sizes.height) },
+            uAspect : { value : new THREE.Vector2(Store.sizes.width, Store.sizes.height) },
             uPixelRatio: { value: window.devicePixelRatio }
          },
          side: THREE.DoubleSide,
@@ -34,12 +38,12 @@ class Blueprint {
       this.blueprintMesh = new THREE.Mesh(this.blueprintGeometry, this.blueprintMaterial)
       this.blueprintMesh.frustumCulled = false // https://threejs.org/docs/#api/en/core/Object3D.frustumCulled
 
-      this.scene.scene.add(this.blueprintMesh)
+      this.scene.add(this.blueprintMesh)
    }
 
    resize() {
       window.addEventListener('resize', () => {
-         this.blueprintMaterial.uniforms.uAspect.value = new THREE.Vector2(this.scene.sizes.width, this.scene.sizes.height)
+         this.blueprintMaterial.uniforms.uAspect.value = new THREE.Vector2(Store.sizes.width, Store.sizes.height)
          this.blueprintMaterial.uniforms.uPixelRatio.value = window.devicePixelRatio
      })
    }

@@ -7,21 +7,29 @@ module.exports = {
     entry: {
         app: path.resolve(__dirname, '../src/app.js'),
     },
-    output:
-    {
+    output: {
         filename: '[name].bundle.js',
-        path: path.resolve(__dirname, '../build')
+        path: path.resolve(__dirname, '../dist')
+    },
+    resolve: {
+        alias: {
+            '@src': path.resolve(__dirname, '../src/'),
+            '@js': path.resolve(__dirname, '../src/js/'),
+            '@glsl': path.resolve(__dirname, '../src/glsl/'),
+            '@utils': path.resolve(__dirname, '../src/utils/'),
+        }
     },
     devtool: 'source-map',
-    plugins:
-    [
+    plugins: [
         new CopyWebpackPlugin({
             patterns: [
-                { from: path.resolve(__dirname, '../static'), to: path.resolve(__dirname,'../build/assets') }
+                { from: path.resolve(__dirname, '../static'), to: path.resolve(__dirname, '../dist/assets') }
             ]
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
+            title: 'WebGL Starter',
+            favicon: path.resolve(__dirname, '../static/img/icon/favicon.jpg'),
             template: path.resolve(__dirname, '../src/index.html'),
             chunks: ['app'],
             minify: true
@@ -30,10 +38,8 @@ module.exports = {
             filename: 'style.css'
         })
     ],
-    module:
-    {
-        rules:
-        [
+    module: {
+        rules: [
             // HTML
             {
                 test: /\.html$/,
@@ -44,8 +50,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use:
-                [
+                use: [
                     'babel-loader'
                 ]
             },
@@ -53,8 +58,7 @@ module.exports = {
             // CSS
             {
                 test: /\.css$/,
-                use:
-                [
+                use: [
                     MiniCSSExtractPlugin.loader,
                     'css-loader'
                 ]
@@ -73,61 +77,66 @@ module.exports = {
             // Images
             {
                 test: /\.(jpg|png|gif|svg)$/,
-                use:
-                [
-                    {
-                        loader: 'file-loader',
-                        options:
-                        {
-                            outputPath: 'assets/images/'
-                        }
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/images/'
                     }
-                ]
+                }]
             },
 
             // Fonts
             {
                 test: /\.(otf|ttf|eot|woff|woff2)$/,
-                use:
-                [
-                    {
-                        loader: 'file-loader',
-                        options:
-                        {
-                            outputPath: 'assets/fonts/'
-                        }
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/fonts/'
                     }
-                ]
+                }]
             },
 
             // Sound/Music
             {
-                test: /\.(mp3)$/,
-                use:
-                [
-                    {
-                        loader: 'file-loader',
-                        options:
-                        {
-                            outputPath: 'assets/sound/'
-                        }
+                test: /\.(mp3|wav)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/sound/'
                     }
-                ]
+                }]
+            },
+
+            // Video
+            {
+                test: /\.(mp4|webm)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/videos/'
+                    }
+                }, ]
             },
 
             // Models
             {
-                test: /\.(glb|gltf|fbx|obj)$/,
-                use:
-                [
-                    {
-                        loader: 'file-loader',
-                        options:
-                        {
-                            outputPath: 'assets/models/'
-                        }
+                test: /\.(fbx|glb|obj|3ds|gltf)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/models/'
                     }
-                ]
+                }]
+            },
+
+            {
+                test: /\.(bin)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/models/'
+                    },
+                }, ],
             },
 
             // Shaders
@@ -138,7 +147,15 @@ module.exports = {
                     'raw-loader',
                     'glslify-loader'
                 ]
-            }
+            },
+
+            {
+                test: /\.(md)$/,
+                exclude: /node_modules/,
+                use: [
+                    'file-loader'
+                ]
+            },
         ]
     }
 }

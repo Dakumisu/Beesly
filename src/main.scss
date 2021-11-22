@@ -1,75 +1,30 @@
-@import '../static/scss/utils/_font';
-@import '../static/scss/utils/_var';
+@import './scss/utils/_font';
+@import './scss/utils/_var';
+@import './scss/utils/_reset';
+@import './scss/utils/_breakpoints';
 
-*,
-*::before,
-*::after {
-    user-select: none;
-    box-sizing: border-box;
-    // cursor: none; // si cursor custom
-}
-
-::-webkit-scrollbar {
-    display: none;
+html {
+	height: 100vh; // keyboard ios hack
+	background: colors(red);
+	font-family: sans-serif;
+	font-family: -apple-system, Avenir, Roboto, "Open Sans", "Helvetica Neue", sans-serif;
+	font-weight: bold;
+	color: colors(dark-gray);
+	text-rendering: geometricPrecision;
+	-webkit-text-size-adjust: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-touch-callout: none; // disable iOS Link Preview
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	color: colors(white);
 }
 
 body {
-    padding: 0;
-    overflow: hidden;
-    min-height: 100vh;
-    text-rendering: optimizeSpeed;
-    line-height: 1.5;
-}
-
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote,
-dl,
-dd {
-    margin: 0;
-}
-
-a {
-    text-decoration: none;
-}
-
-ul[role='list'],
-ol[role='list'] {
-    list-style: none;
-}
-
-html:focus-within {
-    scroll-behavior: smooth;
-}
-
-a:not([class]) {
-    text-decoration-skip-ink: auto;
-}
-
-input,
-button,
-textarea,
-select {
-    font: inherit;
-}
-
-/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
-@media (prefers-reduced-motion: reduce) {
-    html:focus-within {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+	position: fixed;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	width: 100%;
+	touch-action: none;
+	user-select: none;
 }
