@@ -13,16 +13,7 @@ import Settings from '@js/Settings' // Dat.gui (toujours pour le debbugage)
 import Device from '@js/Device'
 import Raf from '@js/Raf'
 
-
-// const scene = new Scene()
-
 const blueprint = new Blueprint()
-
-// const mouse = new Mouse()
-
-// const control = new Control()
-
-// const settings = new Settings()
 
 document.addEventListener('keydown', e => {
     console.log(`${e.key} touch pressed`)

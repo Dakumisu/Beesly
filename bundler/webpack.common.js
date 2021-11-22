@@ -17,6 +17,10 @@ module.exports = {
             '@js': path.resolve(__dirname, '../src/js/'),
             '@glsl': path.resolve(__dirname, '../src/glsl/'),
             '@utils': path.resolve(__dirname, '../src/utils/'),
+
+            '@static': path.resolve(__dirname, '../static/'),
+            '@img': path.resolve(__dirname, '../static/img/'),
+            '@model': path.resolve(__dirname, '../static/models/'),
         }
     },
     devtool: 'source-map',
