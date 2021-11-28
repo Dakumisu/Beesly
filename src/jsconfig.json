@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+  "include": [
+    "../src/**/*",
+    "../static/**/*",
+  ],
+  "compilerOptions": {
+    "checkJs": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["./*"],
+      "@js/*": ["./js/*"],
+      "@glsl/*": ["./glsl/*"],
+      "@utils/*": ["./utils/*"],
+      
+      "@static/*": ["../static/*"],
+
+      "@@/*": ["../*"],
+    }
+  }
+}

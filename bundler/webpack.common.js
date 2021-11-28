@@ -19,8 +19,8 @@ module.exports = {
             '@utils': path.resolve(__dirname, '../src/utils/'),
 
             '@static': path.resolve(__dirname, '../static/'),
-            '@img': path.resolve(__dirname, '../static/img/'),
-            '@model': path.resolve(__dirname, '../static/models/'),
+            
+            '@@': path.resolve(__dirname, '../*'),
         }
     },
     devtool: 'source-map',
@@ -100,7 +100,7 @@ module.exports = {
                 }]
             },
 
-            // Sound/Music
+            // Sounds/Music
             {
                 test: /\.(mp3|wav)$/,
                 use: [{
@@ -111,7 +111,7 @@ module.exports = {
                 }]
             },
 
-            // Video
+            // Videos
             {
                 test: /\.(mp4|webm)$/,
                 use: [{
@@ -124,23 +124,13 @@ module.exports = {
 
             // Models
             {
-                test: /\.(fbx|glb|obj|3ds|gltf)$/,
+                test: /\.(fbx|glb|obj|3ds|gltf|bin)$/,
                 use: [{
                     loader: 'file-loader',
                     options: {
                         outputPath: 'assets/models/'
                     }
                 }]
-            },
-
-            {
-                test: /\.(bin)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        outputPath: 'assets/models/'
-                    },
-                }, ],
             },
 
             // Shaders
@@ -153,6 +143,7 @@ module.exports = {
                 ]
             },
 
+            // Markdown
             {
                 test: /\.(md)$/,
                 exclude: /node_modules/,
