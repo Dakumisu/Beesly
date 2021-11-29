@@ -22,6 +22,6 @@ document.addEventListener('keydown', e => {
 Raf.suscribe('update', () => { update() })
 
 function update() {
-    Scene.update()
-    Control.controls.update()
+    Scene.render()
+    Control.update()
 }

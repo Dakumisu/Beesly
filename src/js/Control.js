@@ -10,6 +10,10 @@ class Control {
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
       this.controls.enableDamping = true
    }
+
+   update() {
+      this.controls.update()
+   }
 }
 
 const out = new Control()

@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { ArrowHelper, Vector3 } from 'three'
 
 import Scene from '@js/Scene'
 
@@ -13,14 +13,12 @@ class Raycaster {
          this.helper()
          this.initHelper()
       }
-
-      this.scene = Scene.scene
    }
    
    initHelper() {
-      this.raycaster = new THREE.Raycaster()
-      this.rayOrigin = new THREE.Vector3(this.pos.x, this.pos.y, 0)
-      this.rayDirection = new THREE.Vector3(this.dir.x, this.dir.y, 0)
+      this.raycaster = new Raycaster()
+      this.rayOrigin = new Vector3(this.pos.x, this.pos.y, 0)
+      this.rayDirection = new Vector3(this.dir.x, this.dir.y, 0)
       this.rayDirection.normalize()
 
       this.raycaster.params.Points.threshold = .04 // taille du rayon
@@ -32,8 +30,8 @@ class Raycaster {
       this.length = 10
       this.hex = 0xffffff
 
-      this.arrowHelper = new THREE.ArrowHelper(this.rayDirection, this.rayOrigin, this.length, this.hex)
-      this.scene.add(this.arrowHelper)
+      this.arrowHelper = new ArrowHelper(this.rayDirection, this.rayOrigin, this.length, this.hex)
+      Scene.add(this.arrowHelper)
    }
 }
 

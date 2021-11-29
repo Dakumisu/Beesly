@@ -5,6 +5,7 @@ precision highp float;
 uniform float uTime;
 uniform float uAlpha;
 uniform vec3 uColor;
+uniform vec3 uResolution;
 
 varying vec2 vUv;
 varying vec3 vPos;

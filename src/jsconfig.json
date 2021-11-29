@@ -7,6 +7,7 @@
   "include": [
     "../src/**/*",
     "../static/**/*",
+    "../public/**/*",
   ],
   "compilerOptions": {
     "checkJs": true,
@@ -22,6 +23,7 @@
       "@glsl/*": ["./glsl/*"],
       "@utils/*": ["./utils/*"],
       
+      "@public/*": ["../public/*"],
       "@static/*": ["../static/*"],
 
       "@@/*": ["../*"],

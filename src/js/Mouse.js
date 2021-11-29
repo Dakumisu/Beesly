@@ -1,10 +1,13 @@
-import * as THREE from 'three'
-
 import Scene from '@js/Scene'
+import { Vector2 } from 'three'
+
+const tVec2a = new Vector2()
+const tVec2b = new Vector2()
+const tVec2c = new Vector2()
+const tVec2d = new Vector2()
 
 class Mouse {
    constructor(opt) {
-      this.scene = Scene
 
       this.init()
       this.mouseMove()
@@ -12,32 +15,40 @@ class Mouse {
 
    init() {
       // Position de la souris dans le DOM
-      this.mouseDom = new THREE.Vector2()
+      this.mouseDom = tVec2a
 
       // Position de la souris à utiliser dans fragment shader si besoin (x: [0, 1], y:[0, 1])
-      this.mouseFrag = new THREE.Vector3()
+      this.mouseFrag = tVec2b
 
       // Position de la souris dans la scène (x: [-1, 1], y:[-1, 1])
-      this.mouseScene = new THREE.Vector3()
+      this.mouseScene = tVec2c
       
       // Position de la souris dans la scène par rapport à la taille du DOM et de la caméra (x: [?, ?], y:[?, ?])
       // ❗ Expérimental
-      this.mouseMap = new THREE.Vector3()
+      this.mouseMap = tVec2d
    }
 
    mouseMove() {
       document.addEventListener('mousemove', e => {
-         this.mouseDom.x = e.clientX
-         this.mouseDom.y = e.clientY
+         this.mouseDom.set(
+            e.clientX,
+            e.clientY
+         )
          
-         this.mouseFrag.x = (this.mouseDom.x / window.innerWidth)
-         this.mouseFrag.y = (this.mouseDom.y / window.innerHeight)
+         this.mouseFrag.set(
+            this.mouseDom.x / window.innerWidth,
+            this.mouseDom.y / window.innerHeight
+         )
 
-         this.mouseScene.x = (this.mouseDom.x / window.innerWidth) * 2 - 1
-         this.mouseScene.y = - (this.mouseDom.y / window.innerHeight) * 2 + 1
+         this.mouseScene.set(
+            (this.mouseDom.x / window.innerWidth) * 2 - 1,
+            - (this.mouseDom.y / window.innerHeight) * 2 + 1
+         )
          
-         this.mouseMap.x = this.cursorMap(this.mouseScene.x, -1, 1, -this.viewSize().width / 2, this.viewSize().width / 2)
-         this.mouseMap.y = this.cursorMap(this.mouseScene.y, -1, 1, -this.viewSize().height / 2, this.viewSize().height / 2)
+         this.mouseMap.set(
+            this.cursorMap(this.mouseScene.x, -1, 1, -this.viewSize().width / 2, this.viewSize().width / 2),
+            this.cursorMap(this.mouseScene.y, -1, 1, -this.viewSize().height / 2, this.viewSize().height / 2)
+         )
       })
    }
 
@@ -46,11 +57,11 @@ class Mouse {
    }
 
    viewSize() {
-      let cameraZ = this.scene.camera.position.z
+      let cameraZ = Scene.camera.position.z
       let distance = cameraZ - 0
-      let aspect = this.scene.camera.aspect
+      let aspect = Scene.camera.aspect
 
-      let vFov = this.scene.camera.fov * Math.PI / 180
+      let vFov = Scene.camera.fov * Math.PI / 180
       let height = 2 * Math.tan(vFov / 2) * distance
       let width = height * aspect
 

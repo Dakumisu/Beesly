@@ -19,6 +19,7 @@ module.exports = {
             '@utils': path.resolve(__dirname, '../src/utils/'),
 
             '@static': path.resolve(__dirname, '../static/'),
+            '@public': path.resolve(__dirname, '../public/'),
             
             '@@': path.resolve(__dirname, '../*'),
         }
@@ -33,7 +34,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             title: 'WebGL Starter',
-            favicon: path.resolve(__dirname, '../static/img/icon/favicon.jpg'),
+            favicon: path.resolve(__dirname, '../static/icon/favicon.jpg'),
             template: path.resolve(__dirname, '../src/index.html'),
             chunks: ['app'],
             minify: true

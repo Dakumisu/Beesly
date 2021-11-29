@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Color, DoubleSide, Mesh, PlaneBufferGeometry, ShaderMaterial, Vector3 } from 'three'
 
 import Scene from '@js/Scene'
 import { Store } from '@js/Store'
@@ -6,27 +6,42 @@ import { Store } from '@js/Store'
 import vertex from '@glsl/vertex.vert'
 import fragment from '@glsl/fragment.frag'
 
+const twoPI = Math.PI * 2
+const tVec3 = new Vector3()
+
 class Blueprint {
    constructor(opt) {
-      this.scene = Scene.scene
+      this.blueprint = {}
+
+      this.initialized = false
 
       this.init()
       this.resize()
    }
 
    init() {
-      this.blueprintGeometry = new THREE.PlaneBufferGeometry(1,1)
-      this.blueprintMaterial = new THREE.ShaderMaterial({
+      this.setGeometry()
+      this.setMaterial()
+      this.setMesh()
+
+      this.initialized = true
+   }
+
+   setGeometry() {
+      this.blueprint.geometry = new PlaneBufferGeometry(1,1)
+   }
+
+   setMaterial() {
+      this.blueprint.material = new ShaderMaterial({
          vertexShader: vertex,
          fragmentShader: fragment,
          uniforms: {
             uTime: { value : 0 },
-            uColor: { value: new THREE.Color(0xffffff) },
+            uColor: { value: new Color(0xffffff) },
             uAlpha: { value: 1 },
-            uAspect : { value : new THREE.Vector2(Store.sizes.width, Store.sizes.height) },
-            uPixelRatio: { value: window.devicePixelRatio }
+            uResolution : { value : tVec3.set(Store.sizes.width, Store.sizes.height, window.devicePixelRatio) },
          },
-         side: THREE.DoubleSide,
+         side: DoubleSide,
          transparent: true,
 
          /* pour les particules */
@@ -34,18 +49,28 @@ class Blueprint {
          // depthWrite: false,
          // blending: THREE.AdditiveBlending
       })
+   }
 
-      this.blueprintMesh = new THREE.Mesh(this.blueprintGeometry, this.blueprintMaterial)
-      this.blueprintMesh.frustumCulled = false // https://threejs.org/docs/#api/en/core/Object3D.frustumCulled
+   setMesh() {
+      this.blueprint.mesh = new Mesh(this.blueprint.geometry, this.blueprint.material)
+      this.blueprint.mesh.frustumCulled = false // https://threejs.org/docs/#api/en/core/Object3D.frustumCulled
 
-      this.scene.add(this.blueprintMesh)
+      this.addObject(this.blueprint.mesh)
+   }
+
+   addObject(object) {
+      Scene.add(object)
    }
 
    resize() {
       window.addEventListener('resize', () => {
-         this.blueprintMaterial.uniforms.uAspect.value = new THREE.Vector2(Store.sizes.width, Store.sizes.height)
-         this.blueprintMaterial.uniforms.uPixelRatio.value = window.devicePixelRatio
+         this.blueprint.material.uniforms.uAspect.value = tVec3.set(Store.sizes.width, Store.sizes.height, window.devicePixelRatio)
      })
+   }
+
+   update() {
+      if (!this.initialized) return
+
    }
 }
 
