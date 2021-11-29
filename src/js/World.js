@@ -2,7 +2,7 @@ import { Scene, PerspectiveCamera, WebGLRenderer } from 'three'
 
 import { Store } from '@js/Store'
 
-class Scene {
+class World {
    constructor() {
       this.canvas = document.querySelector('canvas.webgl')
 
@@ -70,5 +70,5 @@ class Scene {
    }
 }
 
-const out = new Scene()
+const out = new World()
 export default out

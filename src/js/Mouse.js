@@ -1,4 +1,4 @@
-import Scene from '@js/Scene'
+import World from '@src/js/World'
 import { Vector2 } from 'three'
 
 const tVec2a = new Vector2()
@@ -57,11 +57,11 @@ class Mouse {
    }
 
    viewSize() {
-      let cameraZ = Scene.camera.position.z
+      let cameraZ = World.camera.position.z
       let distance = cameraZ - 0
-      let aspect = Scene.camera.aspect
+      let aspect = World.camera.aspect
 
-      let vFov = Scene.camera.fov * Math.PI / 180
+      let vFov = World.camera.fov * Math.PI / 180
       let height = 2 * Math.tan(vFov / 2) * distance
       let width = height * aspect
 

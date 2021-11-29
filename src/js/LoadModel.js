@@ -2,7 +2,7 @@ import { MeshBasicMaterial } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js' // https://threejs.org/docs/#examples/en/loaders/GLTFLoader
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js' // https://threejs.org/docs/#examples/en/loaders/DRACOLoader
 
-import Scene from '@js/Scene'
+import World from '@src/js/World'
 
 
 class LoadModel {
@@ -17,13 +17,13 @@ class LoadModel {
 
       this.load().then( e => {
          console.log('model loaded');
-         Scene.add(e)
+         World.add(e)
       })
    }
 
    async load() {
       new Promise( resolve => {
-         this.asyncMesh = await this.loader.loadAsync(this.model)
+         this.asyncMesh = this.loader.loadAsync(this.model)
          this.modelMesh = this.asyncMesh.scene.children[0]
          
          const modelMaterial = new MeshBasicMaterial()

@@ -1,6 +1,6 @@
 import { ArrowHelper, Vector3 } from 'three'
 
-import Scene from '@js/Scene'
+import World from '@src/js/World'
 
 class Raycaster {
    constructor(opt) {
@@ -31,7 +31,7 @@ class Raycaster {
       this.hex = 0xffffff
 
       this.arrowHelper = new ArrowHelper(this.rayDirection, this.rayOrigin, this.length, this.hex)
-      Scene.add(this.arrowHelper)
+      World.add(this.arrowHelper)
    }
 }
 

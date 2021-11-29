@@ -3,7 +3,7 @@ import './main.scss'
 import { TweenLite, TweenMax, gsap } from 'gsap' // https://greensock.com/docs/
 import howlerjs from 'howler' // https://github.com/goldfire/howler.js#documentation
 
-import Scene from '@js/Scene' // Création de la scène + renderer + camera
+import World from '@src/js/World' // Création de la scène + renderer + camera
 import LoadModel from '@js/LoadModel' // Chargement d'un modèle 3D
 import Mouse from '@js/Mouse' // Obtenir la position de la souris dans tous les environnement
 import Blueprint from '@js/Blueprint' // Template de plane
@@ -22,6 +22,6 @@ document.addEventListener('keydown', e => {
 Raf.suscribe('update', () => { update() })
 
 function update() {
-    Scene.render()
+    World.render()
     Control.update()
 }

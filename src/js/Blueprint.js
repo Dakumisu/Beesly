@@ -1,6 +1,6 @@
 import { Color, DoubleSide, Mesh, PlaneBufferGeometry, ShaderMaterial, Vector3 } from 'three'
 
-import Scene from '@js/Scene'
+import World from '@src/js/World'
 import { Store } from '@js/Store'
 
 import vertex from '@glsl/vertex.vert'
@@ -59,7 +59,7 @@ class Blueprint {
    }
 
    addObject(object) {
-      Scene.add(object)
+      World.add(object)
    }
 
    resize() {
