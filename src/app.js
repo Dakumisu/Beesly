@@ -2,6 +2,7 @@ import './main.scss'
 
 import { TweenLite, TweenMax, gsap } from 'gsap' // https://greensock.com/docs/
 import howlerjs from 'howler' // https://github.com/goldfire/howler.js#documentation
+import luge from '@waaark/luge' // do you know luge ? https://luge.cool/docs
 
 import World from '@src/js/World' // Création de la scène + renderer + camera
 import LoadModel from '@js/LoadModel' // Chargement d'un modèle 3D
