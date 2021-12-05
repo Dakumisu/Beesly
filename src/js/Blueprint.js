@@ -64,7 +64,7 @@ class Blueprint {
 
    resize() {
       window.addEventListener('resize', () => {
-         this.blueprint.material.uniforms.uAspect.value = tVec3.set(Store.sizes.width, Store.sizes.height, window.devicePixelRatio)
+         this.blueprint.material.uniforms.uResolution.value = tVec3.set(Store.sizes.width, Store.sizes.height, window.devicePixelRatio)
      })
    }
 
