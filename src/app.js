@@ -4,7 +4,7 @@ import { TweenLite, TweenMax, gsap } from 'gsap' // https://greensock.com/docs/
 import howlerjs from 'howler' // https://github.com/goldfire/howler.js#documentation
 import luge from '@waaark/luge' // do you know luge ? https://luge.cool/docs
 
-import World from '@src/js/World' // Création de la scène + renderer + camera
+import World from '@js/World' // Création de la scène + renderer + camera
 import LoadModel from '@js/LoadModel' // Chargement d'un modèle 3D
 import Mouse from '@js/Mouse' // Obtenir la position de la souris dans tous les environnement
 import Blueprint from '@js/Blueprint' // Template de plane
@@ -26,3 +26,7 @@ function update() {
     World.render()
     Control.update()
 }
+
+/// #if DEBUG
+	console.log('debug');
+/// #endif
