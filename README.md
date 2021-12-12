@@ -1,4 +1,4 @@
-# WebGL Template
+# Beelsy
 
 Hi :)
 
