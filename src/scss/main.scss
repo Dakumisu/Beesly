@@ -1,0 +1,12 @@
+@import './utils/_fonts';
+@import './utils/_var';
+@import './utils/_easings';
+@import './utils/_reset';
+@import './utils/_breakpoints';
+
+canvas.sketch {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+}

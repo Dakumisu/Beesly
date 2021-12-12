@@ -18,11 +18,12 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@src/*": ["./*"],
       "@js/*": ["./js/*"],
       "@glsl/*": ["./glsl/*"],
       "@utils/*": ["./utils/*"],
-      
+      "@workers/*": ["./workers/*"],
+      "@src/*": ["./*"],
+
       "@public/*": ["../public/*"],
       "@static/*": ["../static/*"],
 

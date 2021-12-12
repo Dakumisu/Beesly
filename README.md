@@ -1,6 +1,4 @@
-🚧 Under Construction 🚧
-
-# Beelsy
+# Beesly
 
 Hi :)
 

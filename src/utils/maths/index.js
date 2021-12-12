@@ -11,3 +11,4 @@ export { damp, dampPrecise } from './damp';
 export { angle } from './angle';
 export { createPrng } from './prng';
 export { randomDirection } from './randomDirection';
+export { imageAspect } from './imageAspect';
