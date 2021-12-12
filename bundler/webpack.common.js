@@ -9,10 +9,10 @@ const debug = process.env.NODE_ENV == 'development' ? true : false // Provisoire
 const opts = {
 	DEBUG: debug,
 	version: 3,
-	"ifdef-verbose": true,	// add this for verbose output
+	"ifdef-verbose": true,
 	"ifdef-triple-slash": true,
 	"ifdef-fill-with-blanks": true,
-	"ifdef-uncomment-prefix": "// #code "  // add this to uncomment code starting with "// #code "
+	"ifdef-uncomment-prefix": "// #code "
 }
 
 module.exports = {
@@ -28,6 +28,7 @@ module.exports = {
 			'@js': path.resolve(__dirname, '../src/js/'),
 			'@glsl': path.resolve(__dirname, '../src/glsl/'),
 			'@utils': path.resolve(__dirname, '../src/utils/'),
+			'@workers': path.resolve(__dirname, '../src/workers/'),
 			'@src': path.resolve(__dirname, '../src/'),
 
 			'@static': path.resolve(__dirname, '../static/'),
@@ -69,8 +70,8 @@ module.exports = {
 				test: /\.js$/,
 				exclude: /node_modules/,
 				use: [
+					'babel-loader',
 					{ loader: "ifdef-loader", options: opts },
-					// 'babel-loader',
 				]
 			},
 

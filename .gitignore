@@ -1,8 +1,10 @@
+dist/
+node_modules/
+
+._*
 .DS_Store
-dist
-build
-node_modules
 .cache
 .vscode
 .vs
-externes
+.vercel
+.env
