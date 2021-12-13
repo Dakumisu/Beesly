@@ -1,5 +1,5 @@
 /* example */
-// #pragma glslify: functionName = require(./function/templateFunction.glsl)
+// #pragma glslify: functionName = require(../../utils/glsl/templateFunction.glsl)
 
 precision highp float;
 
@@ -11,11 +11,11 @@ varying vec2 vUv;
 varying vec3 vPos;
 
 void main() {
-   vUv = uv;
-   vPos = position;
-   vec3 pos = position;
+	vUv = uv;
+	vPos = position;
+	vec3 pos = position;
 
-   vec4 mv = modelViewMatrix * vec4(pos, 1.);
-   gl_Position = projectionMatrix * mv;
-   // gl_PointSize = 1. / -mv.z; // Pour les THREE.Points
+	vec4 mv = modelViewMatrix * vec4(pos, 1.);
+	gl_Position = projectionMatrix * mv;
+	// gl_PointSize = 1. / -mv.z; // for Points Mesh
 }

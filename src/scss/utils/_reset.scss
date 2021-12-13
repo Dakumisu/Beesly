@@ -1,13 +1,13 @@
 *,
 *::before,
 *::after {
-    user-select: none;
-    box-sizing: border-box;
-    // cursor: none; // si cursor custom
+	user-select: none;
+	box-sizing: border-box;
+	// cursor: none; // si cursor custom
 }
 
 ::-webkit-scrollbar {
-    display: none;
+	display: none;
 }
 
 html {
@@ -30,10 +30,10 @@ body {
 	width: 100%;
 	touch-action: none;
 	user-select: none;
-    padding: 0;
-    min-height: 100vh;
-    text-rendering: optimizeSpeed;
-    line-height: 1.5;
+	padding: 0;
+	min-height: 100vh;
+	text-rendering: optimizeSpeed;
+	line-height: 1.5;
 }
 
 body,
@@ -46,45 +46,45 @@ figure,
 blockquote,
 dl,
 dd {
-    margin: 0;
+	margin: 0;
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 ul[role='list'],
 ol[role='list'] {
-    list-style: none;
+	list-style: none;
 }
 
 html:focus-within {
-    scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 a:not([class]) {
-    text-decoration-skip-ink: auto;
+	text-decoration-skip-ink: auto;
 }
 
 input,
 button,
 textarea,
 select {
-    font: inherit;
+	font: inherit;
 }
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
 @media (prefers-reduced-motion: reduce) {
-    html:focus-within {
-        scroll-behavior: auto;
-    }
+	html:focus-within {
+		scroll-behavior: auto;
+	}
 
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }

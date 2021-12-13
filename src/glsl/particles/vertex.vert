@@ -16,22 +16,22 @@ varying vec3 vPos;
 const float maxDuration = 10.;
 
 void main() {
-   vUv = uv;
-   vRandomScale = aRandomScale;
-   vPos = position;
-   vec3 pos = position;
+	vUv = uv;
+	vRandomScale = aRandomScale;
+	vPos = position;
+	vec3 pos = position;
 
-   vec3 spherePos = pos + aPositions;
+	vec3 spherePos = pos + aPositions;
 
-   float loop = mod((uTime * .001) + aOffset * maxDuration, maxDuration) / maxDuration;
-   vLoop = loop;
+	float loop = mod((uTime * .001) + aOffset * maxDuration, maxDuration) / maxDuration;
+	vLoop = loop;
 
-   spherePos.x += (loop) * spherePos.x * (2. - (sin(uTime * .002 + (aOffset * 10.)) - 1.));
-   spherePos.y += (loop) * spherePos.y * (3. - (sin(uTime * .002 + (aOffset * 5.))));
+	spherePos.x += (loop) * spherePos.x * (2. - (sin(uTime * .002 + (aOffset * 10.)) - 1.));
+	spherePos.y += (loop) * spherePos.y * (3. - (sin(uTime * .002 + (aOffset * 5.))));
 
-   vec4 mv = modelViewMatrix * vec4(spherePos, 1.);
+	vec4 mv = modelViewMatrix * vec4(spherePos, 1.);
 
-   mv.xyz += pos.xyz * (PI * 2.); // Billboard
+	mv.xyz += pos.xyz * (PI * 2.); // Billboard
 
-   gl_Position = projectionMatrix * mv;
+	gl_Position = projectionMatrix * mv;
 }
