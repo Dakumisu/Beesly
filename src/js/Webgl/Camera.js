@@ -52,7 +52,7 @@ export default class Camera {
 		this.debug.orbitControls.enabled = this.debug.active
 		this.debug.orbitControls.screenSpacePanning = true
 		this.debug.orbitControls.enableKeys = false
-		this.debug.orbitControls.zoomSpeed = 0.25
+		this.debug.orbitControls.zoomSpeed = 0.5
 		this.debug.orbitControls.enableDamping = true
 		this.debug.orbitControls.update()
 	}
