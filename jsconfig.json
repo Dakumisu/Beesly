@@ -1,0 +1,33 @@
+{
+  "compileOnSave": false,
+  "exclude": [
+    "dist/",
+    "node_modules/"
+  ],
+  "include": [
+    "src/**/*",
+    "static/**/*",
+    "public/**/*",
+  ],
+  "compilerOptions": {
+    "checkJs": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@js/*": ["src/js/*"],
+      "@glsl/*": ["src/glsl/*"],
+      "@utils/*": ["src/utils/*"],
+      "@workers/*": ["src/workers/*"],
+      "@src/*": ["src/*"],
+
+      "@public/*": ["public/*"],
+      "@static/*": ["static/*"],
+
+      "@@/*": ["*"],
+    }
+  }
+}

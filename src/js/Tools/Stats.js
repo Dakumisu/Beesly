@@ -3,7 +3,7 @@ import StatsJs from 'stats-js'
 export default class Stats {
 	constructor() {
 		this.stats = new StatsJs()
-		this.stats.showPanel(3)
+		this.stats.showPanel(0)
 
 		this.active = false
 		this.max = 40
@@ -40,9 +40,7 @@ export default class Stats {
 	}
 
 	beforeRender() {
-		if (!this.active) {
-			return
-		}
+		if (!this.active) return
 
 		// Setup
 		this.queryCreated = false
@@ -76,9 +74,7 @@ export default class Stats {
 	}
 
 	afterRender() {
-		if (!this.active) {
-			return
-		}
+		if (!this.active) return
 
 		// End the query (result will be available "later")
 		if (this.queryCreated) {
@@ -87,9 +83,7 @@ export default class Stats {
 	}
 
 	update() {
-		if (!this.active) {
-			return
-		}
+		if (!this.active) return
 
 		this.stats.update()
 	}

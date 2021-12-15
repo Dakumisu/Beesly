@@ -27,7 +27,7 @@ module.exports = merge(
 			disableHostCheck: true,
 			overlay: true,
 			noInfo: true,
-			hot: true,
+			hot: false,
 			allowedHosts: ['all'],
 
 			after: function (app, server, compiler) {
