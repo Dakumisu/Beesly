@@ -20,7 +20,7 @@ function loadGLTF(src) {
 	return new Promise(resolve => {
 		worker.postMessage({
 			url: src
-		}, )
+		})
 
 		worker.addEventListener('message', e => {
 			const geo = e.data

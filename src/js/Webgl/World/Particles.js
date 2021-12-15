@@ -14,6 +14,10 @@ export default class Particles {
 		this.webgl = new Webgl()
 		this.scene = this.webgl.scene
 
+		/// #if DEBUG
+			this.debugFolder = this.webgl.debug.addFolder('particles')
+		/// #endif
+
 		this.particles = {}
 
 		this.count = 2048
@@ -67,12 +71,14 @@ export default class Particles {
 	}
 
 	setMaterial() {
+		this.color = '#ffffff'
+
 		this.particles.material = new ShaderMaterial({
 			vertexShader: vertex,
 			fragmentShader: fragment,
 			uniforms: {
 				uTime: { value: 0 },
-				uColor: { value: new Color('#ffffff') },
+				uColor: { value: new Color(this.color) },
 				uAlpha: { value: 1 },
 				uResolution: { value: tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr) }
 			},
@@ -84,6 +90,18 @@ export default class Particles {
 			depthWrite: false,
 			blending: AdditiveBlending
 		})
+
+
+		/// #if DEBUG
+			this.debugFolder
+				.addColor(
+					this,
+					'color'
+				)
+				.onChange(() => {
+					this.particles.material.uniforms.uColor.value = new Color(this.color)
+				})
+		/// #endif
 	}
 
 	setMesh() {
