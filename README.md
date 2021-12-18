@@ -16,6 +16,9 @@ npm run dev
 
 # Build for production in the build/ directory
 npm run build
+
+# Deploy your production on vercel
+npm run deploy
 ```
 
 ## About
