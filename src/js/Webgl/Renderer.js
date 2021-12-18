@@ -61,32 +61,6 @@ export default class Renderer {
 				.onChange(() => {
 					this.renderer.setClearColor(this.clearColor)
 				})
-
-			this.debugFolder
-				.add(
-					this.renderer,
-					'toneMapping', {
-						'NoToneMapping': NoToneMapping,
-						'LinearToneMapping': LinearToneMapping,
-						'ReinhardToneMapping': ReinhardToneMapping,
-						'CineonToneMapping': CineonToneMapping,
-						'ACESFilmicToneMapping': ACESFilmicToneMapping
-					}
-				)
-				.onChange(() => {
-					this.scene.traverse((_child) => {
-						if (_child instanceof Mesh)
-							_child.material.needsUpdate = true
-					})
-				})
-
-			this.debugFolder
-				.add(
-					this.renderer,
-					'toneMappingExposure'
-				)
-				.min(0)
-				.max(10)
 		/// #endif
 	}
 

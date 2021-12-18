@@ -24,10 +24,6 @@ export default class World {
 		this.initialized = true
 	}
 
-	add(object) {
-		this.scene.add(object)
-	}
-
 	resize() {
 		if (!this.initialized) return
 
