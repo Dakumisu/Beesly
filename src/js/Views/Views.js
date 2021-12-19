@@ -12,12 +12,13 @@ export default class Views extends EventEmitter {
 		this.currentView = null
 
 		this.setViewsList()
-		this.initNodes()
-		this.event()
 
-		setTimeout(() => {
-			this.changeView('home')
-		}, 2000);
+		window.addEventListener("DOMContentLoaded", () => {
+			this.currentView = this.views['home']
+
+			this.initNodes()
+			this.event()
+		})
 	}
 
 	setViewsList() {
@@ -29,12 +30,20 @@ export default class Views extends EventEmitter {
 
 	initNodes() {
 		for (const dom in this.dom) {
-			this.nodes[this.dom[dom].dataset.ref] = this.dom[dom]
+			if (this.nodes[this.dom[dom].dataset.ref])
+				this.nodes[this.dom[dom].dataset.ref].push(this.dom[dom])
+			else
+				this.nodes[this.dom[dom].dataset.ref] = [this.dom[dom]]
+		}
+
+		for (const key in this.nodes) {
+			if (this.nodes[key].length === 1) {
+				const tmpValue = this.nodes[key][0]
+				this.nodes[key] = tmpValue
+			}
 		}
 
 		Store.nodes = this.nodes
-
-		this.currentView = this.views['home']
 	}
 
 	changeView(view) {
