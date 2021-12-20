@@ -1,7 +1,20 @@
-dist/
-node_modules/
+dist
+build
+node_modules
+
+Thumbs.db
+yarn.lock
+logs
+
+tmp
+*.tmp
+*.blend1
 
 ._*
+*.pem
+.well-known
+*.local
+*.log
 .DS_Store
 .cache
 .vscode
