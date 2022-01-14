@@ -4,6 +4,11 @@ import { Store } from './Store'
 
 const html = document.querySelector('html')
 
+const deviceList = [
+	'Desktop',
+	'Mobile'
+]
+
 export default class Device extends EventEmitter {
 	constructor() {
 		super()
@@ -15,12 +20,15 @@ export default class Device extends EventEmitter {
 	checkDevice() {
 		let device = null
 		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-			device = 'Mobile'
+			device = deviceList[1] // Mobile
 		} else {
-			device = 'Desktop'
+			device = deviceList[0] // Desktop
 		}
 
-		html.classList.add(device)
+		deviceList.forEach( e => {
+			if (e === device) html.classList.add(e)
+			else html.classList.remove(e)
+		})
 
 		Store.device = device
 	}

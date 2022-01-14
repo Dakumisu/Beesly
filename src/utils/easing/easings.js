@@ -31,4 +31,4 @@ export const easings = {
 	hardBounce: [ 0.070, 1.525, 0.360, 0.935 ],
 	longKeyframe: [ .49, .05, .32, 1.04 ],
 	elastic: [ 0, .49, .205, 1 ]
-};
+}

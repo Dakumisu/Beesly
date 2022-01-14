@@ -3,8 +3,15 @@ import EventEmitter from '@js/Tools/EventEmitter'
 import { Store } from '@js/Tools/Store'
 
 export default class Views extends EventEmitter {
+	static instance
+
 	constructor() {
 		super()
+
+		if (Views.instance) {
+			return Views.instance
+		}
+		Views.instance = this
 
 		this.dom = [...document.querySelectorAll('[data-ref]')]
 		this.nodes = {}
@@ -18,6 +25,8 @@ export default class Views extends EventEmitter {
 
 			this.initNodes()
 			this.event()
+
+			this.trigger('load')
 		})
 	}
 

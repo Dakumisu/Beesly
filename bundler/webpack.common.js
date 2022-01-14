@@ -4,7 +4,8 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 const { DefinePlugin, EnvironmentPlugin } = require('webpack')
 
-const debug = process.env.NODE_ENV == 'development' ? true : false // Provisoire
+console.log('🏓 Environnement :', process.env.NODE_ENV);
+const debug = process.env.NODE_ENV ? process.env.NODE_ENV == 'production' ? false : true : true
 
 const opts = {
 	DEBUG: debug,
@@ -46,8 +47,8 @@ module.exports = {
 
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			title: 'WebGL Starter',
-			favicon: path.resolve(__dirname, '../static/icon/favicon.jpg'),
+			title: 'Beesly',
+			favicon: path.resolve(__dirname, '../static/icon/favicon.png'),
 			template: path.resolve(__dirname, '../src/index.html'),
 			chunks: ['app'],
 			minify: true
@@ -75,15 +76,6 @@ module.exports = {
 				]
 			},
 
-			// CSS
-			{
-				test: /\.css$/,
-				use: [
-					MiniCSSExtractPlugin.loader,
-					'css-loader'
-				]
-			},
-
 			// SCSS
 			{
 				test: /\.s[ac]ss$/i,
@@ -96,7 +88,7 @@ module.exports = {
 
 			// Images
 			{
-				test: /\.(jpeg|jpg|png|gif|svg)$/,
+				test: /\.(webp|avif|jpeg|jpg|png|gif|svg)$/,
 				use: [{
 					loader: 'file-loader',
 					options: {

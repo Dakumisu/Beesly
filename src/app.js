@@ -1,13 +1,15 @@
 import './scss/main.scss'
 
 import Webgl from '@js/Webgl/Webgl';
+import Views from '@js/Views/Views';
 
-const sketch = new Webgl( document.querySelector('canvas.sketch') )
+/* Init Essentials Stuff */
+const views = new Views()
+
+views.on('load', () => {
+	const sketch = new Webgl( views.nodes.canvas )
+})
 
 /// #if DEBUG
 	console.log('debug mode');
-
-	document.addEventListener('keydown', e => {
-		console.log(`${e.key} touch pressed`)
-	})
 /// #endif

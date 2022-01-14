@@ -39,31 +39,34 @@ export default class Webgl {
 			this.stats = new Stats()
 		/// #endif
 
-		// essentials stuff
 		this.raf = new Raf()
 		this.scene = new Scene()
 		this.camera = new Camera()
 		this.renderer = new Renderer()
-		this.world = new World()
 
-		// Tools
 		this.device = new Device()
 		this.sizes = new Sizes()
-		this.views = new Views()
 		this.mouse = new Mouse()
-		// this.raycaster = new Raycasters()
+
+		this.world = new World()
+		this.raycaster = new Raycasters()
 
 		this.sizes.on('resize', () => {
 			this.resize()
 			this.device.checkDevice()
+			/// #if DEBUG
+			console.log('Resize spotted 📐')
+			/// #endif
+		})
+
+		this.raycaster.on('raycast', (e) => {
+			/// #if DEBUG
+			// console.log('Raycast something 🔍', e)
+			/// #endif
 		})
 
 		this.raf.on('raf', () => {
 			this.update()
-		})
-
-		this.views.on('changeView', () => {
-			this.views.getView()
 		})
 
 		this.initialized = true

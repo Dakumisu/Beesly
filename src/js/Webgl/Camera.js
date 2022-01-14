@@ -37,8 +37,8 @@ export default class Camera {
 		// If you want to keep the aspect of your image
 		const aspect = 1 / 1 // Aspect of the displayed image
 		const imgAspect = imageAspect(aspect, Store.resolution.width, Store.resolution.height)
-		Store.resolution.a1 = imgAspect.a1
-		Store.resolution.a2 = imgAspect.a2
+		Store.aspect.a1 = imgAspect.a1
+		Store.aspect.a2 = imgAspect.a2
 
 		this.scene.add(this.oCamera)
 	}
@@ -65,8 +65,8 @@ export default class Camera {
 		// If you want to keep the aspect of your image
 		const aspect = 1 / 1 // Aspect of the displayed image
 		const imgAspect = imageAspect(aspect, Store.resolution.width, Store.resolution.height)
-		Store.resolution.a1 = imgAspect.a1
-		Store.resolution.a2 = imgAspect.a2
+		Store.aspect.a1 = imgAspect.a1
+		Store.aspect.a2 = imgAspect.a2
 
 		/// #if DEBUG
 			this.debug.camera.aspect = Store.resolution.width / Store.resolution.height

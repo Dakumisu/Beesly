@@ -1,11 +1,11 @@
-@import './utils/_fonts';
-@import './utils/_var';
-@import './utils/_easings';
 @import './utils/_reset';
+@import './utils/_var';
+@import './utils/_fonts';
 @import './utils/_breakpoints';
+@import './utils/_easings';
 
 canvas.sketch {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 0;
