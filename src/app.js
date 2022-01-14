@@ -11,5 +11,5 @@ views.on('load', () => {
 })
 
 /// #if DEBUG
-	console.log('debug mode');
+console.log('debug mode');
 /// #endif

@@ -30,13 +30,13 @@ export default class Webgl {
 			return
 		}
 
-		this.start()
+		this.init()
 	}
 
-	start() {
+	init() {
 		/// #if DEBUG
-			this.debug = new GUI()
-			this.stats = new Stats()
+		this.debug = new GUI()
+		this.stats = new Stats()
 		/// #endif
 
 		this.raf = new Raf()
@@ -76,7 +76,7 @@ export default class Webgl {
 		if (!this.initialized) return
 
 		/// #if DEBUG
-			if (this.stats) this.stats.update()
+		if (this.stats) this.stats.update()
 		/// #endif
 
 		if (this.camera) this.camera.update()

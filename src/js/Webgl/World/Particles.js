@@ -8,6 +8,7 @@ import vertex from '@glsl/particles/vertex.vert'
 import fragment from '@glsl/particles/fragment.frag'
 
 const tVec3 = new Vector3()
+const tCol = new Color()
 
 export default class Particles {
 	constructor(opt = {}) {
@@ -15,7 +16,7 @@ export default class Particles {
 		this.scene = this.webgl.scene
 
 		/// #if DEBUG
-			this.debugFolder = this.webgl.debug.addFolder('particles')
+		this.debugFolder = this.webgl.debug.addFolder('particles')
 		/// #endif
 
 		this.particles = {}
@@ -78,7 +79,7 @@ export default class Particles {
 			fragmentShader: fragment,
 			uniforms: {
 				uTime: { value: 0 },
-				uColor: { value: new Color(this.color) },
+				uColor: { value: tCol.set(this.color) },
 				uAlpha: { value: 1 },
 				uResolution: { value: tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr) }
 			},
@@ -93,14 +94,14 @@ export default class Particles {
 
 
 		/// #if DEBUG
-			this.debugFolder
-				.addColor(
-					this,
-					'color'
-				)
-				.onChange(() => {
-					this.particles.material.uniforms.uColor.value = new Color(this.color)
-				})
+		this.debugFolder
+			.addColor(
+				this,
+				'color'
+			)
+			.onChange(() => {
+				tCol.set(this.color)
+			})
 		/// #endif
 	}
 

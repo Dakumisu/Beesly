@@ -11,28 +11,26 @@ export default class Camera {
 		this.webgl = new Webgl()
 		this.scene = this.webgl.scene
 
-		this.type = opt.type
-
-		this.setPerspectiveCamera()
-		// this.setOrthographicCamera()
+		this.type = opt.type || 'Perspective'
+		this.type == 'Orthographic' ? this.setOrthographicCamera() : this.setPerspectiveCamera()
 
 		/// #if DEBUG
-			this.setDebugCamera()
+		this.setDebugCamera()
 		/// #endif
 	}
 
 	setPerspectiveCamera() {
-		this.pCamera = new PerspectiveCamera(75, Store.resolution.width / Store.resolution.height, 0.01, 1000)
-		this.pCamera.position.set(0, 0, 3)
-		this.pCamera.rotation.reorder('YXZ')
+		this.camera = new PerspectiveCamera(75, Store.resolution.width / Store.resolution.height, 0.01, 1000)
+		this.camera.position.set(0, 0, 3)
+		this.camera.rotation.reorder('YXZ')
 
-		this.scene.add(this.pCamera)
+		this.scene.add(this.camera)
 	}
 
 	setOrthographicCamera() {
 		const frustrumSize = 1
-		this.oCamera = new OrthographicCamera(frustrumSize / -2, frustrumSize / 2, frustrumSize / 2, frustrumSize / -2, -1000, 1000)
-		this.oCamera.position.set(0, 0, 1)
+		this.camera = new OrthographicCamera(frustrumSize / -2, frustrumSize / 2, frustrumSize / 2, frustrumSize / -2, -1000, 1000)
+		this.camera.position.set(0, 0, 1)
 
 		// If you want to keep the aspect of your image
 		const aspect = 1 / 1 // Aspect of the displayed image
@@ -40,12 +38,12 @@ export default class Camera {
 		Store.aspect.a1 = imgAspect.a1
 		Store.aspect.a2 = imgAspect.a2
 
-		this.scene.add(this.oCamera)
+		this.scene.add(this.camera)
 	}
 
 	setDebugCamera() {
 		this.debug = {}
-		this.debug.camera = this.pCamera.clone()
+		this.debug.camera = this.camera.clone()
 		this.debug.camera.rotation.reorder('YXZ')
 
 		this.debug.orbitControls = new OrbitControls(this.debug.camera, this.webgl.canvas)
@@ -59,34 +57,36 @@ export default class Camera {
 
 
 	resize() {
-		this.pCamera.aspect = Store.resolution.width / Store.resolution.height
-		this.pCamera.updateProjectionMatrix()
+		if (this.type == 'Perspective') {
+			this.camera.aspect = Store.resolution.width / Store.resolution.height
+			this.camera.updateProjectionMatrix()
+		}
 
-		// If you want to keep the aspect of your image
+		// If you want to keep the aspect of your image in a shader
 		const aspect = 1 / 1 // Aspect of the displayed image
 		const imgAspect = imageAspect(aspect, Store.resolution.width, Store.resolution.height)
 		Store.aspect.a1 = imgAspect.a1
 		Store.aspect.a2 = imgAspect.a2
 
 		/// #if DEBUG
-			this.debug.camera.aspect = Store.resolution.width / Store.resolution.height
-			this.debug.camera.updateProjectionMatrix()
+		this.debug.camera.aspect = Store.resolution.width / Store.resolution.height
+		this.debug.camera.updateProjectionMatrix()
 		/// #endif
 	}
 
 	update() {
 		/// #if DEBUG
-			this.debug.orbitControls.update()
+		this.debug.orbitControls.update()
 
-			this.pCamera.position.copy(this.debug.camera.position)
-			this.pCamera.quaternion.copy(this.debug.camera.quaternion)
-			this.pCamera.updateMatrixWorld()
+		this.camera.position.copy(this.debug.camera.position)
+		this.camera.quaternion.copy(this.debug.camera.quaternion)
+		this.camera.updateMatrixWorld()
 		/// #endif
 	}
 
 	destroy() {
 		/// #if DEBUG
-			this.debug.orbitControls.destroy()
+		this.debug.orbitControls.destroy()
 		/// #endif
 	}
 }

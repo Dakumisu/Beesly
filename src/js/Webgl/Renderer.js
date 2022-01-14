@@ -10,11 +10,11 @@ export default class Renderer {
 	constructor(opt = {}) {
 		this.webgl = new Webgl()
 		this.scene = this.webgl.scene
-		this.camera = this.webgl.camera.pCamera
+		this.camera = this.webgl.camera.camera
 
 		/// #if DEBUG
-			this.stats = this.webgl.stats
-			this.debugFolder = this.webgl.debug.addFolder('renderer')
+		this.stats = this.webgl.stats
+		this.debugFolder = this.webgl.debug.addFolder('renderer')
 		/// #endif
 
 		this.usePostprocess = false
@@ -47,20 +47,20 @@ export default class Renderer {
 
 
 		/// #if DEBUG
-			this.context = this.renderer.getContext()
+		this.context = this.renderer.getContext()
 
-			if (this.stats) {
-				// this.stats.setRenderPanel(this.context)
-			}
+		if (this.stats) {
+			// this.stats.setRenderPanel(this.context)
+		}
 
-			this.debugFolder
-				.addColor(
-					this,
-					'clearColor'
-				)
-				.onChange(() => {
-					this.renderer.setClearColor(this.clearColor)
-				})
+		this.debugFolder
+			.addColor(
+				this,
+				'clearColor'
+			)
+			.onChange(() => {
+				this.renderer.setClearColor(this.clearColor)
+			})
 		/// #endif
 	}
 
@@ -98,17 +98,17 @@ export default class Renderer {
 
 	update() {
 		/// #if DEBUG
-			if (this.stats) {
-				// this.stats.beforeRender()
-			}
+		if (this.stats) {
+			// this.stats.beforeRender()
+		}
 		/// #endif
 
 		this.usePostprocess ? this.postProcess.composer.render() : this.renderer.render(this.scene, this.camera)
 
 		/// #if DEBUG
-			if (this.stats) {
-				// this.stats.afterRender()
-			}
+		if (this.stats) {
+			// this.stats.afterRender()
+		}
 		/// #endif
 	}
 

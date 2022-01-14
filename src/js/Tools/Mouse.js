@@ -10,7 +10,7 @@ const tVec2d = new Vector2()
 export default class Mouse {
 	constructor(opt = {}) {
 		this.webgl = new Webgl()
-		this.camera = this.webgl.camera.pCamera
+		this.camera = this.webgl.camera.camera
 
 		document.addEventListener('mousemove', this.getMousesPositions.bind(this))
 

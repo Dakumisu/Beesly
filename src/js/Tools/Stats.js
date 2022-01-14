@@ -10,7 +10,7 @@ export default class Stats {
 		this.ignoreMaxed = true
 
 		/// #if DEBUG
-			this.activate()
+		this.activate()
 		/// #endif
 	}
 

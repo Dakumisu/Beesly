@@ -9,6 +9,7 @@ import fragment from '@glsl/blueprint/fragment.frag'
 
 const twoPI = Math.PI * 2
 const tVec3 = new Vector3()
+const tCol = new Color()
 
 export default class Blueprint {
 	constructor(opt = {}) {
@@ -41,7 +42,7 @@ export default class Blueprint {
 			fragmentShader: fragment,
 			uniforms: {
 				uTime: { value: 0 },
-				uColor: { value: new Color('#ffffff') },
+				uColor: { value: tCol.set('#ffffff') },
 				uAlpha: { value: 1 },
 				uResolution: { value: tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr) },
 			},
