@@ -11,6 +11,5 @@ export const Store = {
 	},
 
 	device: null,
-	brower: null,
-	nodes: null
+	browser: null,
 }

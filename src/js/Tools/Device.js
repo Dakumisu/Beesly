@@ -87,4 +87,8 @@ export default class Device extends EventEmitter {
 		html.classList.add(browserName, browserMajorVersion)
 		Store.browser = browserName
 	}
+
+	checkPower() {
+
+	}
 }

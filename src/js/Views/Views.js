@@ -2,6 +2,11 @@ import EventEmitter from '@js/Tools/EventEmitter'
 
 import { Store } from '@js/Tools/Store'
 
+const viewList = [
+	'home',
+	'exp'
+]
+
 export default class Views extends EventEmitter {
 	static instance
 
@@ -13,52 +18,31 @@ export default class Views extends EventEmitter {
 		}
 		Views.instance = this
 
-		this.dom = [...document.querySelectorAll('[data-ref]')]
-		this.nodes = {}
-
-		this.currentView = null
-
 		this.setViewsList()
+		this.currentView = this.viewList['home']
 
-		window.addEventListener("DOMContentLoaded", () => {
-			this.currentView = this.views['home']
-
-			this.initNodes()
-			this.event()
-
-			this.trigger('load')
-		})
+		this.event()
 	}
 
 	setViewsList() {
-		this.views = {
-			home: 'home',
-			exp: 'exp'
-		}
-	}
-
-	initNodes() {
-		for (const dom in this.dom) {
-			if (this.nodes[this.dom[dom].dataset.ref])
-				this.nodes[this.dom[dom].dataset.ref].push(this.dom[dom])
-			else
-				this.nodes[this.dom[dom].dataset.ref] = [this.dom[dom]]
-		}
-
-		for (const key in this.nodes) {
-			if (this.nodes[key].length === 1) {
-				const tmpValue = this.nodes[key][0]
-				this.nodes[key] = tmpValue
-			}
-		}
-
-		Store.nodes = this.nodes
+		this.viewList = {}
+		viewList.forEach(view => {
+			this.viewList[view] = view
+		})
 	}
 
 	changeView(view) {
-		this.currentView = this.views[view]
+		if(!view) {
+			console.error(`View's name required 🚫`)
+			return
+		}
+		if(!this.viewList[view]) {
+			console.error(`This view '${view}' doesn't exist 🚫`)
+			return
+		}
 
-		this.trigger('changeView')
+		this.currentView = this.viewList[view]
+		this.trigger('changeView', [this.currentView])
 	}
 
 	getView() {

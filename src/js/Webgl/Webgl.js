@@ -26,7 +26,7 @@ export default class Webgl {
 
 		this.canvas = _canvas
 		if (!this.canvas) {
-			console.warn('Missing \'canvas\' property')
+			console.error(`Missing 'canvas' property 🚫`)
 			return
 		}
 

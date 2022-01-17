@@ -1,4 +1,3 @@
-import Views from '@js/Views/Views'
 import Webgl from '@js/Webgl/Webgl'
 
 import Blueprint from './Blueprint'
@@ -10,8 +9,6 @@ export default class World {
 	constructor(opt = {}) {
 		this.webgl = new Webgl()
 		this.scene = this.webgl.scene
-
-		this.views = new Views()
 
 		this.initialized = false
 
