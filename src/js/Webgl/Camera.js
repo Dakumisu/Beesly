@@ -41,6 +41,7 @@ export default class Camera {
 		this.scene.add(this.camera)
 	}
 
+	/// #if DEBUG
 	setDebugCamera() {
 		this.debug = {}
 		this.debug.camera = this.camera.clone()
@@ -54,6 +55,7 @@ export default class Camera {
 		this.debug.orbitControls.enableDamping = true
 		this.debug.orbitControls.update()
 	}
+	/// #endif
 
 
 	resize() {
@@ -84,9 +86,9 @@ export default class Camera {
 		/// #endif
 	}
 
+	/// #if DEBUG
 	destroy() {
-		/// #if DEBUG
 		this.debug.orbitControls.destroy()
-		/// #endif
 	}
+	/// #endif
 }

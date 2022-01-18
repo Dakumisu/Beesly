@@ -6,7 +6,10 @@ let geometries = []
 
 export default function mergeGeometry(geos = [], models = []) {
 	return new Promise(resolve => {
-		if (!geos.length && !models.length) resolve('No datas')
+		if (!geos.length && !models.length) {
+			console.error('Geometry required 🚫');
+			resolve(null)
+		}
 
 		geometries.push(...geos)
 

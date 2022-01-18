@@ -58,9 +58,9 @@ export default class Mouse {
 		return ((mousePos - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
 	}
 
-	viewSize() {
+	viewSize(objectPos = 0) {
 		let cameraZ = this.camera.position.z
-		let distance = cameraZ - 0 // Calcul the z distance between the camera and a random object ('could be a plane, a cube or whatever you want)
+		let distance = cameraZ - objectPos // Calcul the z distance between the camera and a random object ('could be a plane, a cube or whatever you want)
 		let aspect = this.camera.aspect
 
 		let vFov = this.camera.fov * Math.PI / 180

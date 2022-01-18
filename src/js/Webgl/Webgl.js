@@ -24,11 +24,11 @@ export default class Webgl {
 
 		this.initialized = false
 
-		this.canvas = _canvas
-		if (!this.canvas) {
+		if (!_canvas) {
 			console.error(`Missing 'canvas' property 🚫`)
 			return
 		}
+		this.canvas = _canvas
 
 		this.init()
 	}

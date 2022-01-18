@@ -6,7 +6,7 @@ import loadModel from '@utils/loader/loadGLTF'
 
 import { Store } from '@js/Tools/Store'
 
-import model from '@public/model/test.glb'
+import model from '@public/model/model.glb'
 
 export default class Model {
 	constructor(opt = {}) {
@@ -26,8 +26,8 @@ export default class Model {
 
 	load() {
 		loadModel(model).then(response => {
-			this.model1 = response
-			this.scene.add(this.model1)
+			this.mesh = response
+			this.scene.add(this.mesh)
 		})
 	}
 

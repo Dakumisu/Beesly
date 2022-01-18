@@ -50,7 +50,7 @@ export default class Renderer {
 		this.context = this.renderer.getContext()
 
 		if (this.stats) {
-			// this.stats.setRenderPanel(this.context)
+			this.stats.setRenderPanel(this.context)
 		}
 
 		this.debugFolder
@@ -99,7 +99,7 @@ export default class Renderer {
 	update() {
 		/// #if DEBUG
 		if (this.stats) {
-			// this.stats.beforeRender()
+			this.stats.beforeRender()
 		}
 		/// #endif
 
@@ -107,7 +107,7 @@ export default class Renderer {
 
 		/// #if DEBUG
 		if (this.stats) {
-			// this.stats.afterRender()
+			this.stats.afterRender()
 		}
 		/// #endif
 	}

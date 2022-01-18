@@ -11,5 +11,5 @@ export const Store = {
 	},
 
 	device: null,
-	browser: null,
+	browser: null
 }

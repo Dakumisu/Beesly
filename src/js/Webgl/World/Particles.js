@@ -4,12 +4,13 @@ import Webgl from '@js/Webgl/Webgl'
 
 import { Store } from '@js/Tools/Store'
 
-import vertex from '@glsl/particles/vertex.vert'
-import fragment from '@glsl/particles/fragment.frag'
+import vertex from '@glsl/particles/vertex.glsl'
+import fragment from '@glsl/particles/fragment.glsl'
 
 const tVec3 = new Vector3()
 const tCol = new Color()
 
+/* FBO Particles coming soon */
 export default class Particles {
 	constructor(opt = {}) {
 		this.webgl = new Webgl()
@@ -19,14 +20,13 @@ export default class Particles {
 		this.debugFolder = this.webgl.debug.addFolder('particles')
 		/// #endif
 
-		this.particles = {}
+		this.object = {}
 
 		this.count = 2048
 
 		this.initialized = false
 
 		this.init()
-		this.resize()
 	}
 
 	init() {
@@ -34,6 +34,8 @@ export default class Particles {
 		this.setGeometry()
 		this.setMaterial()
 		this.setMesh()
+
+		this.resize()
 
 		this.initialized = true
 	}
@@ -59,22 +61,22 @@ export default class Particles {
 		const blueprintParticle = new PlaneBufferGeometry()
 		blueprintParticle.scale(.01, .01, .01)
 
-		this.particles.geometry = new InstancedBufferGeometry()
+		this.object.geometry = new InstancedBufferGeometry()
 
-		this.particles.geometry.index = blueprintParticle.index
-		this.particles.geometry.attributes.position = blueprintParticle.attributes.position
-		this.particles.geometry.attributes.normal = blueprintParticle.attributes.normal
-		this.particles.geometry.attributes.uv = blueprintParticle.attributes.uv
+		this.object.geometry.index = blueprintParticle.index
+		this.object.geometry.attributes.position = blueprintParticle.attributes.position
+		this.object.geometry.attributes.normal = blueprintParticle.attributes.normal
+		this.object.geometry.attributes.uv = blueprintParticle.attributes.uv
 
-		this.particles.geometry.setAttribute('aPositions', new InstancedBufferAttribute(this.positions, 3, false));
-		this.particles.geometry.setAttribute('aOffset', new InstancedBufferAttribute(this.offset, 1, false))
-		this.particles.geometry.setAttribute('aRandomScale', new InstancedBufferAttribute(this.randomScale, 1, false))
+		this.object.geometry.setAttribute('aPositions', new InstancedBufferAttribute(this.positions, 3, false));
+		this.object.geometry.setAttribute('aOffset', new InstancedBufferAttribute(this.offset, 1, false))
+		this.object.geometry.setAttribute('aRandomScale', new InstancedBufferAttribute(this.randomScale, 1, false))
 	}
 
 	setMaterial() {
 		this.color = '#ffffff'
 
-		this.particles.material = new ShaderMaterial({
+		this.object.material = new ShaderMaterial({
 			vertexShader: vertex,
 			fragmentShader: fragment,
 			uniforms: {
@@ -106,10 +108,10 @@ export default class Particles {
 	}
 
 	setMesh() {
-		this.particles.mesh = new Mesh(this.particles.geometry, this.particles.material)
-		this.particles.mesh.frustumCulled = false
+		this.object.mesh = new Mesh(this.object.geometry, this.object.material)
+		this.object.mesh.frustumCulled = false
 
-		this.addObject(this.particles.mesh)
+		this.addObject(this.object.mesh)
 	}
 
 	addObject(object) {
@@ -117,12 +119,12 @@ export default class Particles {
 	}
 
 	resize() {
-		this.particles.material.uniforms.uResolution.value = tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr)
+		this.object.material.uniforms.uResolution.value = tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr)
 	}
 
 	update(et) {
 		if (!this.initialized) return
 
-		this.particles.mesh.material.uniforms.uTime.value = et
+		this.object.mesh.material.uniforms.uTime.value = et
 	}
 }

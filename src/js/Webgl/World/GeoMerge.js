@@ -6,7 +6,7 @@ import mergeGeometry from '@utils/webgl/mergeBufferGeometries'
 
 import { Store } from '@js/Tools/Store'
 
-import model from '@public/model/test.glb'
+import model from '@public/model/model.glb'
 
 export default class GeoMerge {
 	constructor(opt = {}) {
@@ -26,8 +26,9 @@ export default class GeoMerge {
 
 	merge() {
 		mergeGeometry([], [model]).then( response => {
-			this.geoMerge = response
-			const mesh = new Mesh(this.geoMerge, new MeshNormalMaterial({side: DoubleSide}))
+			if (!response) return
+			this.geometry = response
+			const mesh = new Mesh(this.geometry, new MeshNormalMaterial({side: DoubleSide}))
 			mesh.position.set(0, 2, 0)
 			this.scene.add(mesh)
 		})

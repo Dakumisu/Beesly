@@ -4,8 +4,8 @@ import Webgl from '@js/Webgl/Webgl'
 
 import { Store } from '@js/Tools/Store'
 
-import vertex from '@glsl/blueprint/vertex.vert'
-import fragment from '@glsl/blueprint/fragment.frag'
+import vertex from '@glsl/blueprint/vertex.glsl'
+import fragment from '@glsl/blueprint/fragment.glsl'
 
 const twoPI = Math.PI * 2
 const tVec3 = new Vector3()
@@ -16,12 +16,11 @@ export default class Blueprint {
 		this.webgl = new Webgl()
 		this.scene = this.webgl.scene
 
-		this.blueprint = {}
+		this.object = {}
 
 		this.initialized = false
 
 		this.init()
-		this.resize()
 	}
 
 	init() {
@@ -29,15 +28,17 @@ export default class Blueprint {
 		this.setMaterial()
 		this.setMesh()
 
+		this.resize()
+
 		this.initialized = true
 	}
 
 	setGeometry() {
-		this.blueprint.geometry = new PlaneBufferGeometry(1, 1, 1, 1)
+		this.object.geometry = new PlaneBufferGeometry(1, 1, 1, 1)
 	}
 
 	setMaterial() {
-		this.blueprint.material = new ShaderMaterial({
+		this.object.material = new ShaderMaterial({
 			vertexShader: vertex,
 			fragmentShader: fragment,
 			uniforms: {
@@ -52,10 +53,10 @@ export default class Blueprint {
 	}
 
 	setMesh() {
-		this.blueprint.mesh = new Mesh(this.blueprint.geometry, this.blueprint.material)
-		this.blueprint.mesh.frustumCulled = false
+		this.object.mesh = new Mesh(this.object.geometry, this.object.material)
+		this.object.mesh.frustumCulled = false
 
-		this.addObject(this.blueprint.mesh)
+		this.addObject(this.object.mesh)
 	}
 
 	addObject(object) {
@@ -63,12 +64,12 @@ export default class Blueprint {
 	}
 
 	resize() {
-		this.blueprint.material.uniforms.uResolution.value = tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr)
+		this.object.material.uniforms.uResolution.value = tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr)
 	}
 
 	update(et) {
 		if (!this.initialized) return
 
-		this.blueprint.material.uniforms.uTime.value = et
+		this.object.material.uniforms.uTime.value = et
 	}
 }

@@ -58,9 +58,6 @@ export default class Raycasters extends EventEmitter {
 
 		for ( let i = 0; i < intersects.length; i++ ) {
 			this.trigger('raycast', [intersects[i].object])
-			/// #if DEBUG
-			// console.log(intersects[i].object)
-			/// #endif
 		}
 	}
 }
