@@ -1,4 +1,5 @@
 import EventEmitter from '@js/Tools/EventEmitter'
+
 import { Store } from '@js/Tools/Store'
 
 export default class Sizes extends EventEmitter {

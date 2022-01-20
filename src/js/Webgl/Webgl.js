@@ -3,15 +3,16 @@ import GUI from 'lil-gui'
 
 import Raf from '@js/Tools/Raf'
 import Sizes from '@js/Tools/Sizes'
+import Keyboard from '@js/Tools/Keyboard'
 import Stats from '@js/Tools/Stats'
+import Device from '@js/Tools/Device'
+import Mouse from '@js/Tools/Mouse'
+import Raycasters from '@js/Tools/Raycasters'
 
 import Renderer from './Renderer'
 import Camera from './Camera'
 import World from './World/World'
 import Views from '@js/Views/Views'
-import Device from '@js/Tools/Device'
-import Mouse from '@js/Tools/Mouse'
-import Raycasters from '@js/Tools/Raycasters'
 
 export default class Webgl {
 	static instance
@@ -46,6 +47,7 @@ export default class Webgl {
 
 		this.device = new Device()
 		this.sizes = new Sizes()
+		this.keyboard = new Keyboard()
 		this.mouse = new Mouse()
 
 		this.world = new World()
@@ -56,6 +58,12 @@ export default class Webgl {
 			this.device.checkDevice()
 			/// #if DEBUG
 			console.log('Resize spotted 📐')
+			/// #endif
+		})
+
+		this.keyboard.on('keyPressed', (e) => {
+			/// #if DEBUG
+			console.log(`Key ${e.toUpperCase()} pressed 🎹`)
 			/// #endif
 		})
 
