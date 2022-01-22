@@ -1,5 +1,5 @@
 import { Scene } from 'three'
-import GUI from 'lil-gui'
+import { Pane } from 'tweakpane';
 
 import Raf from '@js/Tools/Raf'
 import Sizes from '@js/Tools/Sizes'
@@ -36,7 +36,7 @@ export default class Webgl {
 
 	init() {
 		/// #if DEBUG
-		this.debug = new GUI()
+		this.debug = new Pane()
 		this.stats = new Stats()
 		/// #endif
 

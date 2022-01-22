@@ -6,6 +6,10 @@ import Webgl from './Webgl'
 
 import { Store } from '@js/Tools/Store'
 
+const params = {
+	clearColor: '#222222'
+}
+
 export default class Renderer {
 	constructor(opt = {}) {
 		this.webgl = new Webgl()
@@ -14,7 +18,10 @@ export default class Renderer {
 
 		/// #if DEBUG
 		this.stats = this.webgl.stats
-		this.debugFolder = this.webgl.debug.addFolder('renderer')
+		this.debugFolder = this.webgl.debug.addFolder({
+			title: 'Renderer',
+			expanded: true
+		})
 		/// #endif
 
 		this.usePostprocess = false
@@ -24,8 +31,6 @@ export default class Renderer {
 	}
 
 	setRenderer() {
-		this.clearColor = '#222222'
-
 		this.renderer = new WebGLRenderer({
 			canvas: this.webgl.canvas,
 			alpha: false,
@@ -35,7 +40,7 @@ export default class Renderer {
 
 		this.renderer.setSize(Store.resolution.width, Store.resolution.height)
 		this.renderer.setPixelRatio(Math.min(Store.resolution.dpr, 2))
-		this.renderer.setClearColor(this.clearColor, 1)
+		this.renderer.setClearColor(params.clearColor, 1)
 
 		this.renderer.physicallyCorrectLights = true
 		// this.renderer.gammaOutPut = true
@@ -54,12 +59,12 @@ export default class Renderer {
 		}
 
 		this.debugFolder
-			.addColor(
-				this,
+			.addInput(
+				params,
 				'clearColor'
 			)
-			.onChange(() => {
-				this.renderer.setClearColor(this.clearColor)
+			.on('change', e => {
+				this.renderer.setClearColor(e.value)
 			})
 		/// #endif
 	}

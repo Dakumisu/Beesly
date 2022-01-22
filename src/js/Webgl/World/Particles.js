@@ -10,6 +10,10 @@ import fragment from '@glsl/particles/fragment.glsl'
 const tVec3 = new Vector3()
 const tCol = new Color()
 
+const params = {
+	color: '#ffffff'
+}
+
 /* FBO Particles coming soon */
 export default class Particles {
 	constructor(opt = {}) {
@@ -17,7 +21,10 @@ export default class Particles {
 		this.scene = this.webgl.scene
 
 		/// #if DEBUG
-		this.debugFolder = this.webgl.debug.addFolder('particles')
+		this.debugFolder = this.webgl.debug.addFolder({
+			title: 'Particles',
+			expanded: true
+		})
 		/// #endif
 
 		this.object = {}
@@ -74,14 +81,12 @@ export default class Particles {
 	}
 
 	setMaterial() {
-		this.color = '#ffffff'
-
 		this.object.material = new ShaderMaterial({
 			vertexShader: vertex,
 			fragmentShader: fragment,
 			uniforms: {
 				uTime: { value: 0 },
-				uColor: { value: tCol.set(this.color) },
+				uColor: { value: tCol.set(params.color) },
 				uAlpha: { value: 1 },
 				uResolution: { value: tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr) }
 			},
@@ -97,12 +102,12 @@ export default class Particles {
 
 		/// #if DEBUG
 		this.debugFolder
-			.addColor(
-				this,
+			.addInput(
+				params,
 				'color'
 			)
-			.onChange(() => {
-				tCol.set(this.color)
+			.on('change', e => {
+				tCol.set(e.value)
 			})
 		/// #endif
 	}
