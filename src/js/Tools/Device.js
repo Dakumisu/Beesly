@@ -1,36 +1,37 @@
-import EventEmitter from './EventEmitter'
+import EventEmitter from './EventEmitter';
 
-import { Store } from './Store'
+import { Store } from './Store';
 
-const html = document.querySelector('html')
+const html = document.querySelector('html');
 
-const deviceList = [
-	'Desktop',
-	'Mobile'
-]
+const deviceList = ['Desktop', 'Mobile'];
 
 export default class Device extends EventEmitter {
 	constructor() {
-		super()
+		super();
 
-		this.checkDevice()
-		this.checkBrowser()
+		this.checkDevice();
+		this.checkBrowser();
 	}
 
 	checkDevice() {
-		let device = null
-		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-			device = deviceList[1] // Mobile
+		let device = null;
+		if (
+			/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+				navigator.userAgent,
+			)
+		) {
+			device = deviceList[1]; // Mobile
 		} else {
-			device = deviceList[0] // Desktop
+			device = deviceList[0]; // Desktop
 		}
 
-		deviceList.forEach( e => {
-			if (e === device) html.classList.add(e)
-			else html.classList.remove(e)
-		})
+		deviceList.forEach((e) => {
+			if (e === device) html.classList.add(e);
+			else html.classList.remove(e);
+		});
 
-		Store.device = device
+		Store.device = device;
 	}
 
 	checkBrowser() {
@@ -41,32 +42,35 @@ export default class Device extends EventEmitter {
 		let offsetName, offsetVersion, ix;
 
 		// In Chrome
-		if ((offsetVersion = agent.indexOf("Chrome")) != -1) {
-			browserName = "Chrome";
+		if ((offsetVersion = agent.indexOf('Chrome')) != -1) {
+			browserName = 'Chrome';
 			fullVersion = agent.substring(offsetVersion + 7);
 		}
 
 		// In Microsoft internet explorer
-		else if ((offsetVersion = agent.indexOf("MSIE")) != -1) {
-			browserName = "Microsoft Internet Explorer";
+		else if ((offsetVersion = agent.indexOf('MSIE')) != -1) {
+			browserName = 'Microsoft Internet Explorer';
 			fullVersion = agent.substring(offsetVersion + 5);
 		}
 
 		// In Firefox
-		else if ((offsetVersion = agent.indexOf("Firefox")) != -1) {
-			browserName = "Firefox";
+		else if ((offsetVersion = agent.indexOf('Firefox')) != -1) {
+			browserName = 'Firefox';
 		}
 
 		// In Safari
-		else if ((offsetVersion = agent.indexOf("Safari")) != -1) {
-			browserName = "Safari";
+		else if ((offsetVersion = agent.indexOf('Safari')) != -1) {
+			browserName = 'Safari';
 			fullVersion = agent.substring(offsetVersion + 7);
-			if ((offsetVersion = agent.indexOf("Version")) != -1)
+			if ((offsetVersion = agent.indexOf('Version')) != -1)
 				fullVersion = agent.substring(offsetVersion + 8);
 		}
 
 		// For other browser "name/version" is at the end of userAgent
-		else if ((offsetName = agent.lastIndexOf(' ') + 1) < (offsetVersion = agent.lastIndexOf('/'))) {
+		else if (
+			(offsetName = agent.lastIndexOf(' ') + 1) <
+			(offsetVersion = agent.lastIndexOf('/'))
+		) {
 			browserName = agent.substring(offsetName, offsetVersion);
 			fullVersion = agent.substring(offsetVersion + 1);
 			if (browserName.toLowerCase() == browserName.toUpperCase()) {
@@ -75,8 +79,9 @@ export default class Device extends EventEmitter {
 		}
 
 		// trimming the fullVersion string at semicolon/space if present
-		if ((ix = fullVersion.indexOf(";")) != -1) fullVersion = fullVersion.substring(0, ix);
-		if ((ix = fullVersion.indexOf(" ")) != -1)
+		if ((ix = fullVersion.indexOf(';')) != -1)
+			fullVersion = fullVersion.substring(0, ix);
+		if ((ix = fullVersion.indexOf(' ')) != -1)
 			fullVersion = fullVersion.substring(0, ix);
 		browserMajorVersion = parseInt('' + fullVersion, 10);
 		if (isNaN(browserMajorVersion)) {
@@ -84,11 +89,9 @@ export default class Device extends EventEmitter {
 			browserMajorVersion = parseInt(navigator.appVersion, 10);
 		}
 
-		html.classList.add(browserName, browserMajorVersion)
-		Store.browser = browserName
+		html.classList.add(browserName, browserMajorVersion);
+		Store.browser = browserName;
 	}
 
-	checkPower() {
-
-	}
+	checkPower() {}
 }

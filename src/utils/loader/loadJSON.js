@@ -7,6 +7,6 @@ export default async function loadJSON(url, opts = {}) {
 
 loadJSON.loader = {
 	name: 'json',
-	extensions: [ '.json' ],
-	function: loadJSON
+	extensions: ['.json'],
+	function: loadJSON,
 };

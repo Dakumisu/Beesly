@@ -7,9 +7,9 @@ export const Store = {
 
 	aspect: {
 		a1: 0,
-		a2: 0
+		a2: 0,
 	},
 
 	device: null,
-	browser: null
-}
+	browser: null,
+};

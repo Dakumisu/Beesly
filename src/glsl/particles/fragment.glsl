@@ -15,6 +15,8 @@ varying vec3 vPos;
 void main() {
 	vec2 uv = vUv;
 
+	float time = uTime * .001;
+
 	vec2 res = gl_FragCoord.xy / uResolution.xy;
 	res /= uResolution.z;
 

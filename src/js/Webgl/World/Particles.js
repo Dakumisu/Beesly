@@ -1,83 +1,119 @@
-import { AdditiveBlending, Color, DoubleSide, InstancedBufferAttribute, InstancedBufferGeometry, LinearFilter, MathUtils, Mesh, PlaneBufferGeometry, RGBFormat, ShaderMaterial, SphereBufferGeometry, Vector3, VideoTexture } from 'three'
+import {
+	AdditiveBlending,
+	Color,
+	DoubleSide,
+	InstancedBufferAttribute,
+	InstancedBufferGeometry,
+	LinearFilter,
+	MathUtils,
+	Mesh,
+	PlaneBufferGeometry,
+	RGBFormat,
+	ShaderMaterial,
+	SphereBufferGeometry,
+	Vector3,
+	VideoTexture,
+} from 'three';
 
-import Webgl from '@js/Webgl/Webgl'
+import Webgl from '@js/Webgl/Webgl';
 
-import { Store } from '@js/Tools/Store'
+import { Store } from '@js/Tools/Store';
 
-import vertex from '@glsl/particles/vertex.glsl'
-import fragment from '@glsl/particles/fragment.glsl'
+import vertex from '@glsl/particles/vertex.glsl';
+import fragment from '@glsl/particles/fragment.glsl';
 
-const tVec3 = new Vector3()
-const tCol = new Color()
+const tVec3 = new Vector3();
+const tCol = new Color();
 
 const params = {
-	color: '#ffffff'
-}
+	color: '#ffffff',
+};
 
 /* FBO Particles coming soon */
 export default class Particles {
 	constructor(opt = {}) {
-		this.webgl = new Webgl()
-		this.scene = this.webgl.scene
+		this.webgl = new Webgl();
+		this.scene = this.webgl.scene;
 
-		/// #if DEBUG
-		this.debugFolder = this.webgl.debug.addFolder({
-			title: 'Particles',
-			expanded: true
-		})
-		/// #endif
+		this.object = {};
 
-		this.object = {}
+		this.count = 2048;
 
-		this.count = 2048
+		this.initialized = false;
 
-		this.initialized = false
-
-		this.init()
+		this.init();
 	}
 
 	init() {
-		this.setAttributes()
-		this.setGeometry()
-		this.setMaterial()
-		this.setMesh()
+		this.setAttributes();
+		this.setGeometry();
+		this.setMaterial();
+		this.setMesh();
 
-		this.resize()
+		this.resize();
 
-		this.initialized = true
+		this.initialized = true;
+
+		/// #if DEBUG
+		this.debug();
+		/// #endif
 	}
 
-	setAttributes() {
-		const particlesCount = this.count
+	/// #if DEBUG
+	debug() {
+		this.debugFolder = this.webgl.debug.addFolder({
+			title: 'Particles',
+			expanded: true,
+		});
 
-		this.positions = new Float32Array(particlesCount * 3)
-		this.offset = new Float32Array(particlesCount * 1)
-		this.randomScale = new Float32Array(particlesCount * 1)
+		this.debugFolder.addInput(params, 'color').on('change', (e) => {
+			tCol.set(e.value);
+		});
+	}
+	/// #endif
+
+	setAttributes() {
+		const particlesCount = this.count;
+
+		this.positions = new Float32Array(particlesCount * 3);
+		this.offset = new Float32Array(particlesCount * 1);
+		this.scale = new Float32Array(particlesCount * 1);
 
 		for (let i = 0; i < particlesCount; i++) {
-			this.positions[i * 3 + 0] = MathUtils.randFloatSpread(1)
-			this.positions[i * 3 + 1] = MathUtils.randFloatSpread(1)
-			this.positions[i * 3 + 2] = MathUtils.randFloatSpread(1)
+			this.positions[i * 3 + 0] = MathUtils.randFloatSpread(1);
+			this.positions[i * 3 + 1] = MathUtils.randFloatSpread(1);
+			this.positions[i * 3 + 2] = MathUtils.randFloatSpread(1);
 
-			this.offset[i + 0] = MathUtils.randFloatSpread(50)
-			this.randomScale[i + 0] = MathUtils.randFloat(.5, 1.5)
+			this.offset[i + 0] = MathUtils.randFloatSpread(50);
+			this.scale[i + 0] = MathUtils.randFloat(0.5, 1.5);
 		}
 	}
 
 	setGeometry() {
-		const blueprintParticle = new PlaneBufferGeometry()
-		blueprintParticle.scale(.01, .01, .01)
+		const blueprintParticle = new PlaneBufferGeometry();
+		blueprintParticle.scale(0.01, 0.01, 0.01);
 
-		this.object.geometry = new InstancedBufferGeometry()
+		this.object.geometry = new InstancedBufferGeometry();
 
-		this.object.geometry.index = blueprintParticle.index
-		this.object.geometry.attributes.position = blueprintParticle.attributes.position
-		this.object.geometry.attributes.normal = blueprintParticle.attributes.normal
-		this.object.geometry.attributes.uv = blueprintParticle.attributes.uv
+		this.object.geometry.index = blueprintParticle.index;
+		this.object.geometry.attributes.position =
+			blueprintParticle.attributes.position;
+		this.object.geometry.attributes.normal =
+			blueprintParticle.attributes.normal;
+		this.object.geometry.attributes.uv = blueprintParticle.attributes.uv;
 
-		this.object.geometry.setAttribute('aPositions', new InstancedBufferAttribute(this.positions, 3, false));
-		this.object.geometry.setAttribute('aOffset', new InstancedBufferAttribute(this.offset, 1, false))
-		this.object.geometry.setAttribute('aRandomScale', new InstancedBufferAttribute(this.randomScale, 1, false))
+		this.object.geometry.setAttribute(
+			'aPositions',
+			new InstancedBufferAttribute(this.positions, 3, false),
+		);
+		this.object.geometry.setAttribute(
+			'aOffset',
+			new InstancedBufferAttribute(this.offset, 1, false),
+		);
+		this.object.geometry.setAttribute(
+			'aScale',
+			new InstancedBufferAttribute(this.scale, 1, false),
+		);
 	}
 
 	setMaterial() {
@@ -88,7 +124,13 @@ export default class Particles {
 				uTime: { value: 0 },
 				uColor: { value: tCol.set(params.color) },
 				uAlpha: { value: 1 },
-				uResolution: { value: tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr) }
+				uResolution: {
+					value: tVec3.set(
+						Store.resolution.width,
+						Store.resolution.height,
+						Store.resolution.dpr,
+					),
+				},
 			},
 			side: DoubleSide,
 			transparent: true,
@@ -96,40 +138,32 @@ export default class Particles {
 			/* for particles */
 			depthTest: true,
 			depthWrite: false,
-			blending: AdditiveBlending
-		})
-
-
-		/// #if DEBUG
-		this.debugFolder
-			.addInput(
-				params,
-				'color'
-			)
-			.on('change', e => {
-				tCol.set(e.value)
-			})
-		/// #endif
+			blending: AdditiveBlending,
+		});
 	}
 
 	setMesh() {
-		this.object.mesh = new Mesh(this.object.geometry, this.object.material)
-		this.object.mesh.frustumCulled = false
+		this.object.mesh = new Mesh(this.object.geometry, this.object.material);
+		this.object.mesh.frustumCulled = false;
 
-		this.addObject(this.object.mesh)
+		this.addObject(this.object.mesh);
 	}
 
 	addObject(object) {
-		this.scene.add(object)
+		this.scene.add(object);
 	}
 
 	resize() {
-		this.object.material.uniforms.uResolution.value = tVec3.set(Store.resolution.width, Store.resolution.height, Store.resolution.dpr)
+		this.object.material.uniforms.uResolution.value = tVec3.set(
+			Store.resolution.width,
+			Store.resolution.height,
+			Store.resolution.dpr,
+		);
 	}
 
 	update(et) {
-		if (!this.initialized) return
+		if (!this.initialized) return;
 
-		this.object.mesh.material.uniforms.uTime.value = et
+		this.object.mesh.material.uniforms.uTime.value = et;
 	}
 }

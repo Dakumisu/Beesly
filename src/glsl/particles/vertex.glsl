@@ -6,7 +6,7 @@ uniform float uTime;
 
 attribute vec3 aPositions;
 attribute float aOffset;
-attribute float aRandomScale;
+attribute float aScale;
 
 varying float vLoop;
 varying float vRandomScale;
@@ -17,19 +17,25 @@ const float maxDuration = 10.;
 
 void main() {
 	vUv = uv;
-	vRandomScale = aRandomScale;
+	vRandomScale = aScale;
 	vPos = position;
 	vec3 pos = position;
 
-	vec3 spherePos = pos + aPositions;
+	float time = uTime * .001;
+	float offset = aOffset * aScale;
 
-	float loop = mod((uTime * .001) + aOffset * maxDuration, maxDuration) / maxDuration;
+	vec3 particlePos = pos + aPositions;
+
+	float loop = mod(time + abs(aOffset) * maxDuration, maxDuration) / maxDuration;
 	vLoop = loop;
 
-	spherePos.x += (loop) * spherePos.x * (2. - (sin(uTime * .002 + (aOffset * 10.)) - 1.));
-	spherePos.y += (loop) * spherePos.y * (3. - (sin(uTime * .002 + (aOffset * 5.))));
+	// position = (position +/- end) +/- start
+	// add variation with the offset, the scale or the time
+	particlePos.x = loop * ((particlePos.x + (sin(time + aOffset) * aScale)) + (offset * .01));
+	particlePos.y = loop * ((particlePos.y + (cos(time + aOffset) * aScale)) + (offset * .01));
+	particlePos.z = loop * ((particlePos.z + (sin(time + aOffset) * aScale) * .01) + (offset * .01));
 
-	vec4 mv = modelViewMatrix * vec4(spherePos, 1.);
+	vec4 mv = modelViewMatrix * vec4(particlePos, 1.);
 
 	mv.xyz += pos.xyz * (PI * 2.); // Billboard
 

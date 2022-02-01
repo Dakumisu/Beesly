@@ -4,8 +4,8 @@ precision highp float;
 
 uniform float uTime;
 uniform float uAlpha;
+uniform vec2 uAspect;
 uniform vec3 uColor;
-// uniform vec4 uResolution;
 uniform vec3 uResolution;
 
 varying vec2 vUv;
@@ -13,10 +13,11 @@ varying vec3 vPos;
 
 void main() {
 	// in the case of an orthographic camera, so that the image keeps its aspect (uResolution must be a vec4)
-	// vec2 newUv = (vUv - vec2(.5)) * uResolution.zw + vec2(.5);
+	// vec2 newUv = (vUv - vec2(.5)) * uResolution.vy + vec2(.5);
+	vec2 uv = vUv;
+	float time = uTime * .001;
 
 	vec3 color = vec3(uColor);
 
-	gl_FragColor = vec4(color, uAlpha);
-	gl_FragColor = vec4(vUv, 0., uAlpha);
+	gl_FragColor = vec4(uv, 0., uAlpha);
 }

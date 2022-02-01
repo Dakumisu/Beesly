@@ -1,44 +1,43 @@
-import Webgl from '@js/Webgl/Webgl'
+import Webgl from '@js/Webgl/Webgl';
 
-import Blueprint from './Blueprint'
-import GeoMerge from './GeoMerge'
-import Model from './Model'
-import Particles from './Particles'
+import Blueprint from './Blueprint';
+import GeoMerge from './GeoMerge';
+import Model from './Model';
+import Particles from './Particles';
 
 export default class World {
 	constructor(opt = {}) {
-		this.webgl = new Webgl()
-		this.scene = this.webgl.scene
+		this.webgl = new Webgl();
+		this.scene = this.webgl.scene;
 
-		this.initialized = false
+		this.initialized = false;
 
-		this.setComponent()
+		this.setComponent();
 	}
 
 	setComponent() {
-		this.blueprint = new Blueprint()
-		this.particles = new Particles()
-		this.model = new Model()
-		this.geoMerge = new GeoMerge()
+		// Examples
+		this.blueprint = new Blueprint();
+		this.particles = new Particles();
+		this.model = new Model();
+		this.geoMerge = new GeoMerge();
 
-		this.initialized = true
+		this.initialized = true;
 	}
 
 	resize() {
-		if (!this.initialized) return
+		if (!this.initialized) return;
 
-		if (this.blueprint) this.blueprint.resize()
-		if (this.particles) this.particles.resize()
+		if (this.blueprint) this.blueprint.resize();
+		if (this.particles) this.particles.resize();
 	}
 
 	update(et) {
-		if (!this.initialized) return
+		if (!this.initialized) return;
 
-		if (this.blueprint) this.blueprint.update(et)
-		if (this.particles) this.particles.update(et)
+		if (this.blueprint) this.blueprint.update(et);
+		if (this.particles) this.particles.update(et);
 	}
 
-	destroy() {
-
-	}
+	destroy() {}
 }

@@ -1,105 +1,106 @@
-import { Scene } from 'three'
+import { Scene as ThreeScene } from 'three';
 import { Pane } from 'tweakpane';
 
-import Raf from '@js/Tools/Raf'
-import Sizes from '@js/Tools/Sizes'
-import Keyboard from '@js/Tools/Keyboard'
-import Stats from '@js/Tools/Stats'
-import Device from '@js/Tools/Device'
-import Mouse from '@js/Tools/Mouse'
-import Raycasters from '@js/Tools/Raycasters'
+import Views from '@js/Views/Views';
 
-import Renderer from './Renderer'
-import Camera from './Camera'
-import World from './World/World'
-import Views from '@js/Views/Views'
+import Raf from '@js/Tools/Raf';
+import Sizes from '@js/Tools/Sizes';
+import Keyboard from '@js/Tools/Keyboard';
+import Stats from '@js/Tools/Stats';
+import Device from '@js/Tools/Device';
+import Mouse from '@js/Tools/Mouse';
+import Raycasters from '@js/Tools/Raycasters';
+
+import Renderer from './Renderer';
+import Camera from './Camera';
+import World from './World/World';
 
 export default class Webgl {
-	static instance
+	static instance;
 
 	constructor(_canvas) {
 		if (Webgl.instance) {
-			return Webgl.instance
+			return Webgl.instance;
 		}
-		Webgl.instance = this
+		Webgl.instance = this;
 
-		this.initialized = false
+		this.initialized = false;
 
 		if (!_canvas) {
-			console.error(`Missing 'canvas' property 🚫`)
-			return
+			console.error(`Missing 'canvas' property 🚫`);
+			return;
 		}
-		this.canvas = _canvas
+		this.canvas = _canvas;
 
-		this.init()
+		this.init();
 	}
 
 	init() {
 		/// #if DEBUG
-		this.debug = new Pane()
-		this.stats = new Stats()
+		this.debug = new Pane();
+		this.stats = new Stats();
 		/// #endif
 
-		this.raf = new Raf()
-		this.scene = new Scene()
-		this.camera = new Camera()
-		this.renderer = new Renderer()
+		this.views = new Views();
 
-		this.device = new Device()
-		this.sizes = new Sizes()
-		this.keyboard = new Keyboard()
-		this.mouse = new Mouse()
+		this.raf = new Raf();
+		this.scene = new ThreeScene();
+		this.camera = new Camera();
+		this.renderer = new Renderer();
 
-		this.world = new World()
-		this.raycaster = new Raycasters()
+		this.device = new Device();
+		this.sizes = new Sizes();
+		this.keyboard = new Keyboard();
+		this.mouse = new Mouse();
+
+		this.world = new World();
+		this.raycaster = new Raycasters();
 
 		this.sizes.on('resize', () => {
-			this.resize()
-			this.device.checkDevice()
+			this.resize();
+			this.device.checkDevice();
 			/// #if DEBUG
-			console.log('Resize spotted 📐')
+			console.log('Resize spotted 📐');
 			/// #endif
-		})
+		});
 
 		this.keyboard.on('keyPressed', (e) => {
 			/// #if DEBUG
-			console.log(`Key ${e.toUpperCase()} pressed 🎹`)
+			console.log(`Key ${e.toUpperCase()} pressed 🎹`);
 			/// #endif
-		})
+		});
 
 		this.raycaster.on('raycast', (e) => {
 			/// #if DEBUG
 			// console.log('Raycast something 🔍', e)
 			/// #endif
-		})
+		});
 
 		this.raf.on('raf', () => {
-			this.update()
-		})
+			this.update();
+		});
 
-		this.initialized = true
+		this.initialized = true;
 	}
 
 	update() {
-		if (!this.initialized) return
+		if (!this.initialized) return;
 
 		/// #if DEBUG
-		if (this.stats) this.stats.update()
+		if (this.stats) this.stats.update();
 		/// #endif
 
-		if (this.camera) this.camera.update()
-		if (this.world) this.world.update(this.raf.elapsed)
-		if (this.renderer) this.renderer.update()
-		if (this.raycaster) this.raycaster.update()
+		if (this.camera) this.camera.update();
+		if (this.world) this.world.update(this.raf.elapsed);
+		if (this.renderer) this.renderer.update();
+		if (this.raycaster) this.raycaster.update();
 	}
 
 	resize() {
-		if (this.camera) this.camera.resize()
-		if (this.world) this.world.resize()
-		if (this.renderer) this.renderer.resize()
+		if (this.camera) this.camera.resize();
+		if (this.world) this.world.resize();
+		if (this.renderer) this.renderer.resize();
 	}
 
-	destroy() {
-
-	}
+	destroy() {}
 }

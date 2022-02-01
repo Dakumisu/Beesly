@@ -13,7 +13,7 @@ function prng(seed = 0) {
 		randomFloat,
 		randomInt,
 		hash2d,
-		hash2dInt
+		hash2dInt,
 	};
 
 	function setSeed(newSeed) {

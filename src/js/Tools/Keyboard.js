@@ -1,18 +1,18 @@
-import EventEmitter from '@js/Tools/EventEmitter'
+import EventEmitter from '@js/Tools/EventEmitter';
 
-import { Store } from '@js/Tools/Store'
+import { Store } from '@js/Tools/Store';
 
 export default class Keyboard extends EventEmitter {
 	constructor() {
-		super()
+		super();
 
 		// Resize event
-		window.addEventListener('keydown', this.getKey.bind(this))
+		window.addEventListener('keydown', this.getKey.bind(this));
 	}
 
-	getKey( e ) {
-		const key = e.key
+	getKey(e) {
+		const key = e.key;
 
-		this.trigger('keyPressed', [key])
+		this.trigger('keyPressed', [key]);
 	}
 }
