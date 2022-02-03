@@ -29,6 +29,8 @@ const params = {
 	color: '#ffffff',
 };
 
+let initialized = false;
+
 /* FBO Particles coming soon */
 export default class Particles {
 	constructor(opt = {}) {
@@ -38,8 +40,6 @@ export default class Particles {
 		this.object = {};
 
 		this.count = 2048;
-
-		this.initialized = false;
 
 		this.init();
 	}
@@ -52,7 +52,7 @@ export default class Particles {
 
 		this.resize();
 
-		this.initialized = true;
+		initialized = true;
 
 		/// #if DEBUG
 		this.debug();
@@ -162,7 +162,7 @@ export default class Particles {
 	}
 
 	update(et) {
-		if (!this.initialized) return;
+		if (!initialized) return;
 
 		this.object.mesh.material.uniforms.uTime.value = et;
 	}

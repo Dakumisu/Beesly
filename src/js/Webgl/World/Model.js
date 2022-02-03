@@ -1,26 +1,19 @@
-import {
-	Color,
-	DoubleSide,
-	Mesh,
-	PlaneBufferGeometry,
-	ShaderMaterial,
-	Vector3,
-} from 'three';
-
 import Webgl from '@js/Webgl/Webgl';
 
 import loadModel from '@utils/loader/loadGLTF';
 
 import { Store } from '@js/Tools/Store';
 
-import model from '@public/model/model.glb';
+import model from '/assets/model/model.glb';
+
+let initialized = false;
 
 export default class Model {
 	constructor(opt = {}) {
 		this.webgl = new Webgl();
 		this.scene = this.webgl.scene;
 
-		this.initialized = false;
+		this.object = {};
 
 		this.init();
 	}
@@ -28,7 +21,7 @@ export default class Model {
 	init() {
 		this.load();
 
-		this.initialized = true;
+		initialized = true;
 
 		/// #if DEBUG
 		this.debug();
@@ -41,8 +34,9 @@ export default class Model {
 
 	load() {
 		loadModel(model).then((response) => {
-			this.mesh = response;
-			this.scene.add(this.mesh);
+			this.object.mesh = response;
+			this.object.mesh.position.set(0, -2, 0);
+			this.scene.add(this.object.mesh);
 		});
 	}
 
@@ -51,6 +45,6 @@ export default class Model {
 	}
 
 	update(et) {
-		if (!this.initialized) return;
+		if (!initialized) return;
 	}
 }

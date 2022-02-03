@@ -2,11 +2,11 @@
   "compileOnSave": false,
   "exclude": [
     "dist/",
-    "node_modules/"
+    "node_modules/",
+    "config/"
   ],
   "include": [
     "src/**/*",
-    "static/**/*",
     "public/**/*",
   ],
   "compilerOptions": {
@@ -23,9 +23,6 @@
       "@utils/*": ["src/utils/*"],
       "@workers/*": ["src/workers/*"],
       "@src/*": ["src/*"],
-
-      "@public/*": ["public/*"],
-      "@static/*": ["static/*"],
 
       "@@/*": ["*"],
     }

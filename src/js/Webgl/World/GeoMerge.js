@@ -14,14 +14,16 @@ import mergeGeometry from '@utils/webgl/mergeBufferGeometries';
 
 import { Store } from '@js/Tools/Store';
 
-import model from '@public/model/model.glb';
+import model from '/assets/model/model.glb';
+
+let initialized = false;
 
 export default class GeoMerge {
 	constructor(opt = {}) {
 		this.webgl = new Webgl();
 		this.scene = this.webgl.scene;
 
-		this.initialized = false;
+		this.object = {};
 
 		this.init();
 	}
@@ -29,7 +31,7 @@ export default class GeoMerge {
 	init() {
 		this.merge();
 
-		this.initialized = true;
+		initialized = true;
 
 		/// #if DEBUG
 		this.debug();
@@ -43,13 +45,13 @@ export default class GeoMerge {
 	merge() {
 		mergeGeometry([], [model]).then((response) => {
 			if (!response) return;
-			this.geometry = response;
-			const mesh = new Mesh(
-				this.geometry,
+			this.object.geometry = response;
+			this.object.mesh = new Mesh(
+				this.object.geometry,
 				new MeshNormalMaterial({ side: DoubleSide }),
 			);
-			mesh.position.set(0, 2, 0);
-			this.scene.add(mesh);
+			this.object.mesh.position.set(0, 2, 0);
+			this.scene.add(this.object.mesh);
 		});
 	}
 
@@ -58,6 +60,6 @@ export default class GeoMerge {
 	}
 
 	update(et) {
-		if (!this.initialized) return;
+		if (!initialized) return;
 	}
 }

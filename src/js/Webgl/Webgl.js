@@ -15,6 +15,8 @@ import Renderer from './Renderer';
 import Camera from './Camera';
 import World from './World/World';
 
+let initialized = false;
+
 export default class Webgl {
 	static instance;
 
@@ -23,8 +25,6 @@ export default class Webgl {
 			return Webgl.instance;
 		}
 		Webgl.instance = this;
-
-		this.initialized = false;
 
 		if (!_canvas) {
 			console.error(`Missing 'canvas' property 🚫`);
@@ -72,7 +72,7 @@ export default class Webgl {
 
 		this.raycaster.on('raycast', (e) => {
 			/// #if DEBUG
-			// console.log('Raycast something 🔍', e)
+			// console.log('Raycast something 🔍', e);
 			/// #endif
 		});
 
@@ -80,20 +80,20 @@ export default class Webgl {
 			this.update();
 		});
 
-		this.initialized = true;
+		initialized = true;
 	}
 
 	update() {
-		if (!this.initialized) return;
-
-		/// #if DEBUG
-		if (this.stats) this.stats.update();
-		/// #endif
+		if (!initialized) return;
 
 		if (this.camera) this.camera.update();
 		if (this.world) this.world.update(this.raf.elapsed);
 		if (this.renderer) this.renderer.update();
 		if (this.raycaster) this.raycaster.update();
+
+		/// #if DEBUG
+		if (this.stats) this.stats.update();
+		/// #endif
 	}
 
 	resize() {

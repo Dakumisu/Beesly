@@ -3,7 +3,6 @@ import EventEmitter from './EventEmitter';
 import { Store } from './Store';
 
 const html = document.querySelector('html');
-
 const deviceList = ['Desktop', 'Mobile'];
 
 export default class Device extends EventEmitter {

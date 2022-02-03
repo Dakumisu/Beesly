@@ -1,6 +1,3 @@
-/* example */
-// #pragma glslify: functionName = require(../../utils/glsl/templateFunction.glsl)
-
 precision highp float;
 
 #define PI 3.1415926535897932384626433832795

@@ -20,14 +20,14 @@ const tVec3 = new Vector3();
 const tVec2 = new Vector2();
 const tCol = new Color();
 
+let initialized = false;
+
 export default class Blueprint {
 	constructor(opt = {}) {
 		this.webgl = new Webgl();
 		this.scene = this.webgl.scene;
 
 		this.object = {};
-
-		this.initialized = false;
 
 		this.init();
 	}
@@ -39,7 +39,7 @@ export default class Blueprint {
 
 		this.resize();
 
-		this.initialized = true;
+		initialized = true;
 
 		/// #if DEBUG
 		this.debug();
@@ -98,7 +98,7 @@ export default class Blueprint {
 	}
 
 	update(et) {
-		if (!this.initialized) return;
+		if (!initialized) return;
 
 		this.object.material.uniforms.uTime.value = et;
 	}

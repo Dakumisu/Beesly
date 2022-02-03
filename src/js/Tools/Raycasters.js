@@ -4,6 +4,8 @@ import EventEmitter from './EventEmitter';
 
 import Webgl from '@js/Webgl/Webgl';
 
+let initialized = false;
+
 export default class Raycasters extends EventEmitter {
 	constructor(opt = {}) {
 		super();
@@ -12,8 +14,6 @@ export default class Raycasters extends EventEmitter {
 		this.scene = this.webgl.scene;
 		this.mouse = this.webgl.mouse.scene;
 		this.camera = this.webgl.camera.camera;
-
-		this.initialized = false;
 
 		this.initRaycaster();
 
@@ -36,7 +36,7 @@ export default class Raycasters extends EventEmitter {
 		this.raycaster = new Raycaster();
 		this.raycaster.params.Points.threshold = 0.01; // ray' size
 
-		this.initialized = true;
+		initialized = true;
 	}
 
 	/// #if DEBUG
@@ -61,12 +61,12 @@ export default class Raycasters extends EventEmitter {
 	/// #endif
 
 	update() {
-		if (!this.initialized) return;
+		if (!initialized) return;
 
 		this.raycaster.setFromCamera(this.mouse, this.camera);
 		const intersects = this.raycaster.intersectObjects(
 			this.scene.children,
-			false,
+			true,
 		);
 
 		for (let i = 0; i < intersects.length; i++) {

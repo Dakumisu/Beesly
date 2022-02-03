@@ -1,5 +1,7 @@
 import { BufferAttribute, BufferGeometry, Matrix4, Object3D } from 'three';
 
+import mergeGeoWorker from '@workers/mergeGeoWorker?worker';
+
 import loadGLTF from '@utils/loader/loadGLTF';
 
 let geometries = [];
@@ -81,9 +83,7 @@ function mergeGeometries() {
 }
 
 function mergeBufferGeometries(datas) {
-	const worker = new Worker(
-		new URL('../../workers/mergeGeoWorker.js', import.meta.url),
-	);
+	const worker = mergeGeoWorker();
 
 	const bufferGeometries = [];
 	const buffers = [];

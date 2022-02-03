@@ -5,12 +5,12 @@ import GeoMerge from './GeoMerge';
 import Model from './Model';
 import Particles from './Particles';
 
+let initialized = false;
+
 export default class World {
 	constructor(opt = {}) {
 		this.webgl = new Webgl();
 		this.scene = this.webgl.scene;
-
-		this.initialized = false;
 
 		this.setComponent();
 	}
@@ -22,18 +22,18 @@ export default class World {
 		this.model = new Model();
 		this.geoMerge = new GeoMerge();
 
-		this.initialized = true;
+		initialized = true;
 	}
 
 	resize() {
-		if (!this.initialized) return;
+		if (!initialized) return;
 
 		if (this.blueprint) this.blueprint.resize();
 		if (this.particles) this.particles.resize();
 	}
 
 	update(et) {
-		if (!this.initialized) return;
+		if (!initialized) return;
 
 		if (this.blueprint) this.blueprint.update(et);
 		if (this.particles) this.particles.update(et);

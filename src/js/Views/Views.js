@@ -5,8 +5,6 @@ import { Store } from '@js/Tools/Store';
 const viewList = ['home', 'exp'];
 
 export default class Views extends EventEmitter {
-	static instance;
-
 	constructor() {
 		super();
 
@@ -29,7 +27,7 @@ export default class Views extends EventEmitter {
 			return;
 		}
 		if (!this.viewList[view]) {
-			console.error(`This view '${view}' doesn't exist 🚫`);
+			console.error(`The view '${view}' doesn't exist 🚫`);
 			return;
 		}
 

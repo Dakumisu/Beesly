@@ -39,7 +39,7 @@ export default class Nodes extends EventEmitter {
 		}
 	}
 
-	generateNodes() {
+	generateNodes(json) {
 		const docFragment = document.createElement(DocumentFragment);
 
 		document.body.appendChild(docFragment);
