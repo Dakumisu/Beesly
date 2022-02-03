@@ -6,9 +6,9 @@
   "author": "Dakumisu",
   "license": "ISC",
   "scripts": {
-    "dev": "NODE_ENV=development vite -c config/vite.config.js",
-    "build": "NODE_ENV=production vite build -c config/vite.config.js",
-    "staging": "NODE_ENV=staging vite build -c config/vite.config.js",
+    "dev": "vite -m development -c config/vite.config.js",
+    "build": "vite build -m production -c config/vite.config.js",
+    "staging": "vite build -m staging -c config/vite.config.js",
     "preview": "vite preview -c config/vite.config.js"
   },
   "dependencies": {
