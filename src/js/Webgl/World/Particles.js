@@ -61,13 +61,12 @@ export default class Particles {
 
 	/// #if DEBUG
 	debug() {
-		this.debugFolder = this.webgl.debug.addFolder({
-			title: 'Particles',
-			expanded: true,
-		});
+		const label = 'particles';
+		this.webgl.debug.setFolder(label, 'Particles');
+		const gui = this.webgl.debug.getFolder(label);
 
-		this.debugFolder.addInput(params, 'color').on('change', (e) => {
-			tCol.set(e.value);
+		gui.addInput(params, 'color').on('change', (color) => {
+			tCol.set(color.value);
 		});
 	}
 	/// #endif

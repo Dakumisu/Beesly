@@ -6,10 +6,10 @@
   "author": "Dakumisu",
   "license": "ISC",
   "scripts": {
-    "dev": "vite -m development --host -c config/vite.config.js",
-    "build": "vite -m production build -c config/vite.config.js",
-    "preview": "vite preview -c config/vite.config.js",
-    "deploy": "vercel --prod"
+    "dev": "NODE_ENV=development vite -c config/vite.config.js",
+    "build": "NODE_ENV=production vite build -c config/vite.config.js",
+    "staging": "NODE_ENV=staging vite build -c config/vite.config.js",
+    "preview": "vite preview -c config/vite.config.js"
   },
   "dependencies": {
     "@waaark/luge": "^0.6.2-beta",
@@ -20,13 +20,10 @@
   "devDependencies": {
     "bezier-easing": "^2.1.0",
     "fast-random": "^2.0.4",
-    "glsl-easings": "^1.0.0",
-    "glsl-noise": "^0.0.0",
     "meshoptimizer": "^0.17.0",
     "sass": "^1.35.1",
     "stats-js": "^1.0.1",
     "tweakpane": "^3.0.7",
-    "vercel": "^23.1.2",
     "vite": "^2.7.13",
     "vite-plugin-glsl": "^0.0.8"
   }

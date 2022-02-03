@@ -42,21 +42,20 @@ export default class Renderer {
 
 	/// #if DEBUG
 	debug() {
-		this.stats = this.webgl.stats;
-		this.debugFolder = this.webgl.debug.addFolder({
-			title: 'Renderer',
-			expanded: true,
-		});
-
+		this.stats = this.webgl.debug.stats;
 		this.context = this.renderer.getContext();
-
 		this.stats.setRenderPanel(this.context);
 
-		this.debugFolder
-			.addInput(params, 'clearColor', { label: 'background color' })
-			.on('change', (color) => {
+		const label = 'renderer';
+		this.webgl.debug.setFolder(label, 'Renderer');
+		const gui = this.webgl.debug.getFolder(label);
+
+		gui.addInput(params, 'clearColor', { label: 'background color' }).on(
+			'change',
+			(color) => {
 				this.renderer.setClearColor(color.value);
-			});
+			},
+		);
 	}
 	/// #endif
 

@@ -21,6 +21,8 @@ tmp
 .vs
 .vercel
 .env
+.env.local
+.env.*.local
 .idea
 .htaccess
 

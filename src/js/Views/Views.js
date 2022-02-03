@@ -27,7 +27,7 @@ export default class Views extends EventEmitter {
 			return;
 		}
 		if (!this.viewList[view]) {
-			console.error(`The view '${view}' doesn't exist 🚫`);
+			console.error(`View '${view}' doesn't exist 🚫`);
 			return;
 		}
 

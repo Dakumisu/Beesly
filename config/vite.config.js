@@ -7,9 +7,7 @@ import rollupConfig from './rollup.config';
 console.log('🏓 Environnement :', process.env.NODE_ENV);
 
 const debug = process.env.NODE_ENV
-	? process.env.NODE_ENV == 'production'
-		? false
-		: true
+	? process.env.NODE_ENV != 'production'
 	: true;
 const define = {
 	DEBUG: debug,
@@ -20,6 +18,7 @@ export default defineConfig({
 		port: '8080',
 		https: false,
 		open: false,
+		host: true,
 	},
 
 	plugins: [glsl(), ifdefRollupPlugin(define)],

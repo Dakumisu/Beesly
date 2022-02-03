@@ -1,12 +1,10 @@
 import { Scene as ThreeScene } from 'three';
-import { Pane } from 'tweakpane';
 
 import Views from '@js/Views/Views';
 
 import Raf from '@js/Tools/Raf';
 import Sizes from '@js/Tools/Sizes';
 import Keyboard from '@js/Tools/Keyboard';
-import Stats from '@js/Tools/Stats';
 import Device from '@js/Tools/Device';
 import Mouse from '@js/Tools/Mouse';
 import Raycasters from '@js/Tools/Raycasters';
@@ -14,6 +12,7 @@ import Raycasters from '@js/Tools/Raycasters';
 import Renderer from './Renderer';
 import Camera from './Camera';
 import World from './World/World';
+import Debug from '@js/Tools/Debug';
 
 let initialized = false;
 
@@ -37,8 +36,7 @@ export default class Webgl {
 
 	init() {
 		/// #if DEBUG
-		this.debug = new Pane();
-		this.stats = new Stats();
+		this.debug = new Debug();
 		/// #endif
 
 		this.views = new Views();
@@ -92,7 +90,7 @@ export default class Webgl {
 		if (this.raycaster) this.raycaster.update();
 
 		/// #if DEBUG
-		if (this.stats) this.stats.update();
+		this.debug.stats.update();
 		/// #endif
 	}
 
