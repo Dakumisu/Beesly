@@ -2,6 +2,10 @@
 
 Hi :)
 
+## About
+
+Three.js starter using Vite.js for the dev & Rollup.js for the build
+
 ## Setup
 
 Download [Node.js](https://nodejs.org/en/download/).
@@ -21,5 +25,5 @@ npm run build
 npm run staging
 ```
 
-## About
+## Docs
 🚧 [WIP] 🚧
