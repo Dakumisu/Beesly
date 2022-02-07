@@ -30,8 +30,8 @@ export default class Raf extends EventEmitter {
 		this.elapsed += this.playing ? this.delta : 0;
 		this.current = current;
 
-		if (this.delta > 60) {
-			this.delta = 60;
+		if (this.delta > 16) {
+			this.delta = 16;
 		}
 
 		if (this.playing) {
