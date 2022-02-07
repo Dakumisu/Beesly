@@ -75,18 +75,24 @@ export default class Webgl {
 		});
 
 		this.raf.on('raf', () => {
+			this.render();
 			this.update();
 		});
 
 		initialized = true;
 	}
-
-	update() {
+	
+	render() {
 		if (!initialized) return;
 
 		if (this.camera) this.camera.update();
 		if (this.world) this.world.update(this.raf.elapsed);
 		if (this.renderer) this.renderer.update();
+	}
+
+	update() {
+		if (!initialized) return;
+
 		if (this.raycaster) this.raycaster.update();
 
 		/// #if DEBUG
