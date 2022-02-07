@@ -6,7 +6,7 @@ export default class Keyboard extends EventEmitter {
 	constructor() {
 		super();
 
-		// Resize event
+		// keydown event
 		window.addEventListener('keydown', this.getKey.bind(this));
 	}
 
