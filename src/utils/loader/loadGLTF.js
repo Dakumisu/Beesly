@@ -7,7 +7,7 @@ import {
 	MeshNormalMaterial,
 } from 'three';
 
-import loadGLTFWorker from '@workers/loadGLTFWorker?worker';
+import loadGLTFWorker from '@workers/wLoadGLTF?worker';
 
 export default function loadModel(model) {
 	return new Promise((resolve) => {

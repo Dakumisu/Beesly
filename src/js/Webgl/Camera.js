@@ -103,7 +103,7 @@ export default class Camera {
 		/// #endif
 	}
 
-	update() {
+	render() {
 		/// #if DEBUG
 		this.debug.orbitControls.update();
 

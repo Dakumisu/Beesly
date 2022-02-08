@@ -4,7 +4,7 @@ precision highp float;
 
 uniform float uTime;
 
-attribute vec3 aPositions;
+attribute vec3 aPosition;
 attribute float aOffset;
 attribute float aScale;
 
@@ -24,7 +24,7 @@ void main() {
 	float time = uTime * .001;
 	float offset = aOffset * aScale;
 
-	vec3 particlePos = pos + aPositions;
+	vec3 particlePos = pos + aPosition;
 
 	float loop = mod(time + abs(aOffset) * maxDuration, maxDuration) / maxDuration;
 	vLoop = loop;

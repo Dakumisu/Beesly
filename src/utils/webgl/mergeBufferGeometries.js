@@ -1,6 +1,6 @@
 import { BufferAttribute, BufferGeometry, Matrix4, Object3D } from 'three';
 
-import mergeGeoWorker from '@workers/mergeGeoWorker?worker';
+import mergeGeoWorker from '@workers/wMergeGeo?worker';
 
 import loadGLTF from '@utils/loader/loadGLTF';
 

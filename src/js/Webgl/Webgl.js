@@ -8,11 +8,15 @@ import Keyboard from '@js/Tools/Keyboard';
 import Device from '@js/Tools/Device';
 import Mouse from '@js/Tools/Mouse';
 import Raycasters from '@js/Tools/Raycasters';
+import PerformanceMonitor from '@js/Tools/PerformanceMonitor';
 
 import Renderer from './Renderer';
 import Camera from './Camera';
 import World from './World/World';
+
+/// #if DEBUG
 import Debug from '@js/Tools/Debug';
+/// #endif
 
 let initialized = false;
 
@@ -50,6 +54,7 @@ export default class Webgl {
 		this.sizes = new Sizes();
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
+		this.perf = new PerformanceMonitor();
 
 		this.world = new World();
 		this.raycaster = new Raycasters();
@@ -81,19 +86,19 @@ export default class Webgl {
 
 		initialized = true;
 	}
-	
 	render() {
 		if (!initialized) return;
 
-		if (this.camera) this.camera.update();
+		if (this.camera) this.camera.render();
 		if (this.world) this.world.update(this.raf.elapsed);
-		if (this.renderer) this.renderer.update();
+		if (this.renderer) this.renderer.render();
 	}
 
 	update() {
 		if (!initialized) return;
 
 		if (this.raycaster) this.raycaster.update();
+		if (this.perf) this.perf.update();
 
 		/// #if DEBUG
 		this.debug.stats.update();
@@ -104,6 +109,7 @@ export default class Webgl {
 		if (this.camera) this.camera.resize();
 		if (this.world) this.world.resize();
 		if (this.renderer) this.renderer.resize();
+		if (this.perf) this.perf.reset(true, 300, true);
 	}
 
 	destroy() {}

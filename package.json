@@ -13,6 +13,7 @@
   "dependencies": {
     "@waaark/luge": "^0.6.2-beta",
     "animejs": "^3.2.1",
+    "detect-gpu": "^4.0.7",
     "howler": "^2.2.1",
     "three": "^0.125.1"
   },

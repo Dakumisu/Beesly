@@ -27,7 +27,10 @@ const tCol = new Color();
 
 const params = {
 	color: '#ffffff',
+	size: 0.01,
 };
+
+const particlesCountList = [5000, 10000, 50000, 100000, 300000, 500000];
 
 let initialized = false;
 
@@ -36,10 +39,20 @@ export default class Particles {
 	constructor(opt = {}) {
 		this.webgl = new Webgl();
 		this.scene = this.webgl.scene;
+		this.perf = this.webgl.perf;
+
+		this.perf.on('changeQuality', () => {
+			console.log(this.perf.quality);
+			this.count = particlesCountList[this.perf.quality];
+			this.updateAttributes();
+		});
 
 		this.object = {};
 
-		this.count = 2048;
+		this.blueprintParticle = new PlaneBufferGeometry();
+		this.blueprintParticle.scale(params.size, params.size, params.size);
+
+		this.count = particlesCountList[5];
 
 		this.init();
 	}
@@ -74,36 +87,82 @@ export default class Particles {
 	setAttributes() {
 		const particlesCount = this.count;
 
-		this.positions = new Float32Array(particlesCount * 3);
+		this.position = new Float32Array(particlesCount * 3);
 		this.offset = new Float32Array(particlesCount * 1);
 		this.scale = new Float32Array(particlesCount * 1);
 
 		for (let i = 0; i < particlesCount; i++) {
-			this.positions[i * 3 + 0] = MathUtils.randFloatSpread(1);
-			this.positions[i * 3 + 1] = MathUtils.randFloatSpread(1);
-			this.positions[i * 3 + 2] = MathUtils.randFloatSpread(1);
+			this.position[i * 3 + 0] = MathUtils.randFloatSpread(1);
+			this.position[i * 3 + 1] = MathUtils.randFloatSpread(1);
+			this.position[i * 3 + 2] = MathUtils.randFloatSpread(1);
 
 			this.offset[i + 0] = MathUtils.randFloatSpread(50);
+
 			this.scale[i + 0] = MathUtils.randFloat(0.5, 1.5);
 		}
 	}
 
-	setGeometry() {
-		const blueprintParticle = new PlaneBufferGeometry();
-		blueprintParticle.scale(0.01, 0.01, 0.01);
+	updateAttributes() {
+		const particlesCount = this.count;
 
+		this.newPosition = new Float32Array(particlesCount * 3);
+		this.newOffset = new Float32Array(particlesCount * 1);
+		this.newScale = new Float32Array(particlesCount * 1);
+
+		for (let i = 0; i < particlesCount; i++) {
+			this.newPosition[i * 3 + 0] = this.position[i * 3 + 0];
+			this.newPosition[i * 3 + 1] = this.position[i * 3 + 1];
+			this.newPosition[i * 3 + 2] = this.position[i * 3 + 2];
+
+			this.newOffset[i + 0] = this.offset[i + 0];
+
+			this.newScale[i + 0] = this.scale[i + 0];
+		}
+
+		this.updateGeometry();
+	}
+
+	updateGeometry() {
 		this.object.geometry = new InstancedBufferGeometry();
 
-		this.object.geometry.index = blueprintParticle.index;
+		this.object.geometry.index = this.blueprintParticle.index;
 		this.object.geometry.attributes.position =
-			blueprintParticle.attributes.position;
+			this.blueprintParticle.attributes.position;
 		this.object.geometry.attributes.normal =
-			blueprintParticle.attributes.normal;
-		this.object.geometry.attributes.uv = blueprintParticle.attributes.uv;
+			this.blueprintParticle.attributes.normal;
+		this.object.geometry.attributes.uv =
+			this.blueprintParticle.attributes.uv;
 
 		this.object.geometry.setAttribute(
-			'aPositions',
-			new InstancedBufferAttribute(this.positions, 3, false),
+			'aPosition',
+			new InstancedBufferAttribute(this.newPosition, 3, false),
+		);
+		this.object.geometry.setAttribute(
+			'aOffset',
+			new InstancedBufferAttribute(this.newOffset, 1, false),
+		);
+		this.object.geometry.setAttribute(
+			'aScale',
+			new InstancedBufferAttribute(this.newScale, 1, false),
+		);
+
+		this.object.mesh.geometry = this.object.geometry;
+	}
+
+	setGeometry() {
+		this.object.geometry = new InstancedBufferGeometry();
+
+		this.object.geometry.index = this.blueprintParticle.index;
+		this.object.geometry.attributes.position =
+			this.blueprintParticle.attributes.position;
+		this.object.geometry.attributes.normal =
+			this.blueprintParticle.attributes.normal;
+		this.object.geometry.attributes.uv =
+			this.blueprintParticle.attributes.uv;
+
+		this.object.geometry.setAttribute(
+			'aPosition',
+			new InstancedBufferAttribute(this.position, 3, false),
 		);
 		this.object.geometry.setAttribute(
 			'aOffset',

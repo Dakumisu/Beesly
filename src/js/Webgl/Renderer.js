@@ -129,7 +129,7 @@ export default class Renderer {
 		);
 	}
 
-	update() {
+	render() {
 		/// #if DEBUG
 		this.stats.beforeRender();
 		/// #endif
