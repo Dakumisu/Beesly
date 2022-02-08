@@ -42,7 +42,6 @@ export default class Particles {
 		this.perf = this.webgl.perf;
 
 		this.perf.on('changeQuality', () => {
-			console.log(this.perf.quality);
 			this.count = particlesCountList[this.perf.quality];
 			this.updateAttributes();
 		});
