@@ -1,5 +1,3 @@
-import Webgl from '@js/Webgl/Webgl';
-
 import Blueprint from './Blueprint';
 import GeoMerge from './GeoMerge';
 import Model from './Model';
@@ -9,9 +7,6 @@ let initialized = false;
 
 export default class World {
 	constructor(opt = {}) {
-		this.webgl = new Webgl();
-		this.scene = this.webgl.scene;
-
 		this.setComponent();
 	}
 
@@ -32,7 +27,7 @@ export default class World {
 		if (this.particles) this.particles.resize();
 	}
 
-	update(et) {
+	update(et, dt) {
 		if (!initialized) return;
 
 		if (this.blueprint) this.blueprint.update(et);

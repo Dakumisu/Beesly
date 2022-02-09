@@ -1,17 +1,16 @@
 import StatsJs from 'stats-js';
 
+const max = 40;
+const ignoreMaxed = true;
+
 export default class Stats {
 	constructor() {
 		this.stats = new StatsJs();
 		this.stats.showPanel(0);
 
 		this.active = false;
-		this.max = 40;
-		this.ignoreMaxed = true;
 
-		/// #if DEBUG
 		this.activate();
-		/// #endif
 	}
 
 	activate() {
@@ -67,14 +66,11 @@ export default class Stats {
 					this.render.query,
 					this.render.context.QUERY_RESULT,
 				);
-				const panelValue = Math.min(
-					elapsedNanos / 1000 / 1000,
-					this.max,
-				);
+				const panelValue = Math.min(elapsedNanos / 1000 / 1000, max);
 
-				if (panelValue === this.max && this.ignoreMaxed) {
+				if (panelValue === max && ignoreMaxed) {
 				} else {
-					this.render.panel.update(panelValue, this.max);
+					this.render.panel.update(panelValue, max);
 				}
 			}
 		}

@@ -8,8 +8,9 @@ import { imageAspect } from '@utils/maths';
 
 export default class Camera {
 	constructor(opt = {}) {
-		this.webgl = new Webgl();
-		this.scene = this.webgl.scene;
+		const webgl = new Webgl();
+		this.scene = webgl.scene;
+		this.canvas = webgl.canvas;
 
 		this.type = opt.type || 'Perspective';
 		this.type == 'Orthographic'
@@ -17,7 +18,9 @@ export default class Camera {
 			: this.setPerspectiveCamera();
 
 		/// #if DEBUG
-		this.setDebugCamera();
+		const debug = webgl.debug;
+		this.debug(debug);
+		this.setDebugCamera(debug);
 		/// #endif
 	}
 
@@ -61,21 +64,23 @@ export default class Camera {
 	}
 
 	/// #if DEBUG
-	setDebugCamera() {
-		this.debug = {};
-		this.debug.camera = this.camera.clone();
-		this.debug.camera.rotation.reorder('YXZ');
+	debug(debug) {}
 
-		this.debug.orbitControls = new OrbitControls(
-			this.debug.camera,
-			this.webgl.canvas,
+	setDebugCamera() {
+		this.debugCam = {};
+		this.debugCam.camera = this.camera.clone();
+		this.debugCam.camera.rotation.reorder('YXZ');
+
+		this.debugCam.orbitControls = new OrbitControls(
+			this.debugCam.camera,
+			this.canvas,
 		);
-		this.debug.orbitControls.enabled = this.debug.active;
-		this.debug.orbitControls.screenSpacePanning = true;
-		this.debug.orbitControls.enableKeys = false;
-		this.debug.orbitControls.zoomSpeed = 0.5;
-		this.debug.orbitControls.enableDamping = true;
-		this.debug.orbitControls.update();
+		this.debugCam.orbitControls.enabled = this.debugCam.active;
+		this.debugCam.orbitControls.screenSpacePanning = true;
+		this.debugCam.orbitControls.enableKeys = false;
+		this.debugCam.orbitControls.zoomSpeed = 0.5;
+		this.debugCam.orbitControls.enableDamping = true;
+		this.debugCam.orbitControls.update();
 	}
 	/// #endif
 
@@ -97,25 +102,25 @@ export default class Camera {
 		Store.aspect.a2 = imgAspect.a2;
 
 		/// #if DEBUG
-		this.debug.camera.aspect =
+		this.debugCam.camera.aspect =
 			Store.resolution.width / Store.resolution.height;
-		this.debug.camera.updateProjectionMatrix();
+		this.debugCam.camera.updateProjectionMatrix();
 		/// #endif
 	}
 
 	render() {
 		/// #if DEBUG
-		this.debug.orbitControls.update();
+		this.debugCam.orbitControls.update();
 
-		this.camera.position.copy(this.debug.camera.position);
-		this.camera.quaternion.copy(this.debug.camera.quaternion);
+		this.camera.position.copy(this.debugCam.camera.position);
+		this.camera.quaternion.copy(this.debugCam.camera.quaternion);
 		this.camera.updateMatrixWorld();
 		/// #endif
 	}
 
-	/// #if DEBUG
 	destroy() {
-		this.debug.orbitControls.destroy();
+		/// #if DEBUG
+		this.debugCam.orbitControls.destroy();
+		/// #endif
 	}
-	/// #endif
 }

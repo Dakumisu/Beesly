@@ -31,9 +31,9 @@ void main() {
 
 	// position = (position +/- end) +/- start
 	// add variation with the offset, the scale or the time
-	particlePos.x = loop * ((particlePos.x + (sin(time + aOffset) * aScale)) + (offset * .01));
-	particlePos.y = loop * ((particlePos.y + (cos(time + aOffset) * aScale)) + (offset * .01));
-	particlePos.z = loop * ((particlePos.z + (sin(time + aOffset) * aScale) * .01) + (offset * .01));
+	particlePos.x += loop * ((particlePos.x + (sin(time + aOffset) * aScale)) + (offset * .01));
+	particlePos.y += loop * ((particlePos.y + (cos(time + aOffset) * aScale)) + (offset * .01));
+	particlePos.z += loop * ((particlePos.z + (sin(time + aOffset) * aScale) * .01) + (offset * .01));
 
 	vec4 mv = modelViewMatrix * vec4(particlePos, 1.);
 

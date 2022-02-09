@@ -24,15 +24,11 @@ let initialized = false;
 
 export default class Blueprint {
 	constructor(opt = {}) {
-		this.webgl = new Webgl();
-		this.scene = this.webgl.scene;
+		const webgl = new Webgl();
+		this.scene = webgl.scene;
 
 		this.object = {};
 
-		this.init();
-	}
-
-	init() {
 		this.setGeometry();
 		this.setMaterial();
 		this.setMesh();
@@ -42,12 +38,13 @@ export default class Blueprint {
 		initialized = true;
 
 		/// #if DEBUG
-		this.debug();
+		const debug = webgl.debug;
+		this.debug(debug);
 		/// #endif
 	}
 
 	/// #if DEBUG
-	debug() {}
+	debug(debug) {}
 	/// #endif
 
 	setGeometry() {
@@ -80,13 +77,8 @@ export default class Blueprint {
 
 	setMesh() {
 		this.object.mesh = new Mesh(this.object.geometry, this.object.material);
-		this.object.mesh.frustumCulled = false;
 
-		this.addObject(this.object.mesh);
-	}
-
-	addObject(object) {
-		this.scene.add(object);
+		this.scene.add(this.object.mesh);
 	}
 
 	resize() {

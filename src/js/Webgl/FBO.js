@@ -8,18 +8,10 @@ import {
 	WebGLRenderTarget,
 } from 'three';
 
-import Webgl from './Webgl';
-
 import { Store } from '@js/Tools/Store';
 
 export default class FBO {
 	constructor(opt = {}) {
-		this.webgl = new Webgl();
-
-		this.init();
-	}
-
-	init() {
 		this.setScene();
 		this.setCamera();
 		this.setRenderTarget();

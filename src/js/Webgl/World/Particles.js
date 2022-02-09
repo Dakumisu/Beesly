@@ -32,31 +32,27 @@ const params = {
 
 const particlesCountList = [5000, 10000, 50000, 100000, 300000, 500000];
 
+const blueprintParticle = new PlaneBufferGeometry();
+blueprintParticle.scale(params.size, params.size, params.size);
+
 let initialized = false;
 
 /* FBO Particles coming soon */
 export default class Particles {
 	constructor(opt = {}) {
-		this.webgl = new Webgl();
-		this.scene = this.webgl.scene;
-		this.perf = this.webgl.perf;
+		const webgl = new Webgl();
+		const perf = webgl.perf;
+		this.scene = webgl.scene;
 
-		this.perf.on('changeQuality', () => {
-			this.count = particlesCountList[this.perf.quality];
+		perf.on('quality', () => {
+			this.count = particlesCountList[perf.quality];
 			this.updateAttributes();
 		});
 
 		this.object = {};
 
-		this.blueprintParticle = new PlaneBufferGeometry();
-		this.blueprintParticle.scale(params.size, params.size, params.size);
-
 		this.count = particlesCountList[5];
 
-		this.init();
-	}
-
-	init() {
 		this.setAttributes();
 		this.setGeometry();
 		this.setMaterial();
@@ -67,15 +63,16 @@ export default class Particles {
 		initialized = true;
 
 		/// #if DEBUG
-		this.debug();
+		const debug = webgl.debug;
+		this.debug(debug);
 		/// #endif
 	}
 
 	/// #if DEBUG
-	debug() {
+	debug(debug) {
 		const label = 'particles';
-		this.webgl.debug.setFolder(label, 'Particles');
-		const gui = this.webgl.debug.getFolder(label);
+		debug.setFolder(label, 'Particles');
+		const gui = debug.getFolder(label);
 
 		gui.addInput(params, 'color').on('change', (color) => {
 			tCol.set(color.value);
@@ -124,13 +121,12 @@ export default class Particles {
 	updateGeometry() {
 		this.object.geometry = new InstancedBufferGeometry();
 
-		this.object.geometry.index = this.blueprintParticle.index;
+		this.object.geometry.index = blueprintParticle.index;
 		this.object.geometry.attributes.position =
-			this.blueprintParticle.attributes.position;
+			blueprintParticle.attributes.position;
 		this.object.geometry.attributes.normal =
-			this.blueprintParticle.attributes.normal;
-		this.object.geometry.attributes.uv =
-			this.blueprintParticle.attributes.uv;
+			blueprintParticle.attributes.normal;
+		this.object.geometry.attributes.uv = blueprintParticle.attributes.uv;
 
 		this.object.geometry.setAttribute(
 			'aPosition',
@@ -151,13 +147,12 @@ export default class Particles {
 	setGeometry() {
 		this.object.geometry = new InstancedBufferGeometry();
 
-		this.object.geometry.index = this.blueprintParticle.index;
+		this.object.geometry.index = blueprintParticle.index;
 		this.object.geometry.attributes.position =
-			this.blueprintParticle.attributes.position;
+			blueprintParticle.attributes.position;
 		this.object.geometry.attributes.normal =
-			this.blueprintParticle.attributes.normal;
-		this.object.geometry.attributes.uv =
-			this.blueprintParticle.attributes.uv;
+			blueprintParticle.attributes.normal;
+		this.object.geometry.attributes.uv = blueprintParticle.attributes.uv;
 
 		this.object.geometry.setAttribute(
 			'aPosition',
@@ -203,11 +198,7 @@ export default class Particles {
 		this.object.mesh = new Mesh(this.object.geometry, this.object.material);
 		this.object.mesh.frustumCulled = false;
 
-		this.addObject(this.object.mesh);
-	}
-
-	addObject(object) {
-		this.scene.add(object);
+		this.scene.add(this.object.mesh);
 	}
 
 	resize() {

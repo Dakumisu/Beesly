@@ -26,9 +26,10 @@ const params = {
 
 export default class Renderer {
 	constructor(opt = {}) {
-		this.webgl = new Webgl();
-		this.scene = this.webgl.scene;
-		this.camera = this.webgl.camera.camera;
+		const webgl = new Webgl();
+		this.scene = webgl.scene;
+		this.camera = webgl.camera.camera;
+		this.canvas = webgl.canvas;
 
 		this.usePostprocess = false;
 
@@ -36,19 +37,20 @@ export default class Renderer {
 		this.setPostProcess();
 
 		/// #if DEBUG
-		this.debug();
+		const debug = webgl.debug;
+		this.debug(debug);
 		/// #endif
 	}
 
 	/// #if DEBUG
-	debug() {
-		this.stats = this.webgl.debug.stats;
+	debug(debug) {
+		this.stats = debug.stats;
 		this.context = this.renderer.getContext();
 		this.stats.setRenderPanel(this.context);
 
 		const label = 'renderer';
-		this.webgl.debug.setFolder(label, 'Renderer');
-		const gui = this.webgl.debug.getFolder(label);
+		debug.setFolder(label, 'Renderer');
+		const gui = debug.getFolder(label);
 
 		gui.addInput(params, 'clearColor', { label: 'background color' }).on(
 			'change',
@@ -61,7 +63,7 @@ export default class Renderer {
 
 	setRenderer() {
 		this.renderer = new WebGLRenderer({
-			canvas: this.webgl.canvas,
+			canvas: this.canvas,
 			alpha: false,
 			antialias: true,
 			powerPreference: 'high-performance',

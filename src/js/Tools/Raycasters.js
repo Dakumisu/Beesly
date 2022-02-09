@@ -10,10 +10,10 @@ export default class Raycasters extends EventEmitter {
 	constructor(opt = {}) {
 		super();
 
-		this.webgl = new Webgl();
-		this.scene = this.webgl.scene;
-		this.mouse = this.webgl.mouse.scene;
-		this.camera = this.webgl.camera.camera;
+		const webgl = new Webgl();
+		this.scene = webgl.scene;
+		this.mouse = webgl.mouse.scene;
+		this.camera = webgl.camera.camera;
 
 		this.initRaycaster();
 
@@ -24,22 +24,15 @@ export default class Raycasters extends EventEmitter {
 			this.dir = opt.dir; // raycatser's direction (dir: { x: 2, y: -4 })
 			this.initHelper();
 		}
-		this.debug();
+
+		const debug = webgl.debug;
+		this.debug(debug);
 		/// #endif
 	}
 
 	/// #if DEBUG
 	debug() {}
-	/// #endif
 
-	initRaycaster() {
-		this.raycaster = new Raycaster();
-		this.raycaster.params.Points.threshold = 0.01; // ray' size
-
-		initialized = true;
-	}
-
-	/// #if DEBUG
 	initHelper() {
 		this.rayOrigin = new Vector3(this.pos.x, this.pos.y, 0);
 		this.rayDirection = new Vector3(this.dir.x, this.dir.y, 0);
@@ -59,6 +52,13 @@ export default class Raycasters extends EventEmitter {
 		this.scene.add(this.arrowHelper);
 	}
 	/// #endif
+
+	initRaycaster() {
+		this.raycaster = new Raycaster();
+		this.raycaster.params.Points.threshold = 0.01; // ray' size
+
+		initialized = true;
+	}
 
 	update() {
 		if (!initialized) return;

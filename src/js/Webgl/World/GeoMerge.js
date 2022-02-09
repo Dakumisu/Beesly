@@ -20,26 +20,23 @@ let initialized = false;
 
 export default class GeoMerge {
 	constructor(opt = {}) {
-		this.webgl = new Webgl();
-		this.scene = this.webgl.scene;
+		const webgl = new Webgl();
+		this.scene = webgl.scene;
 
 		this.object = {};
 
-		this.init();
-	}
-
-	init() {
 		this.merge();
 
 		initialized = true;
 
 		/// #if DEBUG
-		this.debug();
+		const debug = webgl.debug;
+		this.debug(debug);
 		/// #endif
 	}
 
 	/// #if DEBUG
-	debug() {}
+	debug(debug) {}
 	/// #endif
 
 	merge() {

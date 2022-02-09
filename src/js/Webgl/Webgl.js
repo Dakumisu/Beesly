@@ -3,7 +3,7 @@ import { Scene as ThreeScene } from 'three';
 import Views from '@js/Views/Views';
 
 import Raf from '@js/Tools/Raf';
-import Sizes from '@js/Tools/Sizes';
+import Size from '@js/Tools/Size';
 import Keyboard from '@js/Tools/Keyboard';
 import Device from '@js/Tools/Device';
 import Mouse from '@js/Tools/Mouse';
@@ -51,21 +51,13 @@ export default class Webgl {
 		this.renderer = new Renderer();
 
 		this.device = new Device();
-		this.sizes = new Sizes();
+		this.size = new Size();
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
 		this.perf = new PerformanceMonitor();
 
 		this.world = new World();
 		this.raycaster = new Raycasters();
-
-		this.sizes.on('resize', () => {
-			this.resize();
-			this.device.checkDevice();
-			/// #if DEBUG
-			console.log('Resize spotted 📐');
-			/// #endif
-		});
 
 		this.keyboard.on('keyPressed', (e) => {
 			/// #if DEBUG
@@ -76,6 +68,18 @@ export default class Webgl {
 		this.raycaster.on('raycast', (e) => {
 			/// #if DEBUG
 			// console.log('Raycast something 🔍', e);
+			/// #endif
+		});
+
+		this.device.on('visibility', (visible) => {
+			!visible ? this.raf.pause() : this.raf.play();
+		});
+
+		this.size.on('resize', () => {
+			this.resize();
+			this.device.checkDevice();
+			/// #if DEBUG
+			console.log('Resize spotted 📐');
 			/// #endif
 		});
 
@@ -90,7 +94,7 @@ export default class Webgl {
 		if (!initialized) return;
 
 		if (this.camera) this.camera.render();
-		if (this.world) this.world.update(this.raf.elapsed);
+		if (this.world) this.world.update(this.raf.elapsed, this.raf.delta);
 		if (this.renderer) this.renderer.render();
 	}
 
@@ -98,7 +102,7 @@ export default class Webgl {
 		if (!initialized) return;
 
 		if (this.raycaster) this.raycaster.update();
-		if (this.perf) this.perf.update();
+		if (this.perf) this.perf.update(this.raf.delta);
 
 		/// #if DEBUG
 		this.debug.stats.update();
@@ -109,7 +113,6 @@ export default class Webgl {
 		if (this.camera) this.camera.resize();
 		if (this.world) this.world.resize();
 		if (this.renderer) this.renderer.resize();
-		if (this.perf) this.perf.reset(true, 300, true);
 	}
 
 	destroy() {}

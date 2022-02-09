@@ -11,6 +11,11 @@ export default class Device extends EventEmitter {
 
 		this.checkDevice();
 		this.checkBrowser();
+
+		document.addEventListener(
+			'visibilitychange',
+			this.checkVisibility.bind(this),
+		);
 	}
 
 	checkDevice() {
@@ -92,5 +97,7 @@ export default class Device extends EventEmitter {
 		Store.browser = browserName;
 	}
 
-	checkPower() {}
+	checkVisibility() {
+		this.trigger('visibility', [!document.hidden]);
+	}
 }

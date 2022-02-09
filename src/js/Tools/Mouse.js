@@ -9,8 +9,8 @@ const tVec2d = new Vector2();
 
 export default class Mouse {
 	constructor(opt = {}) {
-		this.webgl = new Webgl();
-		this.camera = this.webgl.camera.camera;
+		const webgl = new Webgl();
+		this.camera = webgl.camera.camera;
 
 		document.addEventListener(
 			'mousemove',
