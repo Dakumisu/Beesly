@@ -33,8 +33,8 @@ const params = {
 /// #if DEBUG
 const debug = {
 	instance: null,
-	label: 'particles'
-}
+	label: 'particles',
+};
 /// #endif
 
 const particlesCountList = [5000, 10000, 50000, 100000, 300000, 500000];
@@ -70,7 +70,7 @@ export default class Particles {
 		initialized = true;
 
 		/// #if DEBUG
-		const debug.instance = webgl.debug;
+		debug.instance = webgl.debug;
 		this.debug();
 		/// #endif
 	}

@@ -54,8 +54,8 @@ let bestQuality = 0;
 /// #if DEBUG
 const debug = {
 	instance: null,
-	label: 'stats'
-}
+	label: 'stats',
+};
 /// #endif
 
 export default class PerformanceMoniteur extends EventEmitter {
@@ -89,7 +89,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 		// }, 2000);
 
 		/// #if DEBUG
-		const debug.instance = webgl.debug;
+		debug.instance = webgl.debug;
 		this.debug();
 		/// #endif
 	}

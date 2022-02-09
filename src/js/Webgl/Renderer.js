@@ -27,8 +27,8 @@ const params = {
 /// #if DEBUG
 const debug = {
 	instance: null,
-	label: 'renderer'
-}
+	label: 'renderer',
+};
 /// #endif
 
 export default class Renderer {
@@ -44,14 +44,14 @@ export default class Renderer {
 		this.setPostProcess();
 
 		/// #if DEBUG
-		const debug.instance = webgl.debug;
+		debug.instance = webgl.debug;
 		this.debug();
 		/// #endif
 	}
 
 	/// #if DEBUG
 	debug() {
-		this.stats = debug.stats;
+		this.stats = debug.instance.stats;
 		this.context = this.renderer.getContext();
 		this.stats.setRenderPanel(this.context);
 
