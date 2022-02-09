@@ -51,6 +51,13 @@ let needReset = false;
 
 let bestQuality = 0;
 
+/// #if DEBUG
+const debug = {
+	instance: null,
+	label: 'stats'
+}
+/// #endif
+
 export default class PerformanceMoniteur extends EventEmitter {
 	constructor(opt = {}) {
 		super();
@@ -82,16 +89,15 @@ export default class PerformanceMoniteur extends EventEmitter {
 		// }, 2000);
 
 		/// #if DEBUG
-		const debug = webgl.debug;
-		this.debug(debug);
+		const debug.instance = webgl.debug;
+		this.debug();
 		/// #endif
 	}
 
 	/// #if DEBUG
-	debug(debug) {
-		const label = 'stats';
-		debug.setFolder(label, 'Stats');
-		const gui = debug.getFolder(label);
+	debug() {
+		debug.instance.setFolder(debug.label, 'Stats');
+		const gui = debug.instance.getFolder(debug.label);
 
 		gui.addMonitor(this, 'fps', {
 			lineCount: 1,

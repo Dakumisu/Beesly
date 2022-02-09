@@ -30,6 +30,13 @@ const params = {
 	size: 0.01,
 };
 
+/// #if DEBUG
+const debug = {
+	instance: null,
+	label: 'particles'
+}
+/// #endif
+
 const particlesCountList = [5000, 10000, 50000, 100000, 300000, 500000];
 
 const blueprintParticle = new PlaneBufferGeometry();
@@ -63,16 +70,15 @@ export default class Particles {
 		initialized = true;
 
 		/// #if DEBUG
-		const debug = webgl.debug;
-		this.debug(debug);
+		const debug.instance = webgl.debug;
+		this.debug();
 		/// #endif
 	}
 
 	/// #if DEBUG
-	debug(debug) {
-		const label = 'particles';
-		debug.setFolder(label, 'Particles');
-		const gui = debug.getFolder(label);
+	debug() {
+		debug.instance.setFolder(debug.label, 'Particles');
+		const gui = debug.instance.getFolder(debug.label);
 
 		gui.addInput(params, 'color').on('change', (color) => {
 			tCol.set(color.value);

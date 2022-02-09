@@ -24,6 +24,13 @@ const params = {
 	clearColor: '#222222',
 };
 
+/// #if DEBUG
+const debug = {
+	instance: null,
+	label: 'renderer'
+}
+/// #endif
+
 export default class Renderer {
 	constructor(opt = {}) {
 		const webgl = new Webgl();
@@ -37,20 +44,19 @@ export default class Renderer {
 		this.setPostProcess();
 
 		/// #if DEBUG
-		const debug = webgl.debug;
-		this.debug(debug);
+		const debug.instance = webgl.debug;
+		this.debug();
 		/// #endif
 	}
 
 	/// #if DEBUG
-	debug(debug) {
+	debug() {
 		this.stats = debug.stats;
 		this.context = this.renderer.getContext();
 		this.stats.setRenderPanel(this.context);
 
-		const label = 'renderer';
-		debug.setFolder(label, 'Renderer');
-		const gui = debug.getFolder(label);
+		debug.instance.setFolder(debug.label, 'Renderer');
+		const gui = debug.instance.getFolder(debug.label);
 
 		gui.addInput(params, 'clearColor', { label: 'background color' }).on(
 			'change',
