@@ -17,7 +17,7 @@ import {
 
 import Webgl from '@js/Webgl/Webgl';
 
-import { Store } from '@js/Tools/Store';
+import { store } from '@js/Tools/Store';
 
 import vertex from '@glsl/particles/vertex.glsl';
 import fragment from '@glsl/particles/fragment.glsl';
@@ -184,9 +184,9 @@ export default class Particles {
 				uAlpha: { value: 1 },
 				uResolution: {
 					value: tVec3.set(
-						Store.resolution.width,
-						Store.resolution.height,
-						Store.resolution.dpr,
+						store.resolution.width,
+						store.resolution.height,
+						store.resolution.dpr,
 					),
 				},
 			},
@@ -209,9 +209,9 @@ export default class Particles {
 
 	resize() {
 		this.object.material.uniforms.uResolution.value = tVec3.set(
-			Store.resolution.width,
-			Store.resolution.height,
-			Store.resolution.dpr,
+			store.resolution.width,
+			store.resolution.height,
+			store.resolution.dpr,
 		);
 	}
 

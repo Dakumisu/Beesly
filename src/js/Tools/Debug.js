@@ -45,7 +45,7 @@ export default class Debug {
 				`Tab '${tab}' doesn't exist ❗️ \n Setting folder in tab 'General' per default`,
 			);
 
-		let index = check == -1 ? 0 : tabList.indexOf(tab);
+		const index = check == -1 ? 0 : check;
 		return index;
 	}
 }

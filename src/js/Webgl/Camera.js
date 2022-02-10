@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import Webgl from './Webgl';
 
-import { Store } from '@js/Tools/Store';
+import { store } from '@js/Tools/Store';
 import { imageAspect } from '@utils/maths';
 
 export default class Camera {
@@ -27,7 +27,7 @@ export default class Camera {
 	setPerspectiveCamera() {
 		this.camera = new PerspectiveCamera(
 			75,
-			Store.resolution.width / Store.resolution.height,
+			store.resolution.width / store.resolution.height,
 			0.1,
 			1000,
 		);
@@ -54,11 +54,11 @@ export default class Camera {
 		const aspect = 1 / 1; // Aspect of the displayed image
 		const imgAspect = imageAspect(
 			aspect,
-			Store.resolution.width,
-			Store.resolution.height,
+			store.resolution.width,
+			store.resolution.height,
 		);
-		Store.aspect.a1 = imgAspect.a1;
-		Store.aspect.a2 = imgAspect.a2;
+		store.aspect.a1 = imgAspect.a1;
+		store.aspect.a2 = imgAspect.a2;
 
 		this.scene.add(this.camera);
 	}
@@ -87,7 +87,7 @@ export default class Camera {
 	resize() {
 		if (this.type == 'Perspective') {
 			this.camera.aspect =
-				Store.resolution.width / Store.resolution.height;
+				store.resolution.width / store.resolution.height;
 			this.camera.updateProjectionMatrix();
 		}
 
@@ -95,15 +95,15 @@ export default class Camera {
 		const aspect = 1 / 1; // Aspect of the displayed image
 		const imgAspect = imageAspect(
 			aspect,
-			Store.resolution.width,
-			Store.resolution.height,
+			store.resolution.width,
+			store.resolution.height,
 		);
-		Store.aspect.a1 = imgAspect.a1;
-		Store.aspect.a2 = imgAspect.a2;
+		store.aspect.a1 = imgAspect.a1;
+		store.aspect.a2 = imgAspect.a2;
 
 		/// #if DEBUG
 		this.debugCam.camera.aspect =
-			Store.resolution.width / Store.resolution.height;
+			store.resolution.width / store.resolution.height;
 		this.debugCam.camera.updateProjectionMatrix();
 		/// #endif
 	}

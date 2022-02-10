@@ -10,7 +10,7 @@ import {
 
 import Webgl from '@js/Webgl/Webgl';
 
-import { Store } from '@js/Tools/Store';
+import { store } from '@js/Tools/Store';
 
 import vertex from '@glsl/blueprint/vertex.glsl';
 import fragment from '@glsl/blueprint/fragment.glsl';
@@ -61,13 +61,13 @@ export default class Blueprint {
 				uAlpha: { value: 1 },
 				uResolution: {
 					value: tVec3.set(
-						Store.resolution.width,
-						Store.resolution.height,
-						Store.resolution.dpr,
+						store.resolution.width,
+						store.resolution.height,
+						store.resolution.dpr,
 					),
 				},
 				uAspect: {
-					value: tVec2.set(Store.aspect.a1, Store.aspect.a2),
+					value: tVec2.set(store.aspect.a1, store.aspect.a2),
 				},
 			},
 			side: DoubleSide,
@@ -83,9 +83,9 @@ export default class Blueprint {
 
 	resize() {
 		this.object.material.uniforms.uResolution.value = tVec3.set(
-			Store.resolution.width,
-			Store.resolution.height,
-			Store.resolution.dpr,
+			store.resolution.width,
+			store.resolution.height,
+			store.resolution.dpr,
 		);
 	}
 

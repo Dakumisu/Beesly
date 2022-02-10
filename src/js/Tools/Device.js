@@ -1,6 +1,6 @@
 import EventEmitter from './EventEmitter';
 
-import { Store } from './Store';
+import { store } from './Store';
 
 const html = document.querySelector('html');
 const deviceList = ['Desktop', 'Mobile'];
@@ -35,7 +35,7 @@ export default class Device extends EventEmitter {
 			else html.classList.remove(e);
 		});
 
-		Store.device = device;
+		store.device = device;
 	}
 
 	checkBrowser() {
@@ -94,7 +94,7 @@ export default class Device extends EventEmitter {
 		}
 
 		html.classList.add(browserName, browserMajorVersion);
-		Store.browser = browserName;
+		store.browser = browserName;
 	}
 
 	checkVisibility() {

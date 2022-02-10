@@ -18,7 +18,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 import Webgl from './Webgl';
 
-import { Store } from '@js/Tools/Store';
+import { store } from '@js/Tools/Store';
 
 const params = {
 	clearColor: '#222222',
@@ -75,8 +75,8 @@ export default class Renderer {
 			powerPreference: 'high-performance',
 		});
 
-		this.renderer.setSize(Store.resolution.width, Store.resolution.height);
-		this.renderer.setPixelRatio(Math.min(Store.resolution.dpr, 2));
+		this.renderer.setSize(store.resolution.width, store.resolution.height);
+		this.renderer.setPixelRatio(Math.min(store.resolution.dpr, 2));
 		this.renderer.setClearColor(params.clearColor, 1);
 
 		this.renderer.physicallyCorrectLights = true;
@@ -94,13 +94,13 @@ export default class Renderer {
 		this.postProcess.renderPass = new RenderPass(this.scene, this.camera);
 
 		const RenderTargetClass =
-			Store.resolution.dpr >= 2
+			store.resolution.dpr >= 2
 				? WebGLRenderTarget
 				: WebGLMultisampleRenderTarget;
 
 		this.renderTarget = new RenderTargetClass(
-			Store.resolution.width,
-			Store.resolution.height,
+			store.resolution.width,
+			store.resolution.height,
 			{
 				generateMipmaps: false,
 				minFilter: LinearFilter,
@@ -114,26 +114,26 @@ export default class Renderer {
 			this.renderTarget,
 		);
 		this.postProcess.composer.setSize(
-			Store.resolution.width,
-			Store.resolution.height,
+			store.resolution.width,
+			store.resolution.height,
 		);
 		this.postProcess.composer.setPixelRatio(
-			Math.min(Store.resolution.dpr, 2),
+			Math.min(store.resolution.dpr, 2),
 		);
 
 		this.postProcess.composer.addPass(this.postProcess.renderPass);
 	}
 
 	resize() {
-		this.renderer.setSize(Store.resolution.width, Store.resolution.height);
-		this.renderer.setPixelRatio(Math.min(Store.resolution.dpr, 2));
+		this.renderer.setSize(store.resolution.width, store.resolution.height);
+		this.renderer.setPixelRatio(Math.min(store.resolution.dpr, 2));
 
 		this.postProcess.composer.setSize(
-			Store.resolution.width,
-			Store.resolution.height,
+			store.resolution.width,
+			store.resolution.height,
 		);
 		this.postProcess.composer.setPixelRatio(
-			Math.min(Store.resolution.dpr, 2),
+			Math.min(store.resolution.dpr, 2),
 		);
 	}
 

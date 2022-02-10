@@ -8,7 +8,7 @@ import {
 	WebGLRenderTarget,
 } from 'three';
 
-import { Store } from '@js/Tools/Store';
+import { store } from '@js/Tools/Store';
 
 export default class FBO {
 	constructor(opt = {}) {
@@ -24,7 +24,7 @@ export default class FBO {
 	setCamera() {
 		this.camera = new PerspectiveCamera(
 			30,
-			Store.resolution.width / Store.resolution.height,
+			store.resolution.width / store.resolution.height,
 			0.1,
 			1000,
 		);
@@ -34,13 +34,13 @@ export default class FBO {
 
 	setRenderTarget() {
 		const RenderTargetClass =
-			Store.resolution.dpr >= 2
+			store.resolution.dpr >= 2
 				? WebGLRenderTarget
 				: WebGLMultisampleRenderTarget;
 
 		this.renderTarget = new RenderTargetClass(
-			Store.resolution.width,
-			Store.resolution.height,
+			store.resolution.width,
+			store.resolution.height,
 			{
 				generateMipmaps: false,
 				minFilter: LinearFilter,
@@ -53,10 +53,10 @@ export default class FBO {
 
 	resize() {
 		this.renderTarget.setSize(
-			Store.resolution.width,
-			Store.resolution.height,
+			store.resolution.width,
+			store.resolution.height,
 		);
-		this.renderTarget.setPixelRatio(Math.min(Store.resolution.dpr, 2));
+		this.renderTarget.setPixelRatio(Math.min(store.resolution.dpr, 2));
 	}
 
 	preRender(renderer) {

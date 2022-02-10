@@ -1,10 +1,11 @@
 import { getGPUTier } from 'detect-gpu';
 
 import Webgl from '@js/Webgl/Webgl';
+import EventEmitter from './EventEmitter';
+
 import { clamp, median } from '@utils/maths';
 
 import testPerf from '@workers/wPerfomance?worker';
-import EventEmitter from './EventEmitter';
 
 const qualityList = [
 	'POTATO', // VERY LOW
@@ -19,10 +20,10 @@ const rangeList = [3500, 2500, 1600, 1300, 1100, 1000];
 // ~1300 mcbook i9
 // 1000 - 1070 M1
 
-let bootFrames = 60;
+let bootFrames = 10;
 
 const maxPingPong = 2;
-const restartDelay = 300;
+const restartDelay = 2000;
 let nextDelay = restartDelay;
 let delay = 0;
 
@@ -35,9 +36,9 @@ const resetThreshold = 50;
 const defaultQuality = localStorage.getItem('quality') || 4;
 
 let fpsCount = 0;
-let timer = 0;
 let fps = 0;
 let averageFps = 0;
+let timer = 0;
 
 const fpsHistory = new Float64Array(secondsThreshold);
 let fpsHistoryIndex = 0;
@@ -68,7 +69,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 		this.quality = defaultQuality;
 		this.qualityStr = qualityList[this.quality];
-		this.fps = 0;
+		this.fps = 60;
 
 		this.getGPU();
 

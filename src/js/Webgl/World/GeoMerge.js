@@ -12,7 +12,7 @@ import Webgl from '@js/Webgl/Webgl';
 
 import mergeGeometry from '@utils/webgl/mergeBufferGeometries';
 
-import { Store } from '@js/Tools/Store';
+import { store } from '@js/Tools/Store';
 
 import model from '/assets/model/model.glb';
 

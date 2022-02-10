@@ -2,7 +2,7 @@ import Webgl from '@js/Webgl/Webgl';
 
 import loadModel from '@utils/loader/loadGLTF';
 
-import { Store } from '@js/Tools/Store';
+import { store } from '@js/Tools/Store';
 
 import model from '/assets/model/model.glb';
 

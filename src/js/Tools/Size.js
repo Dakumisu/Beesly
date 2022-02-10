@@ -1,6 +1,6 @@
 import EventEmitter from '@js/Tools/EventEmitter';
 
-import { Store } from '@js/Tools/Store';
+import { store } from '@js/Tools/Store';
 
 export default class Size extends EventEmitter {
 	constructor() {
@@ -11,9 +11,9 @@ export default class Size extends EventEmitter {
 	}
 
 	resize() {
-		Store.resolution.width = window.innerWidth;
-		Store.resolution.height = window.innerHeight;
-		Store.resolution.dpr = window.devicePixelRatio;
+		store.resolution.width = window.innerWidth;
+		store.resolution.height = window.innerHeight;
+		store.resolution.dpr = window.devicePixelRatio;
 
 		this.trigger('resize');
 	}
