@@ -12,7 +12,11 @@ export default class Debug {
 		this.debugFolders = {};
 		this.tabs = {};
 
-		this.setTab(tabList);
+		this.setTab();
+
+		setTimeout(() => {
+			this.setTab('Advanced');
+		}, 2000);
 	}
 
 	setFolder(folder, label, tabLabel = 'General', expanded = true) {
@@ -27,9 +31,11 @@ export default class Debug {
 		return this.debugFolders[folder];
 	}
 
-	setTab(tabs) {
+	setTab(tab) {
+		// let tabs = tabList;
+		if (tab) tabList.push(tab);
 		const pages = [];
-		tabs.forEach((tab) => {
+		tabList.forEach((tab) => {
 			pages.push({ title: tab });
 		});
 

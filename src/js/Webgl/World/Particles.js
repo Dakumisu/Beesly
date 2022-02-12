@@ -52,6 +52,7 @@ export default class Particles {
 		this.scene = webgl.scene;
 
 		perf.on('quality', () => {
+			console.log('quality: ' + perf.quality);
 			this.count = particlesCountList[perf.quality];
 			this.updateAttributes();
 		});

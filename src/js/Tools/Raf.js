@@ -27,7 +27,7 @@ export default class Raf extends EventEmitter {
 		const current = Date.now();
 
 		this.delta = current - this.current;
-		if (this.delta < 16) this.delta = 16;
+		// if (this.delta < 16) this.delta = 16;
 		// if (this.delta > 23) this.delta = 23;
 
 		this.elapsed += this.playing ? this.delta : 0;

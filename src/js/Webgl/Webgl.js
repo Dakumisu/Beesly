@@ -88,6 +88,7 @@ export default class Webgl {
 			this.update();
 		});
 
+		this.perf.everythingLoaded();
 		initialized = true;
 	}
 	render() {

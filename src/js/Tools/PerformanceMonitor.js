@@ -3,6 +3,7 @@ import { getGPUTier } from 'detect-gpu';
 import Webgl from '@js/Webgl/Webgl';
 import EventEmitter from './EventEmitter';
 
+import { store } from './Store';
 import { clamp, median } from '@utils/maths';
 
 import testPerf from '@workers/wPerfomance?worker';
@@ -17,45 +18,43 @@ const qualityList = [
 ];
 const rangeList = [3500, 2500, 1600, 1300, 1100, 1000];
 
-// ~1300 mcbook i9
-// 1000 - 1070 M1
-
 let bootFrames = 10;
 
-const maxPingPong = 2;
-const restartDelay = 2000;
-let nextDelay = restartDelay;
+const MAX_PING_PONG = 2;
+const RESTART_DELAY = 300;
+let nextDelay = RESTART_DELAY;
 let delay = 0;
 
-const secondsThreshold = 2;
-const highThreshold = 58;
-const lowThreshold = 52;
-const criticalThreshold = 30;
-const resetThreshold = 50;
+const SECONDS_THRESHOLD = 2;
+const HIGH_THRESHOLD = 58;
+const LOW_THRESHOLD = 54;
+const CRITICAL_THRESHOLD = 30;
+const RESET_THRESHOLD = 50;
 
-const defaultQuality = localStorage.getItem('quality') || 4;
+const DEFAULT_QUALITY = localStorage.getItem('quality') || 4;
 
 let fpsCount = 0;
 let fps = 0;
 let averageFps = 0;
 let timer = 0;
 
-const fpsHistory = new Float64Array(secondsThreshold);
+const fpsHistory = new Float64Array(SECONDS_THRESHOLD);
 let fpsHistoryIndex = 0;
 
-let prevQuality = defaultQuality;
+let prevQuality = -1;
 
 let pingPong = 0;
 
 let needHardReset = false;
 let needReset = false;
 
-let bestQuality = 0;
+let initialized = false;
 
 /// #if DEBUG
 const debug = {
 	instance: null,
 	label: 'stats',
+	title: 'Stats',
 };
 /// #endif
 
@@ -67,27 +66,25 @@ export default class PerformanceMoniteur extends EventEmitter {
 		const device = webgl.device;
 		const size = webgl.size;
 
-		this.quality = defaultQuality;
-		this.qualityStr = qualityList[this.quality];
-		this.fps = 60;
+		this.quality = DEFAULT_QUALITY;
 
-		this.getGPU();
+		this.qualityStr = qualityList[this.quality];
+		this.fps = 0;
+
+		if (!localStorage.getItem('quality')) this.getGPU();
+
+		// store.browser == 'Safari' ? this.initWorker() : this.getGPU();
 
 		device.on('visibility', (visible) => {
-			if (visible && averageFps <= resetThreshold)
-				this.reset(true, restartDelay, true);
+			if (initialized && visible && averageFps <= RESET_THRESHOLD)
+				this.reset(true, RESTART_DELAY, true);
 		});
 
 		size.on('resize', () => {
-			if (averageFps <= resetThreshold) {
-				this.reset(true, resetThreshold, true);
-				console.log('resize');
+			if (initialized && averageFps <= RESET_THRESHOLD) {
+				this.reset(true, RESET_THRESHOLD, true);
 			}
 		});
-		// this.initWorker();
-		// setInterval(() => {
-		// 	this.initWorker();
-		// }, 2000);
 
 		/// #if DEBUG
 		debug.instance = webgl.debug;
@@ -97,7 +94,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 	/// #if DEBUG
 	debug() {
-		debug.instance.setFolder(debug.label, 'Stats');
+		debug.instance.setFolder(debug.label, debug.title);
 		const gui = debug.instance.getFolder(debug.label);
 
 		gui.addMonitor(this, 'fps', {
@@ -111,11 +108,13 @@ export default class PerformanceMoniteur extends EventEmitter {
 				lineCount: 1,
 			},
 		);
-
-		// const preset = gui.exportPreset();
-		// console.log(preset);
 	}
 	/// #endif
+
+	everythingLoaded() {
+		initialized = true;
+		this.trigger('quality');
+	}
 
 	initWorker() {
 		const worker = testPerf();
@@ -173,50 +172,49 @@ export default class PerformanceMoniteur extends EventEmitter {
 		fpsCount = 0;
 		timer = timer % 1000;
 
-		if (pingPong < maxPingPong) {
-			if (fpsHistoryIndex > fpsHistory.length) this.updateQuality();
-		} else if (fps <= resetThreshold) this.reset(true, restartDelay, true);
+		console.log(fps);
+
+		if (!localStorage.getItem('quality')) {
+			if (pingPong < MAX_PING_PONG) {
+				if (fpsHistoryIndex > fpsHistory.length) this.updateQuality();
+			}
+		}
+
+		if (localStorage.getItem('quality') && fps <= RESET_THRESHOLD)
+			this.reset(true, RESTART_DELAY, true);
 	}
 
 	updateQuality() {
-		let test = 0;
-		// if (fpsHistoryIndex > fpsHistory.length) {
 		averageFps = median(fpsHistory);
-		test = averageFps;
-		// }
-		// else {
-		// 	test = fps;
-		// }
 
-		// test = fps;
 		let newQuality = this.quality;
 
-		if (test <= criticalThreshold) {
+		if (averageFps <= CRITICAL_THRESHOLD) {
 			newQuality -= 2;
-		} else if (test < lowThreshold) {
+		} else if (averageFps < LOW_THRESHOLD) {
 			newQuality -= 1;
-		} else if (test > highThreshold) {
+		} else if (averageFps > HIGH_THRESHOLD) {
 			newQuality += 1;
 		}
 
-		newQuality = clamp(newQuality, 0, 5);
+		newQuality = clamp(newQuality, 0, qualityList.length - 1);
 
 		if (newQuality === this.quality) {
 			pingPong = Math.max(0, pingPong - 0.2);
 		} else if (newQuality !== this.quality && newQuality !== prevQuality) {
 			pingPong = 0;
 		} else if (newQuality === prevQuality) {
-			pingPong = pingPong + 1;
+			pingPong++;
 		}
 
-		if (pingPong >= maxPingPong) {
+		if (pingPong >= MAX_PING_PONG) {
 			newQuality = Math.min(prevQuality, this.quality);
+			localStorage.setItem('quality', newQuality);
 		}
 
 		prevQuality = this.quality;
 		this.quality = newQuality;
 		this.qualityStr = qualityList[this.quality];
-		localStorage.setItem('quality', this.quality);
 
 		if (prevQuality != this.quality) this.trigger('quality');
 
@@ -224,68 +222,43 @@ export default class PerformanceMoniteur extends EventEmitter {
 	}
 
 	reset(hardReset, delay, resetPingPong) {
+		console.log('reset');
 		needReset = true;
 
+		localStorage.removeItem('quality');
 		needHardReset = needHardReset || hardReset;
 		if (resetPingPong) pingPong = 0;
 		if (delay) nextDelay = delay;
 	}
 
 	hardReset() {
+		console.log('hard reset');
+
 		timer = 0;
 		fpsCount = 0;
 		if (needHardReset) fpsHistoryIndex = 0;
-		delay = nextDelay || restartDelay;
+		delay = nextDelay || RESTART_DELAY;
 		needReset = needHardReset = false;
-		nextDelay = restartDelay;
+		nextDelay = RESTART_DELAY;
 	}
 
 	update(dt) {
+		this.fps = 1000 / dt;
+
+		if (!initialized) return;
 		if (bootFrames > 0) return bootFrames--;
 
-		// if (pingPong >= maxPingPong) return;
 		if (needHardReset) this.hardReset();
 		if (delay > 0) return (delay -= dt);
 
-		console.log(
-			'fps:' + fps,
-			'prev qualité:' + prevQuality,
-			'new qualité:' + this.quality,
-		);
-
-		this.fps = 1000 / dt;
+		// console.log(
+		// 	'fps:' + fps,
+		// 	'prev qualité:' + prevQuality,
+		// 	'new qualité:' + this.quality,
+		// );
 
 		timer += dt;
 		fpsCount++;
 		if (timer >= 1000) this.updateFps();
 	}
 }
-
-/*
-- j'ai 6 qualité possibles : [ VERY LOW, LOW, MEDIUM, HIGH, VERY HIGH, ULTRA ]
-
-- à l'init de l'app, je bench rapidement en fonction des vendors gpu pour estimer la qualité utilisable pour le device, entre low et ultra (very low ne peut etre atteint que via les calculs au runtime)
-
-- à chaque frame, j'incrémente un compteur de frame passée
-
-- au bout de 1 sec j'obtient mon nombre de frame par seconde réelle (et non pas estimée depuis un delta time - ils sont peu précis sur safari / firefox)
-
-- je met cette state de fps dans un array
-
-- au bout de 3 secondes, je prend la moyenne des 3 mesures pour obtenir la moyenne de framerate sur les 3 derniere secondes
-    - si je suis au dessus de 58fps, j'incrémente la qualité
-    - si je suis en dessous de 52fps, je decrémente la qualité
-    - si je suis en dessous de 30 fps, je decrémente la qualité de 2 (seuil critique)
-
-- j'ai aussi un compteur de "ping pong", en gros si je commence à osciller toujours entre un qualité N et une qualité N+1
-    - au bout de 3 oscillations sucessives entre les deux qualité, je vérouille sur la qualité N (la plus basse)
-    - le monitoring de qualité ne reprendra qu'au prochain reset
-
-- j'attend les 10 premieres frame avant de prendre des mesures, le temps que le renderer se stabilise
-
-- le resize genere souvent des chuttes de fps, donc je "reset" les mesures à chaque resize pour éviter de les prendres en comptes
-
-- je reset aussi les mesures à chaque changement de visilité de la fenetre (car le raf s'arrete quand la fenetre est cachée)
-
-- la fonction de reset est accessible afin de la lancer manuellement si besoin (par exemple, je la lance quand le controlleur audio se lance - ça déclenche souvent un freeze sur safari)
-*/
