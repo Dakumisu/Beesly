@@ -4,4 +4,10 @@ export default {
 		file: 'app.js',
 		format: 'cjs',
 	},
+	treeshake: {
+		moduleSideEffects: false,
+		tryCatchDeoptimization: true,
+		propertyReadSideEffects: true,
+		unknownGlobalSideEffects: true,
+	},
 };

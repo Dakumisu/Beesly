@@ -23,6 +23,11 @@ export default ({ mode }) => {
 			https: false,
 			open: false,
 			host: true,
+			hmr: { port: 8080 },
+		},
+
+		json: {
+			stringify: true,
 		},
 
 		plugins: [glsl(), ifdefRollupPlugin(define)],
@@ -56,6 +61,15 @@ export default ({ mode }) => {
 					replacement: '/*',
 				},
 			],
+			extensions: ['.cjs', '.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
+		},
+
+		preprocessorOptions: {
+			scss: {
+				sassOptions: {
+					outputStyle: 'compressed',
+				},
+			},
 		},
 	});
 };

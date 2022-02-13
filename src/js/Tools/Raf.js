@@ -1,16 +1,21 @@
 import EventEmitter from '@js/Tools/EventEmitter.js';
 
+const start = Date.now();
+
 export default class Raf extends EventEmitter {
 	constructor() {
 		super();
 
-		this.start = Date.now();
-		this.current = this.start;
+		this.current = start;
 		this.elapsed = 0;
 		this.delta = 16;
 		this.playing = true;
 
 		this.raf();
+	}
+
+	setFpsCap(limit) {
+		this.targetFps = limit;
 	}
 
 	play() {
@@ -31,7 +36,6 @@ export default class Raf extends EventEmitter {
 		this.elapsed += this.playing ? this.delta : 0;
 		this.current = current;
 
-		// if (this.delta < 16) this.delta = 16;
 		if (this.delta > 60) this.delta = 60;
 
 		if (this.playing) {

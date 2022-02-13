@@ -10,8 +10,6 @@ import EventEmitter from './EventEmitter';
 import { store } from './Store';
 import { clamp, median } from '@utils/maths';
 
-import testPerf from '@workers/wPerfomance?worker';
-
 const qualityList = [
 	'POTATO', // VERY LOW
 	'TOASTER', // LOW
@@ -20,12 +18,11 @@ const qualityList = [
 	'VERY HIGH',
 	'G4M3RS', // ULTRA
 ];
-const rangeList = [3500, 2500, 1600, 1300, 1100, 1000];
 
-// let bootFrames = 180;
-let bootFrames = 10;
+let bootFrames = 120;
 
 const MAX_PING_PONG = 2;
+const MAX_PREVAULT_PING_PONG = MAX_PING_PONG;
 const RESTART_DELAY = 300;
 let nextDelay = RESTART_DELAY;
 let delay = 0;
@@ -39,15 +36,14 @@ const RESET_THRESHOLD = 50;
 const DEFAULT_QUALITY = JSON.parse(localStorage.getItem('quality')) || 3;
 
 let fpsCount = 0;
-let fps = 0;
 let averageFps = 0;
 let timer = 0;
 
 const fpsHistory = new Float64Array(SECONDS_THRESHOLD);
 let fpsHistoryIndex = 0;
 
-let prevQuality = -1;
-let bestQuality = -1;
+let prevQuality = null;
+let bestQuality = null;
 
 let pingPong = 0;
 let prevaultInfinitePingPong = 0;
@@ -67,7 +63,7 @@ const debug = {
 /// #endif
 
 export default class PerformanceMoniteur extends EventEmitter {
-	constructor(opt = {}) {
+	constructor() {
 		super();
 
 		const webgl = new Webgl();
@@ -145,33 +141,6 @@ export default class PerformanceMoniteur extends EventEmitter {
 		/// #endif
 	}
 
-	initWorker() {
-		const worker = testPerf();
-
-		worker.postMessage({
-			start: true,
-		});
-
-		worker.addEventListener('message', (response) => {
-			let gapTime = response.data;
-			this.getQuality(gapTime);
-
-			worker.terminate();
-		});
-	}
-
-	getQuality(data) {
-		let result = 0;
-		rangeList.forEach((range, i) => {
-			if (data <= range) result = i;
-		});
-
-		this.quality = result;
-		this.qualityStr = qualityList[this.quality];
-
-		console.log(data, this.quality);
-	}
-
 	async getGPU() {
 		const gpuTier = await getGPUTier();
 
@@ -181,23 +150,12 @@ export default class PerformanceMoniteur extends EventEmitter {
 		this.qualityStr = qualityList[this.quality];
 		localStorage.setItem('quality', this.quality);
 
-		console.log(this.quality, gpuTier);
-
 		this.trigger('quality', [this.quality]);
-
-		// Example output:
-		// {
-		//   "tier": 1,
-		//   "isMobile": false,
-		//   "type": "BENCHMARK",
-		//   "fps": 21,
-		//   "gpu": "intel iris graphics 6100"
-		// }
 	}
 
 	updateFps() {
 		fpsHistory[fpsHistoryIndex++] = fpsCount;
-		fps = fpsCount;
+		this.fps = fpsCount;
 		fpsHistoryIndex = fpsHistoryIndex % 4;
 
 		averageFps = median(fpsHistory);
@@ -208,7 +166,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 		if (!localStorage.getItem('quality')) {
 			if (
 				pingPong < MAX_PING_PONG &&
-				prevaultInfinitePingPong < MAX_PING_PONG
+				prevaultInfinitePingPong < MAX_PREVAULT_PING_PONG
 			) {
 				if (fpsHistoryIndex > fpsHistory.length) this.updateQuality();
 			}
@@ -216,8 +174,8 @@ export default class PerformanceMoniteur extends EventEmitter {
 			fpsHistoryIndex > fpsHistory.length &&
 			averageFps <= RESET_THRESHOLD
 		) {
+			this.updateQuality();
 			this.reset(true, RESTART_DELAY, true);
-			console.log('RESET', averageFps, RESET_THRESHOLD);
 		}
 	}
 
@@ -236,17 +194,18 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 		newQuality = clamp(newQuality, 0, qualityList.length - 1);
 
-		// console.log(`
+		// 		console.log(`
 		// pingpong : ${pingPong}
 		// count pingpong : ${prevaultInfinitePingPong}
 
 		// prev : ${prevQuality}
 		// quality : ${this.quality}
 		// new : ${newQuality}
-		// `);
+		// 		`);
 
 		if (newQuality === this.quality) {
 			pingPong = Math.max(0, pingPong - 0.2);
+			prevaultInfinitePingPong++;
 			bestQuality = this.quality;
 		} else if (newQuality !== this.quality && newQuality !== prevQuality) {
 			pingPong = 0;
@@ -263,7 +222,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 		prevQuality = this.quality;
 
-		if (prevaultInfinitePingPong >= MAX_PING_PONG) {
+		if (prevaultInfinitePingPong >= MAX_PREVAULT_PING_PONG) {
 			this.quality = bestQuality;
 			localStorage.setItem('quality', this.quality);
 		} else {
@@ -299,8 +258,6 @@ export default class PerformanceMoniteur extends EventEmitter {
 	}
 
 	update(dt) {
-		this.fps = 1000 / dt;
-
 		if (!initialized) return;
 		if (bootFrames > 0) return bootFrames--;
 

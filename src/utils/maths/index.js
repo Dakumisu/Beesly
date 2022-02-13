@@ -13,3 +13,4 @@ export { createPrng } from './prng';
 export { randomDirection } from './randomDirection';
 export { imageAspect } from './imageAspect';
 export { randomColor } from './randomColor';
+export { fibonacci } from './fibonacci';

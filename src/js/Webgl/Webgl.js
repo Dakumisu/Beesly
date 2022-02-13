@@ -59,9 +59,9 @@ export default class Webgl {
 		this.world = new World();
 		this.raycaster = new Raycasters();
 
-		this.keyboard.on('keyPressed', (e) => {
+		this.keyboard.on('key', (e) => {
 			/// #if DEBUG
-			console.log(`Key ${e.toUpperCase()} pressed 🎹`);
+			console.log(`Key ${e} pressed 🎹`);
 			/// #endif
 		});
 

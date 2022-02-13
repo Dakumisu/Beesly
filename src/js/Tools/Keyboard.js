@@ -9,8 +9,8 @@ export default class Keyboard extends EventEmitter {
 	}
 
 	getKey(e) {
-		const key = e.key;
+		const key = (e.key != ' ' ? e.key : e.code).toUpperCase();
 
-		this.trigger('keyPressed', [key]);
+		this.trigger('key', [key]);
 	}
 }
