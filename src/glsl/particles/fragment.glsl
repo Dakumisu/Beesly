@@ -10,7 +10,6 @@ uniform vec3 uResolution;
 varying float vLoop;
 varying float vRandomScale;
 varying vec2 vUv;
-varying vec3 vPos;
 
 void main() {
 	vec2 uv = vUv;
@@ -27,7 +26,8 @@ void main() {
 	particle *= strength;
 	particle *= smoothstep(1., 10., particle);
 
-	float alpha = smoothLoop * float(vPos + vec3(uAlpha));
+	float alpha = uAlpha;
+	alpha *= smoothLoop;
 	alpha *= vRandomScale;
 
 	gl_FragColor = vec4(particle, alpha);

@@ -18,7 +18,7 @@ const qualityList = [
 ];
 const rangeList = [3500, 2500, 1600, 1300, 1100, 1000];
 
-let bootFrames = 10;
+let bootFrames = 180;
 
 const MAX_PING_PONG = 2;
 const RESTART_DELAY = 300;
@@ -31,7 +31,7 @@ const LOW_THRESHOLD = 54;
 const CRITICAL_THRESHOLD = 30;
 const RESET_THRESHOLD = 50;
 
-const DEFAULT_QUALITY = localStorage.getItem('quality') || 4;
+const DEFAULT_QUALITY = JSON.parse(localStorage.getItem('quality')) || 4;
 
 let fpsCount = 0;
 let fps = 0;
@@ -53,8 +53,9 @@ let initialized = false;
 /// #if DEBUG
 const debug = {
 	instance: null,
-	label: 'stats',
-	title: 'Stats',
+	label: 'perf',
+	title: 'Perfomances',
+	tab: 'Stats',
 };
 /// #endif
 
@@ -76,13 +77,13 @@ export default class PerformanceMoniteur extends EventEmitter {
 		// store.browser == 'Safari' ? this.initWorker() : this.getGPU();
 
 		device.on('visibility', (visible) => {
-			if (initialized && visible && averageFps <= RESET_THRESHOLD)
+			if (initialized && visible && averageFps <= RESET_THRESHOLD - 10)
 				this.reset(true, RESTART_DELAY, true);
 		});
 
 		size.on('resize', () => {
 			if (initialized && averageFps <= RESET_THRESHOLD) {
-				this.reset(true, RESET_THRESHOLD, true);
+				this.reset(true, RESTART_DELAY, true);
 			}
 		});
 
@@ -94,26 +95,52 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 	/// #if DEBUG
 	debug() {
-		debug.instance.setFolder(debug.label, debug.title);
+		debug.instance.setFolder(debug.label, debug.title, debug.tab);
 		const gui = debug.instance.getFolder(debug.label);
 
-		gui.addMonitor(this, 'fps', {
-			lineCount: 1,
+		gui.addMonitor(this, 'fps', { type: 'graph' });
+		gui.addMonitor(this, 'qualityStr', { label: 'quality' });
+
+		gui.addSeparator();
+
+		gui.addButton({
+			title: 'Hard Reset',
+		}).on('click', () => {
+			this.reset(true, RESTART_DELAY, true);
 		});
-		gui.addMonitor(
-			this,
-			'qualityStr',
-			{ label: 'quality' },
-			{
-				lineCount: 1,
-			},
-		);
+
+		gui.addButton({
+			title: 'Toggle Update',
+		}).on('click', () => {
+			initialized = !initialized;
+			localStorage.setItem('updateQuality', initialized);
+		});
+
+		gui.addSeparator();
+
+		gui.addInput(this, 'quality', {
+			label: 'Debug Quality',
+			min: 0,
+			max: qualityList.length - 1,
+			step: 1,
+		}).on('change', (e) => {
+			if (e.last) {
+				this.qualityStr = qualityList[this.quality];
+				localStorage.setItem('quality', this.quality);
+				this.trigger('quality', [this.quality]);
+			}
+		});
 	}
 	/// #endif
 
 	everythingLoaded() {
 		initialized = true;
-		this.trigger('quality');
+		this.trigger('quality', [this.quality]);
+
+		/// #if DEBUG
+		if (localStorage.getItem('updateQuality'))
+			initialized = JSON.parse(localStorage.getItem('updateQuality'));
+		/// #endif
 	}
 
 	initWorker() {
@@ -146,13 +173,15 @@ export default class PerformanceMoniteur extends EventEmitter {
 	async getGPU() {
 		const gpuTier = await getGPUTier();
 
-		this.quality = gpuTier.tier * 2 - 1;
+		const qualityResult = gpuTier.tier * 2 - 1;
+
+		this.quality = Math.max(this.quality, qualityResult);
 		this.qualityStr = qualityList[this.quality];
 		localStorage.setItem('quality', this.quality);
 
 		console.log(this.quality, gpuTier);
 
-		this.trigger('quality');
+		this.trigger('quality', [this.quality]);
 
 		// Example output:
 		// {
@@ -167,26 +196,27 @@ export default class PerformanceMoniteur extends EventEmitter {
 	updateFps() {
 		fpsHistory[fpsHistoryIndex++] = fpsCount;
 		fps = fpsCount;
+		fpsHistoryIndex = fpsHistoryIndex % 4;
 
-		// Reset fps measure
+		averageFps = median(fpsHistory);
+
 		fpsCount = 0;
 		timer = timer % 1000;
-
-		console.log(fps);
 
 		if (!localStorage.getItem('quality')) {
 			if (pingPong < MAX_PING_PONG) {
 				if (fpsHistoryIndex > fpsHistory.length) this.updateQuality();
 			}
-		}
-
-		if (localStorage.getItem('quality') && fps <= RESET_THRESHOLD)
+		} else if (
+			fpsHistoryIndex > fpsHistory.length &&
+			averageFps <= RESET_THRESHOLD
+		) {
 			this.reset(true, RESTART_DELAY, true);
+			console.log('RESET', averageFps, RESET_THRESHOLD);
+		}
 	}
 
 	updateQuality() {
-		averageFps = median(fpsHistory);
-
 		let newQuality = this.quality;
 
 		if (averageFps <= CRITICAL_THRESHOLD) {
@@ -216,26 +246,25 @@ export default class PerformanceMoniteur extends EventEmitter {
 		this.quality = newQuality;
 		this.qualityStr = qualityList[this.quality];
 
-		if (prevQuality != this.quality) this.trigger('quality');
+		if (prevQuality != this.quality)
+			this.trigger('quality', [this.quality]);
 
-		this.reset(true);
+		if (pingPong < MAX_PING_PONG) this.reset(true);
 	}
 
 	reset(hardReset, delay, resetPingPong) {
-		console.log('reset');
 		needReset = true;
 
-		localStorage.removeItem('quality');
+		timer = 0;
+		fpsCount = 0;
+
 		needHardReset = needHardReset || hardReset;
 		if (resetPingPong) pingPong = 0;
 		if (delay) nextDelay = delay;
 	}
 
 	hardReset() {
-		console.log('hard reset');
-
-		timer = 0;
-		fpsCount = 0;
+		localStorage.removeItem('quality');
 		if (needHardReset) fpsHistoryIndex = 0;
 		delay = nextDelay || RESTART_DELAY;
 		needReset = needHardReset = false;

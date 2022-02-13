@@ -9,7 +9,6 @@ uniform vec3 uColor;
 uniform vec3 uResolution;
 
 varying vec2 vUv;
-varying vec3 vPos;
 
 void main() {
 	// in the case of an orthographic camera, so that the image keeps its aspect (uResolution must be a vec4)

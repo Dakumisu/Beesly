@@ -91,6 +91,7 @@ export default class Webgl {
 		this.perf.everythingLoaded();
 		initialized = true;
 	}
+
 	render() {
 		if (!initialized) return;
 

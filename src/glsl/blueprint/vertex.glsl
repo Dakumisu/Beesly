@@ -5,11 +5,9 @@ precision highp float;
 uniform float uTime;
 
 varying vec2 vUv;
-varying vec3 vPos;
 
 void main() {
 	vUv = uv;
-	vPos = position;
 	vec3 pos = position;
 
 	float time = uTime * .001;

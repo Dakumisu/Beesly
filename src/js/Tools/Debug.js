@@ -2,7 +2,7 @@ import { Pane } from 'tweakpane';
 
 import Stats from '@js/Tools/Stats';
 
-const tabList = ['General'];
+const tabList = ['General', 'Stats'];
 
 export default class Debug {
 	constructor() {
@@ -12,28 +12,24 @@ export default class Debug {
 		this.debugFolders = {};
 		this.tabs = {};
 
-		this.setTab();
+		this.initTab();
 
-		setTimeout(() => {
-			this.setTab('Advanced');
-		}, 2000);
+		this.getTab('Stats').selected = true;
 	}
 
-	setFolder(folder, label, tabLabel = 'General', expanded = true) {
-		const tab = this.tabs.pages[this.getTab(tabLabel)];
-		this.debugFolders[folder] = tab.addFolder({
-			title: label,
+	setFolder(folderLabel, title, tabLabel = 'General', expanded = true) {
+		const tab = this.getTab(tabLabel);
+		this.debugFolders[folderLabel] = tab.addFolder({
+			title: title,
 			expanded: expanded,
 		});
 	}
 
-	getFolder(folder) {
-		return this.debugFolders[folder];
+	getFolder(folderLabel) {
+		return this.debugFolders[folderLabel];
 	}
 
-	setTab(tab) {
-		// let tabs = tabList;
-		if (tab) tabList.push(tab);
+	initTab() {
 		const pages = [];
 		tabList.forEach((tab) => {
 			pages.push({ title: tab });
@@ -44,14 +40,14 @@ export default class Debug {
 		});
 	}
 
-	getTab(tab) {
-		const check = tabList.indexOf(tab);
+	getTab(tabLabel, folderLabel) {
+		const check = tabList.indexOf(tabLabel);
 		if (check == -1)
 			console.warn(
-				`Tab '${tab}' doesn't exist ❗️ \n Setting folder in tab 'General' per default`,
+				`Tab '${tabLabel}' doesn't exist ❗️ \n Setting folder in tab 'General' per default`,
 			);
 
 		const index = check == -1 ? 0 : check;
-		return index;
+		return this.tabs.pages[index];
 	}
 }

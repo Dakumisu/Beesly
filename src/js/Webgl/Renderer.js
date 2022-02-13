@@ -21,7 +21,7 @@ import Webgl from './Webgl';
 import { store } from '@js/Tools/Store';
 
 const params = {
-	clearColor: '#222222',
+	clearColor: '#151515',
 };
 
 /// #if DEBUG

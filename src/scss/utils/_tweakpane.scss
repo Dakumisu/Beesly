@@ -21,3 +21,15 @@
 	--tp-monitor-background-color: hsla(0, 0%, 0%, 0.30);
 	--tp-monitor-foreground-color: hsla(0, 0%, 100%, 0.30);
 }
+
+.tp-fldv_c>.tp-cntv, .tp-tabv_c .tp-brkv>.tp-cntv {
+	margin-left: 0 !important;
+}
+
+.tp-tabv_c {
+	border-left: 0 !important;
+}
+
+.tp-lblv_l {
+	padding-right: 4px !important;
+}

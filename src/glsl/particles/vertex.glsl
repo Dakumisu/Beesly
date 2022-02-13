@@ -11,14 +11,12 @@ attribute float aScale;
 varying float vLoop;
 varying float vRandomScale;
 varying vec2 vUv;
-varying vec3 vPos;
 
 const float maxDuration = 10.;
 
 void main() {
 	vUv = uv;
 	vRandomScale = aScale;
-	vPos = position;
 	vec3 pos = position;
 
 	float time = uTime * .001;
