@@ -41,10 +41,6 @@ export default ({ mode }) => {
 					replacement: '/src/js',
 				},
 				{
-					find: '@glsl',
-					replacement: '/src/glsl',
-				},
-				{
 					find: '@utils',
 					replacement: '/src/utils',
 				},

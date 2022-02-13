@@ -4,23 +4,17 @@ import {
 	DoubleSide,
 	InstancedBufferAttribute,
 	InstancedBufferGeometry,
-	LinearFilter,
 	MathUtils,
 	Mesh,
-	PlaneBufferGeometry,
-	RGBFormat,
-	ShaderMaterial,
-	SphereBufferGeometry,
+	PlaneGeometry,
 	Vector3,
-	VideoTexture,
 } from 'three';
 
 import Webgl from '@js/Webgl/Webgl';
 
 import { store } from '@js/Tools/Store';
 
-import vertex from '@glsl/particles/vertex.glsl';
-import fragment from '@glsl/particles/fragment.glsl';
+import particlesMaterial from './materials/particles/particlesMaterial';
 
 const tVec3 = new Vector3();
 const tCol = new Color();
@@ -30,19 +24,20 @@ const params = {
 	size: 0.01,
 };
 
-/// #if DEBUG
-const debug = {
-	instance: null,
-	label: 'particles',
-};
-/// #endif
+const particlesCountList = [500, 1000, 5000, 10000, 30000, 50000];
 
-const particlesCountList = [5000, 10000, 50000, 100000, 300000, 500000];
-
-const blueprintParticle = new PlaneBufferGeometry();
+const blueprintParticle = new PlaneGeometry();
 blueprintParticle.scale(params.size, params.size, params.size);
 
 let initialized = false;
+
+/// #if DEBUG
+const debug = {
+	instance: null,
+	title: 'Particles',
+	label: 'particles',
+};
+/// #endif
 
 /* FBO Particles coming soon */
 export default class Particles {
@@ -77,7 +72,7 @@ export default class Particles {
 
 	/// #if DEBUG
 	debug() {
-		debug.instance.setFolder(debug.label, 'Particles');
+		debug.instance.setFolder(debug.label, debug.title);
 		const gui = debug.instance.getFolder(debug.label);
 
 		gui.addInput(params, 'color').on('change', (color) => {
@@ -175,9 +170,7 @@ export default class Particles {
 	}
 
 	setMaterial() {
-		this.object.material = new ShaderMaterial({
-			vertexShader: vertex,
-			fragmentShader: fragment,
+		const opts = {
 			uniforms: {
 				uTime: { value: 0 },
 				uColor: { value: tCol.set(params.color) },
@@ -192,12 +185,11 @@ export default class Particles {
 			},
 			side: DoubleSide,
 			transparent: true,
-
-			/* for particles */
 			depthTest: true,
 			depthWrite: false,
 			blending: AdditiveBlending,
-		});
+		};
+		this.object.material = particlesMaterial.get(opts);
 	}
 
 	setMesh() {
@@ -208,6 +200,8 @@ export default class Particles {
 	}
 
 	resize() {
+		if (!initialized) return;
+
 		this.object.material.uniforms.uResolution.value = tVec3.set(
 			store.resolution.width,
 			store.resolution.height,

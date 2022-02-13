@@ -13,8 +13,6 @@ export default class Debug {
 		this.tabs = {};
 
 		this.initTab();
-
-		this.getTab('Stats').selected = true;
 	}
 
 	setFolder(folderLabel, title, tabLabel = 'General', expanded = true) {

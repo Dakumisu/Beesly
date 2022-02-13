@@ -19,7 +19,6 @@
     "baseUrl": ".",
     "paths": {
       "@js/*": ["src/js/*"],
-      "@glsl/*": ["src/glsl/*"],
       "@utils/*": ["src/utils/*"],
       "@workers/*": ["src/workers/*"],
       "@src/*": ["src/*"],

@@ -2,7 +2,7 @@ import {
 	Color,
 	DoubleSide,
 	Mesh,
-	PlaneBufferGeometry,
+	PlaneGeometry,
 	ShaderMaterial,
 	Vector2,
 	Vector3,
@@ -12,8 +12,7 @@ import Webgl from '@js/Webgl/Webgl';
 
 import { store } from '@js/Tools/Store';
 
-import vertex from '@glsl/blueprint/vertex.glsl';
-import fragment from '@glsl/blueprint/fragment.glsl';
+import blueprintMaterial from './materials/blueprint/blueprintMaterial';
 
 const twoPI = Math.PI * 2;
 const tVec3 = new Vector3();
@@ -21,6 +20,18 @@ const tVec2 = new Vector2();
 const tCol = new Color();
 
 let initialized = false;
+
+const params = {
+	color: '#ffffff',
+};
+
+/// #if DEBUG
+const debug = {
+	instance: null,
+	title: 'Blueprint',
+	label: 'blueprint',
+};
+/// #endif
 
 export default class Blueprint {
 	constructor(opt = {}) {
@@ -38,26 +49,24 @@ export default class Blueprint {
 		initialized = true;
 
 		/// #if DEBUG
-		const debug = webgl.debug;
-		this.debug(debug);
+		debug.instance = webgl.debug;
+		this.debug();
 		/// #endif
 	}
 
 	/// #if DEBUG
-	debug(debug) {}
+	debug() {}
 	/// #endif
 
 	setGeometry() {
-		this.object.geometry = new PlaneBufferGeometry(1, 1, 1, 1);
+		this.object.geometry = new PlaneGeometry(1, 1, 1, 1);
 	}
 
 	setMaterial() {
-		this.object.material = new ShaderMaterial({
-			vertexShader: vertex,
-			fragmentShader: fragment,
+		const opts = {
 			uniforms: {
 				uTime: { value: 0 },
-				uColor: { value: tCol.set('#ffffff') },
+				uColor: { value: tCol.set(params.color) },
 				uAlpha: { value: 1 },
 				uResolution: {
 					value: tVec3.set(
@@ -66,13 +75,13 @@ export default class Blueprint {
 						store.resolution.dpr,
 					),
 				},
-				uAspect: {
-					value: tVec2.set(store.aspect.a1, store.aspect.a2),
-				},
+				uAspect: { value: tVec2.set(store.aspect.a1, store.aspect.a2) },
 			},
 			side: DoubleSide,
 			transparent: true,
-		});
+		};
+
+		this.object.material = blueprintMaterial.get(opts);
 	}
 
 	setMesh() {
@@ -82,6 +91,8 @@ export default class Blueprint {
 	}
 
 	resize() {
+		if (!initialized) return;
+
 		this.object.material.uniforms.uResolution.value = tVec3.set(
 			store.resolution.width,
 			store.resolution.height,
