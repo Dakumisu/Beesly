@@ -1,3 +1,7 @@
+/*
+	Credits @pqml (https://github.com/pqml) 🔥
+*/
+
 import { getGPUTier } from 'detect-gpu';
 
 import Webgl from '@js/Webgl/Webgl';
@@ -18,7 +22,8 @@ const qualityList = [
 ];
 const rangeList = [3500, 2500, 1600, 1300, 1100, 1000];
 
-let bootFrames = 180;
+// let bootFrames = 180;
+let bootFrames = 10;
 
 const MAX_PING_PONG = 2;
 const RESTART_DELAY = 300;
@@ -31,7 +36,7 @@ const LOW_THRESHOLD = 54;
 const CRITICAL_THRESHOLD = 30;
 const RESET_THRESHOLD = 50;
 
-const DEFAULT_QUALITY = JSON.parse(localStorage.getItem('quality')) || 4;
+const DEFAULT_QUALITY = JSON.parse(localStorage.getItem('quality')) || 3;
 
 let fpsCount = 0;
 let fps = 0;
@@ -42,8 +47,10 @@ const fpsHistory = new Float64Array(SECONDS_THRESHOLD);
 let fpsHistoryIndex = 0;
 
 let prevQuality = -1;
+let bestQuality = -1;
 
 let pingPong = 0;
+let prevaultInfinitePingPong = 0;
 
 let needHardReset = false;
 let needReset = false;
@@ -74,17 +81,12 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 		if (!localStorage.getItem('quality')) this.getGPU();
 
-		// store.browser == 'Safari' ? this.initWorker() : this.getGPU();
-
 		device.on('visibility', (visible) => {
-			if (initialized && visible && averageFps <= RESET_THRESHOLD - 10)
-				this.reset(true, RESTART_DELAY, true);
+			if (visible) fpsHistoryIndex = 0;
 		});
 
 		size.on('resize', () => {
-			if (initialized && averageFps <= RESET_THRESHOLD) {
-				this.reset(true, RESTART_DELAY, true);
-			}
+			fpsHistoryIndex = 0;
 		});
 
 		/// #if DEBUG
@@ -204,7 +206,10 @@ export default class PerformanceMoniteur extends EventEmitter {
 		timer = timer % 1000;
 
 		if (!localStorage.getItem('quality')) {
-			if (pingPong < MAX_PING_PONG) {
+			if (
+				pingPong < MAX_PING_PONG &&
+				prevaultInfinitePingPong < MAX_PING_PONG
+			) {
 				if (fpsHistoryIndex > fpsHistory.length) this.updateQuality();
 			}
 		} else if (
@@ -220,6 +225,8 @@ export default class PerformanceMoniteur extends EventEmitter {
 		let newQuality = this.quality;
 
 		if (averageFps <= CRITICAL_THRESHOLD) {
+			bestQuality = prevQuality;
+			prevaultInfinitePingPong++;
 			newQuality -= 2;
 		} else if (averageFps < LOW_THRESHOLD) {
 			newQuality -= 1;
@@ -229,27 +236,46 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 		newQuality = clamp(newQuality, 0, qualityList.length - 1);
 
+		// console.log(`
+		// pingpong : ${pingPong}
+		// count pingpong : ${prevaultInfinitePingPong}
+
+		// prev : ${prevQuality}
+		// quality : ${this.quality}
+		// new : ${newQuality}
+		// `);
+
 		if (newQuality === this.quality) {
 			pingPong = Math.max(0, pingPong - 0.2);
+			bestQuality = this.quality;
 		} else if (newQuality !== this.quality && newQuality !== prevQuality) {
 			pingPong = 0;
 		} else if (newQuality === prevQuality) {
 			pingPong++;
+			prevaultInfinitePingPong = 0;
 		}
 
 		if (pingPong >= MAX_PING_PONG) {
+			bestQuality = newQuality;
 			newQuality = Math.min(prevQuality, this.quality);
 			localStorage.setItem('quality', newQuality);
 		}
 
 		prevQuality = this.quality;
-		this.quality = newQuality;
+
+		if (prevaultInfinitePingPong >= MAX_PING_PONG) {
+			this.quality = bestQuality;
+			localStorage.setItem('quality', this.quality);
+		} else {
+			this.quality = newQuality;
+		}
+
 		this.qualityStr = qualityList[this.quality];
 
 		if (prevQuality != this.quality)
 			this.trigger('quality', [this.quality]);
 
-		if (pingPong < MAX_PING_PONG) this.reset(true);
+		if (pingPong < MAX_PING_PONG) this.reset();
 	}
 
 	reset(hardReset, delay, resetPingPong) {
@@ -265,6 +291,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 	hardReset() {
 		localStorage.removeItem('quality');
+		prevaultInfinitePingPong = 0;
 		if (needHardReset) fpsHistoryIndex = 0;
 		delay = nextDelay || RESTART_DELAY;
 		needReset = needHardReset = false;
@@ -279,12 +306,6 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 		if (needHardReset) this.hardReset();
 		if (delay > 0) return (delay -= dt);
-
-		// console.log(
-		// 	'fps:' + fps,
-		// 	'prev qualité:' + prevQuality,
-		// 	'new qualité:' + this.quality,
-		// );
 
 		timer += dt;
 		fpsCount++;
