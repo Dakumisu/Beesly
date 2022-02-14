@@ -2,7 +2,7 @@ import { Raycaster, ArrowHelper, Vector3 } from 'three';
 
 import EventEmitter from './EventEmitter';
 
-import Webgl from '@js/webgl/Webgl';
+import Webgl from '@js/Webgl/Webgl';
 
 let initialized = false;
 
