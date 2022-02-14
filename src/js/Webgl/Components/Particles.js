@@ -10,9 +10,9 @@ import {
 	Vector3,
 } from 'three';
 
-import Webgl from '@js/Webgl/Webgl';
+import Webgl from '@js/webgl/Webgl';
 
-import { store } from '@js/Tools/Store';
+import { store } from '@js/tools/Store';
 
 import particlesMaterial from './materials/particles/particlesMaterial';
 

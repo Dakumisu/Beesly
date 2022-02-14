@@ -1,6 +1,6 @@
 import { Vector2 } from 'three';
 
-import Webgl from '@js/Webgl/Webgl';
+import Webgl from '@js/webgl/Webgl';
 
 const tVec2a = new Vector2();
 const tVec2b = new Vector2();

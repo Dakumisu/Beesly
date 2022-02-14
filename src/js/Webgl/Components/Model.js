@@ -1,8 +1,8 @@
-import Webgl from '@js/Webgl/Webgl';
+import Webgl from '@js/webgl/Webgl';
 
 import loadModel from '@utils/loader/loadGLTF';
 
-import { store } from '@js/Tools/Store';
+import { store } from '@js/tools/Store';
 
 import model from '/assets/model/model.glb';
 

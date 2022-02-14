@@ -8,11 +8,11 @@ import {
 	Vector3,
 } from 'three';
 
-import Webgl from '@js/Webgl/Webgl';
+import Webgl from '@js/webgl/Webgl';
 
 import mergeGeometry from '@utils/webgl/mergeBufferGeometries';
 
-import { store } from '@js/Tools/Store';
+import { store } from '@js/tools/Store';
 
 import model from '/assets/model/model.glb';
 

@@ -1,6 +1,6 @@
-import EventEmitter from '@js/Tools/EventEmitter';
+import EventEmitter from '@js/tools/EventEmitter';
 
-import { store } from '@js/Tools/Store';
+import { store } from '@js/tools/Store';
 
 let initialized = false;
 

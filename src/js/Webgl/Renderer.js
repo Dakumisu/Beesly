@@ -18,7 +18,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 import Webgl from './Webgl';
 
-import { store } from '@js/Tools/Store';
+import { store } from '@js/tools/Store';
 
 const params = {
 	clearColor: '#151515',
