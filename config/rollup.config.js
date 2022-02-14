@@ -1,10 +1,13 @@
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-
 export default {
 	input: 'src/app.js',
 	output: {
-		file: 'index.js',
+		file: 'app.js',
 		format: 'cjs',
 	},
-	plugins: [nodeResolve()],
+	treeshake: {
+		moduleSideEffects: false,
+		tryCatchDeoptimization: true,
+		propertyReadSideEffects: true,
+		unknownGlobalSideEffects: true,
+	},
 };
