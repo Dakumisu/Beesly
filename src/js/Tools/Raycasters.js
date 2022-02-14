@@ -18,6 +18,7 @@ export default class Raycasters extends EventEmitter {
 		this.initRaycaster();
 
 		/// #if DEBUG
+		// WIP
 		this.helpers = opt.helpers || false;
 		if (this.helpers) {
 			this.pos = opt.pos; // raycatser's position (pos: { x: -1, y: 2 })
