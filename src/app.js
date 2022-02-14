@@ -1,7 +1,7 @@
 import './scss/main.scss';
 
-import Webgl from './js/webgl/Webgl';
-import Nodes from './js/views/Nodes';
+import Webgl from '@js/webgl/Webgl';
+import Nodes from '@js/views/Nodes';
 
 const nodes = new Nodes();
 
