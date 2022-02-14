@@ -12,7 +12,7 @@ import PerformanceMonitor from '@js/Tools/PerformanceMonitor';
 
 import Renderer from './Renderer';
 import Camera from './Camera';
-import World from './components/World';
+import World from './Components/World';
 
 /// #if DEBUG
 import Debug from '@js/Tools/Debug';
