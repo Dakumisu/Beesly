@@ -57,15 +57,6 @@ export default ({ mode }) => {
 					replacement: '/*',
 				},
 			],
-			extensions: ['.cjs', '.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
-		},
-
-		preprocessorOptions: {
-			scss: {
-				sassOptions: {
-					outputStyle: 'compressed',
-				},
-			},
 		},
 	});
 };
