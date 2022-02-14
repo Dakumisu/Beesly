@@ -1,4 +1,4 @@
-import EventEmitter from '@js/tools/EventEmitter.js';
+import EventEmitter from '@js/Tools/EventEmitter.js';
 
 const start = Date.now();
 

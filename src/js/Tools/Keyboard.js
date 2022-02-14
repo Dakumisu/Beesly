@@ -1,4 +1,4 @@
-import EventEmitter from '@js/tools/EventEmitter';
+import EventEmitter from '@js/Tools/EventEmitter';
 
 export default class Keyboard extends EventEmitter {
 	constructor() {

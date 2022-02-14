@@ -8,7 +8,7 @@ import {
 	WebGLRenderTarget,
 } from 'three';
 
-import { store } from '@js/tools/Store';
+import { store } from '@js/Tools/Store';
 
 export default class FBO {
 	constructor(opt = {}) {

@@ -1,6 +1,6 @@
-import EventEmitter from '@js/tools/EventEmitter';
+import EventEmitter from '@js/Tools/EventEmitter';
 
-import { store } from '@js/tools/Store';
+import { store } from '@js/Tools/Store';
 
 const viewList = ['home', 'exp'];
 

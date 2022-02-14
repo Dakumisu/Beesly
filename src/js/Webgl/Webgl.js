@@ -1,21 +1,21 @@
 import { Scene as ThreeScene } from 'three';
 
-import Views from '@js/views/Views';
+import Views from '@js/Views/Views';
 
-import Raf from '@js/tools/Raf';
-import Size from '@js/tools/Size';
-import Keyboard from '@js/tools/Keyboard';
-import Device from '@js/tools/Device';
-import Mouse from '@js/tools/Mouse';
-import Raycasters from '@js/tools/Raycasters';
-import PerformanceMonitor from '@js/tools/PerformanceMonitor';
+import Raf from '@js/Tools/Raf';
+import Size from '@js/Tools/Size';
+import Keyboard from '@js/Tools/Keyboard';
+import Device from '@js/Tools/Device';
+import Mouse from '@js/Tools/Mouse';
+import Raycasters from '@js/Tools/Raycasters';
+import PerformanceMonitor from '@js/Tools/PerformanceMonitor';
 
 import Renderer from './Renderer';
 import Camera from './Camera';
 import World from './components/World';
 
 /// #if DEBUG
-import Debug from '@js/tools/Debug';
+import Debug from '@js/Tools/Debug';
 /// #endif
 
 let initialized = false;
