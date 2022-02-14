@@ -4,4 +4,5 @@ export default {
 		file: 'app.js',
 		format: 'cjs',
 	},
+	plugins: [nodeResolve()],
 };
