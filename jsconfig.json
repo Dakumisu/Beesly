@@ -6,6 +6,7 @@
     "config/"
   ],
   "include": [
+    "node_modules/office-packages/**/*",
     "src/**/*",
     "public/**/*",
   ],

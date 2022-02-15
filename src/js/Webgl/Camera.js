@@ -4,7 +4,15 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Webgl from './Webgl';
 
 import { store } from '@js/Tools/Store';
-import { imageAspect } from '@utils/maths';
+import { imageAspect } from 'office-packages/math';
+
+/// #if DEBUG
+const debug = {
+	instance: null,
+	title: 'Camera',
+	label: 'camera',
+};
+/// #endif
 
 export default class Camera {
 	constructor(opt = {}) {
@@ -18,9 +26,9 @@ export default class Camera {
 			: this.setPerspectiveCamera();
 
 		/// #if DEBUG
-		const debug = webgl.debug;
-		this.debug(debug);
-		this.setDebugCamera(debug);
+		debug.instance = webgl.debug;
+		this.debug();
+		this.setDebugCamera();
 		/// #endif
 	}
 
@@ -64,7 +72,7 @@ export default class Camera {
 	}
 
 	/// #if DEBUG
-	debug(debug) {}
+	debug() {}
 
 	setDebugCamera() {
 		this.debugCam = {};

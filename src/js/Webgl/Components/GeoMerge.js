@@ -28,16 +28,7 @@ export default class GeoMerge {
 		this.merge();
 
 		initialized = true;
-
-		/// #if DEBUG
-		const debug = webgl.debug;
-		this.debug(debug);
-		/// #endif
 	}
-
-	/// #if DEBUG
-	debug(debug) {}
-	/// #endif
 
 	merge() {
 		mergeGeometry([], [model]).then((response) => {

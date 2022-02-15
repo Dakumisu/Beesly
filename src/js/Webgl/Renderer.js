@@ -27,6 +27,7 @@ const params = {
 /// #if DEBUG
 const debug = {
 	instance: null,
+	title: 'Renderer',
 	label: 'renderer',
 };
 /// #endif
@@ -55,7 +56,7 @@ export default class Renderer {
 		this.context = this.renderer.getContext();
 		this.stats.setRenderPanel(this.context);
 
-		debug.instance.setFolder(debug.label, 'Renderer');
+		debug.instance.setFolder(debug.label, debug.title);
 		const gui = debug.instance.getFolder(debug.label);
 
 		gui.addInput(params, 'clearColor', { label: 'background color' }).on(

@@ -8,7 +8,7 @@ import Webgl from '@js/Webgl/Webgl';
 import EventEmitter from './EventEmitter';
 
 import { store } from './Store';
-import { clamp, median } from '@utils/maths';
+import { clamp, median } from 'office-packages/math';
 
 const qualityList = [
 	'POTATO', // VERY LOW

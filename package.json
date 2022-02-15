@@ -15,6 +15,7 @@
     "animejs": "^3.2.1",
     "detect-gpu": "^4.0.7",
     "howler": "^2.2.1",
+    "office-packages": "^1.0.4",
     "three": "^0.125.1"
   },
   "devDependencies": {

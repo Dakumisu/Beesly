@@ -18,16 +18,7 @@ export default class Model {
 		this.load();
 
 		initialized = true;
-
-		/// #if DEBUG
-		const debug = webgl.debug;
-		this.debug(debug);
-		/// #endif
 	}
-
-	/// #if DEBUG
-	debug(debug) {}
-	/// #endif
 
 	load() {
 		loadModel(model).then((response) => {

@@ -25,15 +25,10 @@ export default class Raycasters extends EventEmitter {
 			this.dir = opt.dir; // raycatser's direction (dir: { x: 2, y: -4 })
 			this.initHelper();
 		}
-
-		const debug = webgl.debug;
-		this.debug(debug);
 		/// #endif
 	}
 
 	/// #if DEBUG
-	debug() {}
-
 	initHelper() {
 		this.rayOrigin = new Vector3(this.pos.x, this.pos.y, 0);
 		this.rayDirection = new Vector3(this.dir.x, this.dir.y, 0);
