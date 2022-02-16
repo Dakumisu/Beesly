@@ -1,10 +1,10 @@
-import EventEmitter from '@js/Tools/EventEmitter';
+import Emitter from '@js/Tools/Emitter';
 
 import { store } from '@js/Tools/Store';
 
 const viewList = ['home', 'exp'];
 
-export default class Views extends EventEmitter {
+export default class Views extends Emitter {
 	constructor() {
 		super();
 
@@ -32,7 +32,7 @@ export default class Views extends EventEmitter {
 		}
 
 		this.currentView = this.viewList[view];
-		this.trigger('changeView', [this.currentView]);
+		this.emit('changeView', [this.currentView]);
 	}
 
 	getView() {

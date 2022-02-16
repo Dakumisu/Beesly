@@ -1,8 +1,8 @@
-import EventEmitter from '@js/Tools/EventEmitter.js';
+import Emitter from '@js/Tools/Emitter.js';
 
 const start = Date.now();
 
-export default class Raf extends EventEmitter {
+export default class Raf extends Emitter {
 	constructor() {
 		super();
 
@@ -39,7 +39,7 @@ export default class Raf extends EventEmitter {
 		if (this.delta > 60) this.delta = 60;
 
 		if (this.playing) {
-			this.trigger('raf');
+			this.emit('raf');
 		}
 	}
 

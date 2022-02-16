@@ -5,7 +5,7 @@
 import { getGPUTier } from 'detect-gpu';
 
 import Webgl from '@js/Webgl/Webgl';
-import EventEmitter from './EventEmitter';
+import Emitter from './Emitter';
 
 import { store } from './Store';
 import { clamp, median } from 'office-packages/math';
@@ -62,7 +62,7 @@ const debug = {
 };
 /// #endif
 
-export default class PerformanceMoniteur extends EventEmitter {
+export default class PerformanceMoniteur extends Emitter {
 	constructor() {
 		super();
 
@@ -125,7 +125,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 			if (e.last) {
 				this.qualityStr = qualityList[this.quality];
 				localStorage.setItem('quality', this.quality);
-				this.trigger('quality', [this.quality]);
+				this.emit('quality', [this.quality]);
 			}
 		});
 	}
@@ -133,7 +133,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 	everythingLoaded() {
 		initialized = true;
-		this.trigger('quality', [this.quality]);
+		this.emit('quality', [this.quality]);
 
 		/// #if DEBUG
 		if (localStorage.getItem('updateQuality'))
@@ -150,7 +150,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 		this.qualityStr = qualityList[this.quality];
 		localStorage.setItem('quality', this.quality);
 
-		this.trigger('quality', [this.quality]);
+		this.emit('quality', [this.quality]);
 	}
 
 	updateFps() {
@@ -231,8 +231,7 @@ export default class PerformanceMoniteur extends EventEmitter {
 
 		this.qualityStr = qualityList[this.quality];
 
-		if (prevQuality != this.quality)
-			this.trigger('quality', [this.quality]);
+		if (prevQuality != this.quality) this.emit('quality', [this.quality]);
 
 		if (pingPong < MAX_PING_PONG) this.reset();
 	}

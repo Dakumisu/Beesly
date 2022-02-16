@@ -1,12 +1,12 @@
 import { Raycaster, ArrowHelper, Vector3 } from 'three';
 
-import EventEmitter from './EventEmitter';
+import Emitter from './Emitter';
 
 import Webgl from '@js/Webgl/Webgl';
 
 let initialized = false;
 
-export default class Raycasters extends EventEmitter {
+export default class Raycasters extends Emitter {
 	constructor(opt = {}) {
 		super();
 
@@ -66,7 +66,7 @@ export default class Raycasters extends EventEmitter {
 		);
 
 		for (let i = 0; i < intersects.length; i++) {
-			this.trigger('raycast', [intersects[i].object]);
+			this.emit('raycast', [intersects[i].object]);
 		}
 	}
 }

@@ -1,16 +1,19 @@
-import EventEmitter from './EventEmitter';
+import Emitter from './Emitter';
 
 import { store } from './Store';
 
-const html = document.querySelector('html');
-const deviceList = ['Desktop', 'Mobile'];
+const html = document.documentElement;
+const deviceList = ['desktop', 'mobile'];
+// const styleList = []
 
-export default class Device extends EventEmitter {
+export default class Device extends Emitter {
 	constructor() {
 		super();
 
 		this.checkDevice();
 		this.checkBrowser();
+		this.setHtmlStyle();
+		this.getRootStyle();
 
 		document.addEventListener(
 			'visibilitychange',
@@ -47,24 +50,24 @@ export default class Device extends EventEmitter {
 
 		// In Chrome
 		if ((offsetVersion = agent.indexOf('Chrome')) != -1) {
-			browserName = 'Chrome';
+			browserName = 'chrome';
 			fullVersion = agent.substring(offsetVersion + 7);
 		}
 
 		// In Microsoft internet explorer
 		else if ((offsetVersion = agent.indexOf('MSIE')) != -1) {
-			browserName = 'Microsoft Internet Explorer';
+			browserName = 'microsoft-internet-explorer';
 			fullVersion = agent.substring(offsetVersion + 5);
 		}
 
 		// In Firefox
 		else if ((offsetVersion = agent.indexOf('Firefox')) != -1) {
-			browserName = 'Firefox';
+			browserName = 'firefox';
 		}
 
 		// In Safari
 		else if ((offsetVersion = agent.indexOf('Safari')) != -1) {
-			browserName = 'Safari';
+			browserName = 'safari';
 			fullVersion = agent.substring(offsetVersion + 7);
 			if ((offsetVersion = agent.indexOf('Version')) != -1)
 				fullVersion = agent.substring(offsetVersion + 8);
@@ -97,7 +100,47 @@ export default class Device extends EventEmitter {
 		store.browser = browserName;
 	}
 
+	setHtmlStyle() {
+		html.style.setProperty('--vp-height', `${store.resolution.height}px`);
+		html.style.setProperty('--vp-width', `${store.resolution.width}px`);
+	}
+
+	getRootStyle() {
+		const styleSheets = document.styleSheets[0].cssRules;
+		const rootStyleName = [];
+		const rootStyle = {};
+
+		for (const key in styleSheets) {
+			if (styleSheets[key].selectorText === ':root') {
+				if (styleSheets[key].style.length) {
+					for (let i = 0; i < styleSheets[key].style.length; i++) {
+						const name = styleSheets[key].style[i];
+
+						if (name.startsWith('--') && !name.startsWith('--tp')) {
+							rootStyleName.push(name);
+						}
+					}
+				}
+			}
+		}
+
+		for (let i = 0; i < rootStyleName.length; i++) {
+			if (getComputedStyle(html).getPropertyValue(rootStyleName[i])) {
+				rootStyle[rootStyleName[i]] = getComputedStyle(
+					html,
+				).getPropertyValue(rootStyleName[i]);
+			}
+		}
+
+		store.style = rootStyle;
+	}
+
 	checkVisibility() {
-		this.trigger('visibility', [!document.hidden]);
+		this.emit('visibility', [!document.hidden]);
+	}
+
+	resize() {
+		this.checkDevice();
+		this.setHtmlStyle();
 	}
 }

@@ -10,6 +10,7 @@ export const store = {
 		a2: 0,
 	},
 
+	style: null,
 	device: null,
 	browser: null,
 };

@@ -77,7 +77,7 @@ export default class Webgl {
 
 		this.size.on('resize', () => {
 			this.resize();
-			this.device.checkDevice();
+			this.device.resize();
 			/// #if DEBUG
 			console.log('Resize spotted 📐');
 			/// #endif

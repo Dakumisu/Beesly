@@ -1,6 +1,6 @@
-import EventEmitter from '@js/Tools/EventEmitter';
+import Emitter from '@js/Tools/Emitter';
 
-export default class Keyboard extends EventEmitter {
+export default class Keyboard extends Emitter {
 	constructor() {
 		super();
 
@@ -11,6 +11,6 @@ export default class Keyboard extends EventEmitter {
 	getKey(e) {
 		const key = (e.key != ' ' ? e.key : e.code).toUpperCase();
 
-		this.trigger('key', [key]);
+		this.emit('key', [key]);
 	}
 }

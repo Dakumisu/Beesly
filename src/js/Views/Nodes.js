@@ -1,10 +1,10 @@
-import EventEmitter from '@js/Tools/EventEmitter';
+import Emitter from '@js/Tools/Emitter';
 
 import { store } from '@js/Tools/Store';
 
 let initialized = false;
 
-export default class Nodes extends EventEmitter {
+export default class Nodes extends Emitter {
 	static instance;
 
 	constructor() {
@@ -19,7 +19,7 @@ export default class Nodes extends EventEmitter {
 			this.getNodes().then(() => {
 				initialized = true;
 				this.event();
-				this.trigger('load');
+				this.emit('load');
 			});
 		});
 	}

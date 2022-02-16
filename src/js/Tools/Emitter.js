@@ -1,4 +1,4 @@
-export default class EventEmitter {
+export default class Emmitter {
 	constructor() {
 		this.callbacks = {};
 		this.callbacks.base = {};
@@ -101,7 +101,7 @@ export default class EventEmitter {
 		return this;
 	}
 
-	trigger(_name, _args) {
+	emit(_name, _args) {
 		// Errors
 		if (typeof _name === 'undefined' || _name === '') {
 			console.warn('wrong name');
