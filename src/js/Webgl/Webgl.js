@@ -84,8 +84,8 @@ export default class Webgl {
 		});
 
 		this.raf.on('raf', () => {
-			this.render();
 			this.update();
+			this.render();
 		});
 
 		this.perf.everythingLoaded();
@@ -107,14 +107,14 @@ export default class Webgl {
 		if (this.perf) this.perf.update(this.raf.delta);
 
 		/// #if DEBUG
-		this.debug.stats.update();
+		if (this.debug) this.debug.stats.update();
 		/// #endif
 	}
 
 	resize() {
+		if (this.renderer) this.renderer.resize();
 		if (this.camera) this.camera.resize();
 		if (this.world) this.world.resize();
-		if (this.renderer) this.renderer.resize();
 	}
 
 	destroy() {}

@@ -4,7 +4,7 @@
   "description": "Three.js starter - Beesly 🍜",
   "main": "app.js",
   "author": "Dakumisu",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "dev": "vite -m development -c config/vite.config.js",
     "build": "vite build -m production -c config/vite.config.js",
