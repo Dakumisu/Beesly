@@ -1,0 +1,7 @@
+@mixin stagger($step: 50ms, $initial: 0ms, $max: 20, $prop: "transition-delay") {
+	@for $i from 1 through $max {
+		&:nth-of-type(#{$i}) {
+			#{$prop}: $initial + $step * $i;
+		}
+	}
+}

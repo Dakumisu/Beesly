@@ -1,9 +1,11 @@
 @import './utils/_reset';
-@import './utils/_var';
-@import './utils/_fonts';
-@import './utils/_breakpoints';
-@import './utils/_easings';
 @import './utils/_tweakpane';
+@import './utils/_breakpoints';
+@import './utils/_touch';
+@import './utils/_animations';
+@import './utils/_fonts';
+@import './utils/_var';
+@import './utils/_easings';
 
 canvas.sketch {
 	width: 100vw;

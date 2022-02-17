@@ -1,89 +1,98 @@
-/*
-	Credits @Waaark (https://github.com/Waaark) ⚡
-*/
+$bp_w: (
+	desktop-lg: 2000px,
+	desktop-md: 1680px,
+	desktop-sm: 1280px,
 
-/* Desktop, large size */
-@mixin desktop-lg {
-	@media only screen and (min-width: 2000px) {
+	tablet: 987px,
+	tablet-portrait: 987px,
+	tablet-landscape: 987px,
+	tablet-sm: 767px,
+
+	phone: 576px,
+	phone-landscape: 767px,
+	phone-sm: 400px,
+	phone-xs: 360px
+);
+
+$bp_h: (
+	lg: 1400px,
+	md: 1080px,
+	sm: 720px,
+	xs: 480px
+);
+
+// WIDTH MIXINS
+@mixin below($max) {
+	@media (max-width: #{ $max - 1px }) {
 		@content;
 	}
 }
 
-/* Desktop, medium size */
-@mixin desktop-md {
-	@media only screen and (max-width: 1680px) {
+@mixin between($min, $max) {
+	@media (min-width: #{ $min }) and (max-width: #{ $max }) {
 		@content;
 	}
 }
 
-/* Desktop, small size */
-@mixin desktop-sm {
-	@media only screen and (max-width: 1280px) {
+@mixin above($min) {
+	@media (min-width: #{ $min + 1px }) {
 		@content;
 	}
 }
 
-/* Tablet portrait/landscape */
-@mixin tablet {
-	@media only screen and (max-width: 987px) {
+// HEIGHT MIXINS
+@mixin below-height($max) {
+	@media (max-height: #{ $max - 1px }) {
 		@content;
 	}
 }
 
-/* Tablet portrait */
-@mixin tablet-portrait {
-	@media only screen and (max-width: 987px) and (orientation: portrait) {
+@mixin between-height($min, $max) {
+	@media (min-height: #{ $min }) and (max-height: #{ $max }) {
 		@content;
 	}
 }
 
-/* Tablet landscape */
-@mixin tablet-landscape {
-	@media only screen and (max-width: 987px) and (orientation: landscape) {
+@mixin above-height($min) {
+	@media (min-height: #{ $min + 1px }) {
 		@content;
 	}
 }
 
-/* Small tablet */
-@mixin tablet-sm {
-	@media only screen and (max-width: 767px) {
+// HEIGHT + WIDTH MIXINS
+@mixin below-size($maxW, $maxH) {
+	@media (min-width: #{ $maxW + 1px }) and (min-height: #{ $maxH + 1px }) {
 		@content;
 	}
 }
 
-/* Phone */
-@mixin phone {
-
-	@media only screen and (max-width: 767px) and (orientation: landscape),
-	only screen and (max-width: 576px) {
+@mixin above-size($minW, $minH) {
+	@media (min-width: #{ $minW + 1px }) and (min-height: #{ $minH + 1px }) {
 		@content;
 	}
 }
 
-/* Phone landscape */
-@mixin phone-landscape {
-	@media only screen and (max-width: 767px) and (orientation: landscape) {
+// ORIENTATION
+@mixin below-landscape($max) {
+	@media (max-width: #{ $max - 1px }) and (orientation: landscape) {
 		@content;
 	}
 }
 
-/* Small height */
-@mixin sm-height {
-	@media only screen and (max-height: 480px) {
+@mixin above-landscape($min) {
+	@media (min-width: #{ $min - 1px }) and (orientation: landscape) {
 		@content;
 	}
 }
 
-/* Small phone */
-@mixin phone-sm {
-	@media only screen and (max-width: 400px) {
+@mixin below-portrait($max) {
+	@media (max-width: #{ $max - 1px }) and (orientation: portrait) {
 		@content;
 	}
 }
 
-/* Extra Small phone */
-@mixin phone-xs {
-	@media only screen and (max-width: 360px) {
+@mixin above-portrait($min) {
+	@media (min-width: #{ $min - 1px }) and (orientation: portrait) {
 		@content;
 	}
 }
