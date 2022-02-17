@@ -28,8 +28,7 @@ const params = {
 /// #if DEBUG
 const debug = {
 	instance: null,
-	title: 'Blueprint',
-	label: 'blueprint',
+	label: 'Blueprint',
 };
 /// #endif
 

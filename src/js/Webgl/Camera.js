@@ -6,14 +6,6 @@ import Webgl from './Webgl';
 import { store } from '@js/Tools/Store';
 import { imageAspect } from 'office-packages/math';
 
-/// #if DEBUG
-const debug = {
-	instance: null,
-	title: 'Camera',
-	label: 'camera',
-};
-/// #endif
-
 export default class Camera {
 	constructor(opt = {}) {
 		const webgl = new Webgl();
@@ -26,8 +18,6 @@ export default class Camera {
 			: this.setPerspectiveCamera();
 
 		/// #if DEBUG
-		debug.instance = webgl.debug;
-		this.debug();
 		this.setDebugCamera();
 		/// #endif
 	}
@@ -72,8 +62,6 @@ export default class Camera {
 	}
 
 	/// #if DEBUG
-	debug() {}
-
 	setDebugCamera() {
 		this.debugCam = {};
 		this.debugCam.camera = this.camera.clone();

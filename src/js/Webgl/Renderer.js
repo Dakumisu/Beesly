@@ -27,8 +27,7 @@ const params = {
 /// #if DEBUG
 const debug = {
 	instance: null,
-	title: 'Renderer',
-	label: 'renderer',
+	label: 'Renderer',
 };
 /// #endif
 
@@ -56,7 +55,7 @@ export default class Renderer {
 		this.context = this.renderer.getContext();
 		this.stats.setRenderPanel(this.context);
 
-		debug.instance.setFolder(debug.label, debug.title);
+		debug.instance.setFolder(debug.label);
 		const gui = debug.instance.getFolder(debug.label);
 
 		gui.addInput(params, 'clearColor', { label: 'background color' }).on(
@@ -74,6 +73,7 @@ export default class Renderer {
 			alpha: false,
 			antialias: true,
 			powerPreference: 'high-performance',
+			premultipliedAlpha: false,
 		});
 
 		this.renderer.setSize(store.resolution.width, store.resolution.height);

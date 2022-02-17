@@ -15,16 +15,18 @@ export default class Debug {
 		this.initTab();
 	}
 
-	setFolder(folderLabel, title, tabLabel = 'General', expanded = true) {
+	setFolder(folderLabel, tabLabel = tabList[0], expanded = true) {
+		const l = folderLabel.toLowerCase();
 		const tab = this.getTab(tabLabel);
-		this.debugFolders[folderLabel] = tab.addFolder({
-			title: title,
+		this.debugFolders[l] = tab.addFolder({
+			title: folderLabel,
 			expanded: expanded,
 		});
 	}
 
 	getFolder(folderLabel) {
-		return this.debugFolders[folderLabel];
+		const l = folderLabel.toLowerCase();
+		return this.debugFolders[l];
 	}
 
 	initTab() {
@@ -39,13 +41,13 @@ export default class Debug {
 	}
 
 	getTab(tabLabel, folderLabel) {
-		const check = tabList.indexOf(tabLabel);
-		if (check == -1)
+		const checkIndex = tabList.indexOf(tabLabel);
+		if (checkIndex == -1)
 			console.warn(
 				`Tab '${tabLabel}' doesn't exist ❗️ \n Setting folder in tab 'General' per default`,
 			);
 
-		const index = check == -1 ? 0 : check;
+		const index = checkIndex == -1 ? 0 : checkIndex;
 		return this.tabs.pages[index];
 	}
 }

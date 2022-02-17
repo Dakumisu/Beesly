@@ -4,7 +4,6 @@ import { store } from './Store';
 
 const html = document.documentElement;
 const deviceList = ['desktop', 'mobile'];
-// const styleList = []
 
 export default class Device extends Emitter {
 	constructor() {

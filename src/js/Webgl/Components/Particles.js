@@ -34,8 +34,7 @@ let initialized = false;
 /// #if DEBUG
 const debug = {
 	instance: null,
-	title: 'Particles',
-	label: 'particles',
+	label: 'Particles',
 };
 /// #endif
 
@@ -43,10 +42,10 @@ const debug = {
 export default class Particles {
 	constructor(opt = {}) {
 		const webgl = new Webgl();
-		const perf = webgl.perf;
+		const performance = webgl.performance;
 		this.scene = webgl.scene;
 
-		perf.on('quality', (quality) => {
+		performance.on('quality', (quality) => {
 			this.count = particlesCountList[quality];
 			this.updateAttributes();
 		});
@@ -72,7 +71,7 @@ export default class Particles {
 
 	/// #if DEBUG
 	debug() {
-		debug.instance.setFolder(debug.label, debug.title);
+		debug.instance.setFolder(debug.label);
 		const gui = debug.instance.getFolder(debug.label);
 
 		gui.addInput(params, 'color').on('change', (color) => {

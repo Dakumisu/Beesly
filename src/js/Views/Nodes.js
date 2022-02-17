@@ -26,16 +26,16 @@ export default class Nodes extends Emitter {
 
 	async getNodes() {
 		if (this.elements) return;
-		this.dom = [...document.querySelectorAll('[data-ref]')];
+		this.ref = [...document.querySelectorAll('[data-ref]')];
 		this.elements = {};
 
 		return new Promise((resolve) => {
-			for (const dom in this.dom) {
-				if (this.elements[this.dom[dom].dataset.ref])
-					this.elements[this.dom[dom].dataset.ref].push(
-						this.dom[dom],
+			for (const dom in this.ref) {
+				if (this.elements[this.ref[dom].dataset.ref])
+					this.elements[this.ref[dom].dataset.ref].push(
+						this.ref[dom],
 					);
-				else this.elements[this.dom[dom].dataset.ref] = [this.dom[dom]];
+				else this.elements[this.ref[dom].dataset.ref] = [this.ref[dom]];
 			}
 
 			for (const key in this.elements) {
@@ -59,7 +59,7 @@ export default class Nodes extends Emitter {
 	}
 
 	resetNodes() {
-		delete this.dom;
+		delete this.ref;
 		delete this.elements;
 	}
 

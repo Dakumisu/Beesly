@@ -1,4 +1,4 @@
-export const store = {
+const store = {
 	resolution: {
 		width: window.innerWidth,
 		height: window.innerHeight,
@@ -15,5 +15,4 @@ export const store = {
 	browser: null,
 };
 
-// set
-// get
+export { store };

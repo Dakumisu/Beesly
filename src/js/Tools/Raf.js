@@ -14,10 +14,6 @@ export default class Raf extends Emitter {
 		this.raf();
 	}
 
-	setFpsCap(limit) {
-		this.targetFps = limit;
-	}
-
 	play() {
 		this.playing = true;
 	}

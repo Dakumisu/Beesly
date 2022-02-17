@@ -54,7 +54,7 @@ export default class Webgl {
 		this.size = new Size();
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
-		this.perf = new PerformanceMonitor();
+		this.performance = new PerformanceMonitor();
 
 		this.world = new World();
 		this.raycaster = new Raycasters();
@@ -88,7 +88,7 @@ export default class Webgl {
 			this.render();
 		});
 
-		this.perf.everythingLoaded();
+		this.performance.everythingLoaded();
 		initialized = true;
 	}
 
@@ -104,7 +104,7 @@ export default class Webgl {
 		if (!initialized) return;
 
 		if (this.raycaster) this.raycaster.update();
-		if (this.perf) this.perf.update(this.raf.delta);
+		if (this.performance) this.performance.update(this.raf.delta);
 
 		/// #if DEBUG
 		if (this.debug) this.debug.stats.update();

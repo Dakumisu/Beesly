@@ -19,7 +19,7 @@ const qualityList = [
 	'G4M3RS', // ULTRA
 ];
 
-let bootFrames = 120;
+let bootFrames = 60;
 
 const MAX_PING_PONG = 2;
 const MAX_PREVAULT_PING_PONG = MAX_PING_PONG;
@@ -56,13 +56,12 @@ let initialized = false;
 /// #if DEBUG
 const debug = {
 	instance: null,
-	label: 'perf',
-	title: 'Perfomances',
+	label: 'Perfomances',
 	tab: 'Stats',
 };
 /// #endif
 
-export default class PerformanceMoniteur extends Emitter {
+export default class PerfomanceMonitor extends Emitter {
 	constructor() {
 		super();
 
@@ -93,7 +92,7 @@ export default class PerformanceMoniteur extends Emitter {
 
 	/// #if DEBUG
 	debug() {
-		debug.instance.setFolder(debug.label, debug.title, debug.tab);
+		debug.instance.setFolder(debug.label, debug.tab);
 		const gui = debug.instance.getFolder(debug.label);
 
 		gui.addMonitor(this, 'fps', { type: 'graph' });
@@ -155,7 +154,6 @@ export default class PerformanceMoniteur extends Emitter {
 
 	updateFps() {
 		fpsHistory[fpsHistoryIndex++] = fpsCount;
-		this.fps = fpsCount;
 		fpsHistoryIndex = fpsHistoryIndex % 4;
 
 		averageFps = median(fpsHistory);
@@ -262,6 +260,8 @@ export default class PerformanceMoniteur extends Emitter {
 
 		if (needHardReset) this.hardReset();
 		if (delay > 0) return (delay -= dt);
+
+		this.fps = 1000 / dt;
 
 		timer += dt;
 		fpsCount++;
