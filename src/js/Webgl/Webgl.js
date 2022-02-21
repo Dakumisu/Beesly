@@ -44,17 +44,17 @@ export default class Webgl {
 		/// #endif
 
 		this.views = new Views();
+		this.device = new Device();
+		this.size = new Size();
 
 		this.raf = new Raf();
 		this.scene = new ThreeScene();
 		this.camera = new Camera();
+		this.performance = new PerformanceMonitor();
 		this.renderer = new Renderer();
 
-		this.device = new Device();
-		this.size = new Size();
 		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
-		this.performance = new PerformanceMonitor();
 
 		this.world = new World();
 		this.raycaster = new Raycasters();
@@ -77,7 +77,6 @@ export default class Webgl {
 
 		this.size.on('resize', () => {
 			this.resize();
-			this.device.resize();
 			/// #if DEBUG
 			console.log('Resize spotted 📐');
 			/// #endif
@@ -89,6 +88,7 @@ export default class Webgl {
 		});
 
 		this.performance.everythingLoaded();
+		this.resize();
 		initialized = true;
 	}
 
@@ -115,6 +115,7 @@ export default class Webgl {
 		if (this.renderer) this.renderer.resize();
 		if (this.camera) this.camera.resize();
 		if (this.world) this.world.resize();
+		if (this.device) this.device.resize();
 	}
 
 	destroy() {}

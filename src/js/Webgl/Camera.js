@@ -23,12 +23,7 @@ export default class Camera {
 	}
 
 	setPerspectiveCamera() {
-		this.camera = new PerspectiveCamera(
-			75,
-			store.resolution.width / store.resolution.height,
-			0.1,
-			1000,
-		);
+		this.camera = new PerspectiveCamera(75, store.aspect.ratio, 0.1, 1000);
 		this.camera.position.set(2, 3, 3);
 		this.camera.lookAt(0, 0, 0);
 		this.camera.rotation.reorder('YXZ');
@@ -82,8 +77,7 @@ export default class Camera {
 
 	resize() {
 		if (this.type == 'Perspective') {
-			this.camera.aspect =
-				store.resolution.width / store.resolution.height;
+			this.camera.aspect = store.aspect.ratio;
 			this.camera.updateProjectionMatrix();
 		}
 
@@ -98,8 +92,7 @@ export default class Camera {
 		store.aspect.a2 = imgAspect.a2;
 
 		/// #if DEBUG
-		this.debugCam.camera.aspect =
-			store.resolution.width / store.resolution.height;
+		this.debugCam.camera.aspect = store.aspect.ratio;
 		this.debugCam.camera.updateProjectionMatrix();
 		/// #endif
 	}

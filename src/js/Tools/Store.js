@@ -6,6 +6,8 @@ const store = {
 	},
 
 	aspect: {
+		ratio: 0,
+
 		a1: 0,
 		a2: 0,
 	},

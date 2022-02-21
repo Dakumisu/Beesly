@@ -7,11 +7,17 @@
 @import './utils/_var';
 @import './utils/_easings';
 
-canvas.sketch {
+.canvas-container {
+	position: relative;
 	width: 100vw;
 	height: 100vh;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 0;
+
+	canvas.sketch {
+		width: 100% !important;
+		height: 100% !important;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 0;
+	}
 }

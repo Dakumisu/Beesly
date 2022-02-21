@@ -33,7 +33,8 @@ const LOW_THRESHOLD = 54;
 const CRITICAL_THRESHOLD = 30;
 const RESET_THRESHOLD = 50;
 
-const DEFAULT_QUALITY = JSON.parse(localStorage.getItem('quality')) || 3;
+let DEFAULT_QUALITY = localStorage.getItem('quality') || 3;
+DEFAULT_QUALITY = JSON.parse(DEFAULT_QUALITY);
 
 let fpsCount = 0;
 let averageFps = 0;

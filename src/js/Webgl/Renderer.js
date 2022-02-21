@@ -19,10 +19,21 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import Webgl from './Webgl';
 
 import { store } from '@js/Tools/Store';
+import { clamp } from 'philbin-packages/maths';
 
 const params = {
 	clearColor: '#151515',
 };
+
+const resolutionList = [
+	720, // 1280×720
+	1080, // 1920×1080
+	1440, // 2560×1440
+	2160, // 3840x2160
+];
+
+let resolutionQuality = localStorage.getItem('quality') || 2;
+resolutionQuality = JSON.parse(resolutionQuality);
 
 /// #if DEBUG
 const debug = {
@@ -34,9 +45,22 @@ const debug = {
 export default class Renderer {
 	constructor(opt = {}) {
 		const webgl = new Webgl();
+		const performance = webgl.performance;
 		this.scene = webgl.scene;
 		this.camera = webgl.camera.camera;
 		this.canvas = webgl.canvas;
+
+		performance.on('quality', (quality) => {
+			const q = clamp(
+				Math.ceil(quality / 2),
+				0,
+				resolutionList.length - 1,
+			);
+			if (resolutionQuality == q) return;
+			resolutionQuality = q;
+
+			this.updateSize(resolutionQuality);
+		});
 
 		this.usePostprocess = false;
 
@@ -66,6 +90,27 @@ export default class Renderer {
 		);
 	}
 	/// #endif
+
+	updateSize(quality) {
+		const sizes = {
+			width: Math.min(
+				store.resolution.width,
+				resolutionList[quality] * store.aspect.ratio,
+			),
+			height: Math.min(store.resolution.height, resolutionList[quality]),
+		};
+
+		this.renderer.setSize(sizes.width, sizes.height);
+		this.postProcess.composer.setSize(sizes.width, sizes.height);
+	}
+
+	resetSize() {
+		this.renderer.setSize(store.resolution.width, store.resolution.height);
+		this.postProcess.composer.setSize(
+			store.resolution.width,
+			store.resolution.height,
+		);
+	}
 
 	setRenderer() {
 		this.renderer = new WebGLRenderer({
@@ -126,13 +171,10 @@ export default class Renderer {
 	}
 
 	resize() {
-		this.renderer.setSize(store.resolution.width, store.resolution.height);
+		this.updateSize(resolutionQuality);
+
 		this.renderer.setPixelRatio(Math.min(store.resolution.dpr, 2));
 
-		this.postProcess.composer.setSize(
-			store.resolution.width,
-			store.resolution.height,
-		);
 		this.postProcess.composer.setPixelRatio(
 			Math.min(store.resolution.dpr, 2),
 		);
