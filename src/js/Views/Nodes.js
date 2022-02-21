@@ -18,10 +18,11 @@ export default class Nodes extends Emitter {
 		window.addEventListener('DOMContentLoaded', () => {
 			this.getNodes().then(() => {
 				initialized = true;
-				this.event();
 				this.emit('load');
 			});
 		});
+
+		this.event();
 	}
 
 	async getNodes() {
@@ -29,7 +30,7 @@ export default class Nodes extends Emitter {
 		this.ref = [...document.querySelectorAll('[data-ref]')];
 		this.elements = {};
 
-		return new Promise((resolve) => {
+		new Promise((resolve) => {
 			for (const dom in this.ref) {
 				if (this.elements[this.ref[dom].dataset.ref])
 					this.elements[this.ref[dom].dataset.ref].push(
@@ -38,6 +39,10 @@ export default class Nodes extends Emitter {
 				else this.elements[this.ref[dom].dataset.ref] = [this.ref[dom]];
 			}
 
+			resolve();
+		});
+
+		return new Promise((resolve) => {
 			for (const key in this.elements) {
 				if (this.elements[key].length === 1) {
 					const tmpValue = this.elements[key][0];
