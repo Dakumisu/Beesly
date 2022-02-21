@@ -1,7 +1,18 @@
-import hotMaterial from '@utils/webgl/hotMaterial';
+import { hotMaterial } from 'philbin-packages/webgl';
+
 import vs from './vertex.glsl';
 import fs from './fragment.glsl';
 
-export default hotMaterial(vs, fs, (update) => {
-	if (import.meta.hot) import.meta.hot.accept(update);
-});
+let hmr = false;
+/// #if DEBUG
+hmr = true;
+/// #endif
+
+export default hotMaterial(
+	vs,
+	fs,
+	(update) => {
+		if (import.meta.hot) import.meta.hot.accept(update);
+	},
+	hmr,
+);

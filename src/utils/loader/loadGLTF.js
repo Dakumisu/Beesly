@@ -7,7 +7,7 @@ import {
 	MeshNormalMaterial,
 } from 'three';
 
-import loadGLTFWorker from '@workers/wLoadGLTF?worker';
+import wLoadGLTF from '@workers/wLoadGLTF?worker';
 
 export default function loadModel(model) {
 	return new Promise((resolve) => {
@@ -22,7 +22,7 @@ export default function loadModel(model) {
 }
 
 function loadGLTF(src) {
-	const worker = loadGLTFWorker();
+	const worker = wLoadGLTF();
 
 	const geometries = [];
 

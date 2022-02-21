@@ -33,3 +33,21 @@
 .tp-lblv_l {
 	padding-right: 4px !important;
 }
+
+.tp-colswv_b {
+	&::after {
+		visibility: hidden;
+		display: none;
+	}
+	&:hover {
+		border: rgba(255,255,255,0.75) solid 2px;
+		border-radius: var(--elm-br);
+		bottom: 0;
+		content: '';
+		display: block;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}

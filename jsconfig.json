@@ -6,7 +6,7 @@
     "config/"
   ],
   "include": [
-    "node_modules/office-packages/**/*",
+    "node_modules/philbin-packages/**/*",
     "src/**/*",
     "public/**/*",
   ],

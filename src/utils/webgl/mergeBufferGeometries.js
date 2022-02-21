@@ -1,6 +1,6 @@
 import { BufferAttribute, BufferGeometry, Matrix4, Object3D } from 'three';
 
-import mergeGeoWorker from '@workers/wMergeGeo?worker';
+import wMergeGeo from '@workers/wMergeGeo?worker';
 
 import loadGLTF from '@utils/loader/loadGLTF';
 
@@ -83,7 +83,7 @@ function mergeGeometries() {
 }
 
 function mergeBufferGeometries(datas) {
-	const worker = mergeGeoWorker();
+	const worker = wMergeGeo();
 
 	const bufferGeometries = [];
 	const buffers = [];

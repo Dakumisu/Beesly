@@ -15,7 +15,7 @@
     "animejs": "^3.2.1",
     "detect-gpu": "^4.0.7",
     "howler": "^2.2.1",
-    "office-packages": "^1.0.4",
+    "philbin-packages": "^1.0.12",
     "three": "^0.125.1"
   },
   "devDependencies": {
@@ -26,6 +26,6 @@
     "stats-js": "^1.0.1",
     "tweakpane": "^3.0.7",
     "vite": "^2.7.13",
-    "vite-plugin-glsl": "^0.0.8"
+    "vite-plugin-glslify": "^2.0.1"
   }
 }

@@ -8,7 +8,7 @@ import Webgl from '@js/Webgl/Webgl';
 import Emitter from './Emitter';
 
 import { store } from './Store';
-import { clamp, median } from 'office-packages/math';
+import { clamp, median } from 'philbin-packages/maths';
 
 const qualityList = [
 	'POTATO', // VERY LOW
@@ -158,6 +158,7 @@ export default class PerfomanceMonitor extends Emitter {
 
 		averageFps = median(fpsHistory);
 
+		this.fps = fpsCount;
 		fpsCount = 0;
 		timer = timer % 1000;
 
@@ -260,8 +261,6 @@ export default class PerfomanceMonitor extends Emitter {
 
 		if (needHardReset) this.hardReset();
 		if (delay > 0) return (delay -= dt);
-
-		this.fps = 1000 / dt;
 
 		timer += dt;
 		fpsCount++;

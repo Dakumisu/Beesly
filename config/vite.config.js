@@ -1,5 +1,5 @@
 import { defineConfig, loadEnv } from 'vite';
-import glsl from 'vite-plugin-glsl';
+import glslify from 'vite-plugin-glslify';
 import ifdefRollupPlugin from './ifdef/ifdefRollupPlugin';
 
 import rollupConfig from './rollup.config';
@@ -30,7 +30,7 @@ export default ({ mode }) => {
 			stringify: true,
 		},
 
-		plugins: [glsl(), ifdefRollupPlugin(define)],
+		plugins: [glslify(), ifdefRollupPlugin(define)],
 
 		assetsInclude: ['**/*.glb', '**/*.gltf'],
 
