@@ -20,6 +20,8 @@
     "baseUrl": ".",
     "paths": {
       "@js/*": ["src/js/*"],
+      "@json/*": ["src/json/*"],
+      "@scss/*": ["src/scss/*"],
       "@utils/*": ["src/utils/*"],
       "@workers/*": ["src/workers/*"],
       "@src/*": ["src/*"],

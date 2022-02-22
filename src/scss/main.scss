@@ -21,3 +21,15 @@
 		z-index: 0;
 	}
 }
+
+div.ui {
+	position: fixed;
+	z-index: 1;
+	bottom: 0;
+	user-select: none;
+	pointer-events: none;
+
+	a {
+		pointer-events: all;
+	}
+}

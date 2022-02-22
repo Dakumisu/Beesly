@@ -33,6 +33,13 @@
 </head>
 
 <body>
+	<div class="ui">
+		<h1 data-ref="title" class="title">{{ home.title }}</h1>
+		<a target="_blank" href={{ home.doc.url }}>
+			<span class="doc">{{ home.doc.text }}</span>
+		</a>
+	</div>
+
 	<section class="canvas-container">
 		<canvas data-ref="canvas" class="sketch"></canvas>
 	</section>

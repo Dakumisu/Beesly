@@ -1,4 +1,4 @@
-import './scss/main.scss';
+import '@scss/main.scss';
 
 import Dom from '@js/Dom/Dom';
 import Webgl from '@js/Webgl/Webgl';

@@ -1,8 +1,11 @@
 import { defineConfig, loadEnv } from 'vite';
 import glslify from 'vite-plugin-glslify';
+import handlebars from 'vite-plugin-handlebars';
 import ifdefRollupPlugin from './ifdef/ifdefRollupPlugin';
 
 import rollupConfig from './rollup.config';
+
+import content from '../src/json/content.json';
 
 export default ({ mode }) => {
 	process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
@@ -30,7 +33,14 @@ export default ({ mode }) => {
 			stringify: true,
 		},
 
-		plugins: [glslify(), ifdefRollupPlugin(define)],
+		plugins: [
+			glslify(),
+			ifdefRollupPlugin(define),
+			handlebars({
+				reloadOnPartialChange: false,
+				context: content,
+			}),
+		],
 
 		assetsInclude: ['**/*.glb', '**/*.gltf'],
 
@@ -39,6 +49,14 @@ export default ({ mode }) => {
 				{
 					find: '@js',
 					replacement: '/src/js',
+				},
+				{
+					find: '@json',
+					replacement: '/src/json',
+				},
+				{
+					find: '@scss',
+					replacement: '/src/scss',
 				},
 				{
 					find: '@utils',

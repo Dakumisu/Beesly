@@ -49,6 +49,14 @@ dd {
 
 a {
 	text-decoration: none;
+
+	&:not([class]) {
+		text-decoration-skip-ink: auto;
+	}
+
+	&:visited {
+		color: inherit;
+	}
 }
 
 ul[role='list'],
@@ -58,10 +66,6 @@ ol[role='list'] {
 
 html:focus-within {
 	scroll-behavior: smooth;
-}
-
-a:not([class]) {
-	text-decoration-skip-ink: auto;
 }
 
 input,

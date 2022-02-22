@@ -26,6 +26,7 @@
     "stats-js": "^1.0.1",
     "tweakpane": "^3.0.7",
     "vite": "^2.7.13",
-    "vite-plugin-glslify": "^2.0.1"
+    "vite-plugin-glslify": "^2.0.1",
+    "vite-plugin-handlebars": "^1.6.0"
   }
 }
