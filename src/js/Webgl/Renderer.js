@@ -32,8 +32,7 @@ const resolutionList = [
 	2160, // 3840x2160
 ];
 
-let resolutionQuality = localStorage.getItem('quality') || 2;
-resolutionQuality = JSON.parse(resolutionQuality);
+let resolutionQuality = localStorage.getItem('quality') ? JSON.parse(localStorage.getItem('quality')) || 2;
 
 /// #if DEBUG
 const debug = {
