@@ -33,7 +33,9 @@ const LOW_THRESHOLD = 54;
 const CRITICAL_THRESHOLD = 30;
 const RESET_THRESHOLD = 50;
 
-const DEFAULT_QUALITY = localStorage.getItem('quality') ? JSON.parse(localStorage.getItem('quality')) || 3;
+const DEFAULT_QUALITY = localStorage.getItem('quality')
+	? JSON.parse(localStorage.getItem('quality'))
+	: 3;
 
 let fpsCount = 0;
 let averageFps = 0;
@@ -51,6 +53,9 @@ let prevaultInfinitePingPong = 0;
 let needHardReset = false;
 let needReset = false;
 
+let udpateActive = localStorage.getItem('updateQuality')
+	? JSON.parse(localStorage.getItem('updateQuality'))
+	: true;
 let initialized = false;
 
 /// #if DEBUG
@@ -109,8 +114,8 @@ export default class PerfomanceMonitor extends Emitter {
 		gui.addButton({
 			title: 'Toggle Update',
 		}).on('click', () => {
-			initialized = !initialized;
-			localStorage.setItem('updateQuality', initialized);
+			udpateActive = !udpateActive;
+			localStorage.setItem('updateQuality', udpateActive);
 		});
 
 		gui.addSeparator();
@@ -133,11 +138,6 @@ export default class PerfomanceMonitor extends Emitter {
 	everythingLoaded() {
 		initialized = true;
 		this.emit('quality', [this.quality]);
-
-		/// #if DEBUG
-		if (localStorage.getItem('updateQuality'))
-			initialized = JSON.parse(localStorage.getItem('updateQuality'));
-		/// #endif
 	}
 
 	async getGPU() {
@@ -162,6 +162,7 @@ export default class PerfomanceMonitor extends Emitter {
 		fpsCount = 0;
 		timer = timer % 1000;
 
+		if (!udpateActive) return;
 		if (!localStorage.getItem('quality')) {
 			if (
 				pingPong < MAX_PING_PONG &&
@@ -192,15 +193,6 @@ export default class PerfomanceMonitor extends Emitter {
 		}
 
 		newQuality = clamp(newQuality, 0, qualityList.length - 1);
-
-		// 		console.log(`
-		// pingpong : ${pingPong}
-		// count pingpong : ${prevaultInfinitePingPong}
-
-		// prev : ${prevQuality}
-		// quality : ${this.quality}
-		// new : ${newQuality}
-		// 		`);
 
 		if (newQuality === this.quality) {
 			pingPong = Math.max(0, pingPong - 0.2);
