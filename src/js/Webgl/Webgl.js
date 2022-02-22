@@ -1,7 +1,5 @@
 import { Scene as ThreeScene } from 'three';
 
-import Views from '@js/Views/Views';
-
 import Raf from '@js/Tools/Raf';
 import Size from '@js/Tools/Size';
 import Keyboard from '@js/Tools/Keyboard';
@@ -29,10 +27,7 @@ export default class Webgl {
 		}
 		Webgl.instance = this;
 
-		if (!_canvas) {
-			console.error(`Missing 'canvas' property 🚫`);
-			return;
-		}
+		if (!_canvas) return console.error(`Missing 'canvas' property 🚫`);
 		this.canvas = _canvas;
 
 		this.init();
@@ -43,7 +38,6 @@ export default class Webgl {
 		this.debug = new Debug();
 		/// #endif
 
-		this.views = new Views();
 		this.device = new Device();
 		this.size = new Size();
 

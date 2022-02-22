@@ -1,12 +1,12 @@
 import './scss/main.scss';
 
+import Dom from '@js/Dom/Dom';
 import Webgl from '@js/Webgl/Webgl';
-import Nodes from '@js/Views/Nodes';
 
-const nodes = new Nodes();
+const dom = new Dom();
 
-nodes.on('load', () => {
-	const webgl = new Webgl(nodes.elements.canvas);
+dom.nodes.on('load', () => {
+	const webgl = new Webgl(dom.nodes.elements.canvas);
 });
 
 /// #if DEBUG

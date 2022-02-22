@@ -15,6 +15,8 @@ const store = {
 	style: null,
 	device: null,
 	browser: null,
+
+	views: null,
 };
 
 export { store };
