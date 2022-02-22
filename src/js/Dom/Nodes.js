@@ -5,20 +5,14 @@ import { store } from '@js/Tools/Store';
 let initialized = false;
 
 export default class Nodes extends Emitter {
-	static instance;
-
 	constructor() {
 		super();
 
-		if (Nodes.instance) {
-			return Nodes.instance;
-		}
-		Nodes.instance = this;
+		this.event();
 
 		window.addEventListener('DOMContentLoaded', () => {
 			this.getNodes().then(() => {
 				initialized = true;
-				this.event();
 				this.emit('load');
 			});
 		});
@@ -54,11 +48,11 @@ export default class Nodes extends Emitter {
 
 		document.body.appendChild(docFragment);
 
-		this.resetNodes();
+		this.destroy();
 		this.getNodes();
 	}
 
-	resetNodes() {
+	destroy() {
 		delete this.ref;
 		delete this.elements;
 	}
