@@ -1,8 +1,9 @@
 import Emitter from '@js/Tools/Emitter';
 
 import Nodes from './Nodes';
-import HomeElement from './Shadow/home/HomeElement';
 import Views from './Views';
+
+import Home from './Shadow/home/Home';
 
 let initialized = false;
 

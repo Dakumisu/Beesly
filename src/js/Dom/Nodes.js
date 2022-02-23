@@ -1,6 +1,7 @@
 import Emitter from '@js/Tools/Emitter';
 
 import { store } from '@js/Tools/Store';
+import { wait } from 'philbin-packages/utils';
 
 let initialized = false;
 
@@ -10,38 +11,44 @@ export default class Nodes extends Emitter {
 
 		this.event();
 
-		window.addEventListener('DOMContentLoaded', () => {
-			this.getNodes().then(() => {
-				initialized = true;
-				this.emit('load');
-			});
+		window.addEventListener('DOMContentLoaded', async () => {
+			await this.getNodes();
+			await wait(100);
+			await this.getShadowNodes();
+
+			initialized = true;
+			this.emit('load');
 		});
 
 		this.event();
 	}
 
 	async getNodes() {
-		if (this.elements) return;
-		this.ref = [...document.querySelectorAll('[data-ref]')];
-		this.elements = {};
+		if (this.domElements) return this.domElements;
+
+		this.domRef = [...document.querySelectorAll('[data-ref]')];
+		this.domElements = {};
 
 		new Promise((resolve) => {
-			for (const dom in this.ref) {
-				if (this.elements[this.ref[dom].dataset.ref])
-					this.elements[this.ref[dom].dataset.ref].push(
-						this.ref[dom],
+			for (const key in this.domRef) {
+				if (this.domElements[this.domRef[key].dataset.ref])
+					this.domElements[this.domRef[key].dataset.ref].push(
+						this.domRef[key],
 					);
-				else this.elements[this.ref[dom].dataset.ref] = [this.ref[dom]];
+				else
+					this.domElements[this.domRef[key].dataset.ref] = [
+						this.domRef[key],
+					];
 			}
 
 			resolve();
 		});
 
 		return new Promise((resolve) => {
-			for (const key in this.elements) {
-				if (this.elements[key].length === 1) {
-					const tmpValue = this.elements[key][0];
-					this.elements[key] = tmpValue;
+			for (const key in this.domElements) {
+				if (this.domElements[key].length === 1) {
+					const tmpValue = this.domElements[key][0];
+					this.domElements[key] = tmpValue;
 				}
 			}
 
@@ -49,18 +56,68 @@ export default class Nodes extends Emitter {
 		});
 	}
 
-	generateNodes(json) {
-		const docFragment = document.createElement(DocumentFragment);
+	async getShadowNodes() {
+		if (this.shadowElements) return this.shadowElements;
 
-		document.body.appendChild(docFragment);
+		this.shadowElements = {};
 
-		this.destroy();
-		this.getNodes();
+		for (const key in this.domElements) {
+			if (this.domElements[key].shadowRoot) {
+				const parent = this.domElements[key];
+				const parentName = this.domElements[key].dataset.ref;
+				const childContainer = parent.shadowRoot.children[1];
+
+				this.shadowElements[parentName] = {};
+
+				this.shadowRef = [
+					...childContainer.querySelectorAll('[data-ref]'),
+				];
+
+				for (const key in this.shadowRef) {
+					if (
+						this.shadowElements[parentName][
+							this.shadowRef[key].dataset.ref
+						]
+					)
+						this.shadowElements[parentName][
+							this.shadowRef[key].dataset.ref
+						].push(this.shadowRef[key]);
+					else
+						this.shadowElements[parentName][
+							this.shadowRef[key].dataset.ref
+						] = [this.shadowRef[key]];
+				}
+			}
+		}
+
+		return new Promise((resolve) => {
+			for (const key in this.shadowElements) {
+				const parent = this.shadowElements[key];
+				for (const key in parent) {
+					if (parent[key].length === 1) {
+						const tmpValue = parent[key][0];
+						parent[key] = tmpValue;
+					}
+				}
+			}
+
+			resolve();
+		});
 	}
 
 	destroy() {
-		delete this.ref;
-		delete this.elements;
+		delete this.domRef;
+		delete this.shadowRef;
+		delete this.domElements;
+		delete this.shadowElements;
+	}
+
+	async reset() {
+		this.destroy();
+
+		await this.getNodes();
+		await wait(100);
+		await this.getShadowNodes();
 	}
 
 	event() {

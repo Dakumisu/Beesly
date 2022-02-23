@@ -1,9 +1,12 @@
 .container {
 	position: relative;
-	pointer-events: all;
+	pointer-events: none;
 
 	a {
 		pointer-events: all;
-		color: var(--secondary-color);
+
+		span {
+			color: var(--secondary-color);
+		}
 	}
 }

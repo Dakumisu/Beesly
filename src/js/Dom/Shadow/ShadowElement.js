@@ -1,3 +1,5 @@
+import Dom from '../Dom';
+
 export default class ShadowElement extends HTMLElement {
 	static get observedAttributes() {
 		return [''];
@@ -19,6 +21,9 @@ export default class ShadowElement extends HTMLElement {
 		/// #if DEBUG
 		console.log(`Element ${this.localName} removed from page.`);
 		/// #endif
+
+		const dom = new Dom();
+		dom.nodes.reset();
 	}
 
 	adoptedCallback() {
