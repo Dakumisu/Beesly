@@ -21,7 +21,6 @@ export default class Dom extends Emitter {
 		this.pages = {};
 
 		this.init();
-		this.shadowDom();
 	}
 
 	init() {
