@@ -27,6 +27,7 @@
     "tweakpane": "^3.0.7",
     "vite": "^2.7.13",
     "vite-plugin-glslify": "^2.0.1",
-    "vite-plugin-handlebars": "^1.6.0"
+    "vite-plugin-handlebars": "^1.6.0",
+    "vite-plugin-html-template": "^1.1.1"
   }
 }

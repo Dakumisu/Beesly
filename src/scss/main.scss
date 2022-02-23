@@ -7,7 +7,7 @@
 @import './utils/_var';
 @import './utils/_easings';
 
-.canvas-container {
+section.canvas-container {
 	position: relative;
 	width: 100vw;
 	height: 100vh;
@@ -23,13 +23,17 @@
 }
 
 div.ui {
+	width: 100vw;
+	height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-start;
+
 	position: fixed;
 	z-index: 1;
 	bottom: 0;
 	user-select: none;
 	pointer-events: none;
-
-	a {
-		pointer-events: all;
-	}
 }

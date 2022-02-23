@@ -1,0 +1,9 @@
+.container {
+	position: relative;
+	pointer-events: all;
+
+	a {
+		pointer-events: all;
+		color: var(--secondary-color);
+	}
+}

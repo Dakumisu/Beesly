@@ -11,7 +11,7 @@
 
 html {
 	height: 100vh; // keyboard ios hack
-	background: red;
+	background: #151515;
 	color: white;
 	font-family: -apple-system, Avenir, Roboto, "Open Sans", "Helvetica Neue", sans-serif;
 	font-weight: bold;
@@ -20,7 +20,7 @@ html {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-touch-callout: none; // disable iOS Link Preview
-	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	-webkit-tap-highlight-color: #ffffff00;
 }
 
 body {

@@ -87,3 +87,114 @@ export default ({ mode }) => {
 		},
 	});
 };
+
+// import { defineConfig, loadEnv } from 'vite';
+// import glslify from 'vite-plugin-glslify';
+// import handlebars from 'vite-plugin-handlebars';
+// import htmlTemplate from 'vite-plugin-html-template';
+// import ifdefRollupPlugin from './ifdef/ifdefRollupPlugin';
+
+// import rollupConfig from './rollup.config';
+
+// import content from '../src/json/content.json';
+
+// const html = {
+// 	pagesDir: 'src/js/Dom/Shadow/pages',
+
+// 	pages: {
+// 		index: {
+// 			template: './index.html',
+// 			title: 'Index',
+// 		},
+// 		home: {
+// 			template: 'src/js/Dom/Shadow/home/home.html',
+// 			title: 'Home',
+// 		},
+// 	},
+
+// 	data: {
+// 		title: 'Homepage',
+// 	},
+// };
+
+// export default ({ mode }) => {
+// 	process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+// 	if (!process.env.NODE_ENV) process.env.NODE_ENV = mode;
+
+// 	console.log('🏓 Environnement :', process.env.NODE_ENV);
+
+// 	const debug = process.env.NODE_ENV
+// 		? process.env.NODE_ENV != 'production'
+// 		: true;
+// 	const define = {
+// 		DEBUG: debug,
+// 	};
+
+// 	return defineConfig({
+// 		server: {
+// 			port: '8080',
+// 			https: false,
+// 			open: false,
+// 			host: true,
+// 			hmr: { port: 8080 },
+// 		},
+
+// 		json: {
+// 			stringify: true,
+// 		},
+
+// 		plugins: [
+// 			glslify(),
+// 			ifdefRollupPlugin(define),
+// 			handlebars({
+// 				reloadOnPartialChange: false,
+// 				context: content,
+// 			}),
+// 			htmlTemplate(html),
+// 		],
+
+// 		assetsInclude: ['**/*.glb', '**/*.gltf'],
+
+// 		resolve: {
+// 			alias: [
+// 				{
+// 					find: '@js',
+// 					replacement: '/src/js',
+// 				},
+// 				{
+// 					find: '@json',
+// 					replacement: '/src/json',
+// 				},
+// 				{
+// 					find: '@scss',
+// 					replacement: '/src/scss',
+// 				},
+// 				{
+// 					find: '@utils',
+// 					replacement: '/src/utils',
+// 				},
+// 				{
+// 					find: '@workers',
+// 					replacement: '/src/workers',
+// 				},
+// 				{
+// 					find: '@src',
+// 					replacement: '/src',
+// 				},
+// 				{
+// 					find: '@@',
+// 					replacement: '/*',
+// 				},
+// 			],
+// 			extensions: ['.cjs', '.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
+// 		},
+
+// 		preprocessorOptions: {
+// 			scss: {
+// 				sassOptions: {
+// 					outputStyle: 'compressed',
+// 				},
+// 			},
+// 		},
+// 	});
+// };
