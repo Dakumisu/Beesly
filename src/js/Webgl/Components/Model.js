@@ -20,12 +20,11 @@ export default class Model {
 		initialized = true;
 	}
 
-	load() {
-		loadModel(model).then((response) => {
-			this.object.mesh = response;
-			this.object.mesh.position.set(0, -2, 0);
-			this.scene.add(this.object.mesh);
-		});
+	async load() {
+		this.object.mesh = await loadModel(model);
+
+		this.object.mesh.position.set(0, -2, 0);
+		this.scene.add(this.object.mesh);
 	}
 
 	addObject(object) {

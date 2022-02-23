@@ -6,22 +6,16 @@ const gltfLoader = new GLTFLoader();
 gltfLoader.setMeshoptDecoder(MeshoptDecoder);
 
 async function loadGLTF(url, opts = {}) {
-	return new Promise((resolve) => {
-		new Promise((resolve) => {
-			const response = fetch(url);
-			resolve(response);
-		}).then((response) => {
-			const res = response.arrayBuffer().then((e) => {
-				new Promise((resolve) =>
-					gltfLoader.parse(e, '', (data) => {
-						if (opts.onLoad) opts.onLoad(data);
-						resolve(data);
-					}),
-				).then((e) => {
-					resolve(e);
-				});
-			});
-		});
+	return new Promise((resolve, reject) => {
+		gltfLoader.load(
+			url,
+			(data) => {
+				if (opts.onLoad) opts.onLoad(data);
+				resolve(data);
+			},
+			() => {},
+			reject,
+		);
 	});
 }
 
