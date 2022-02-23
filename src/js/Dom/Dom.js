@@ -3,7 +3,7 @@ import Emitter from '@js/Tools/Emitter';
 import Nodes from './Nodes';
 import Views from './Views';
 
-import Home from './Shadow/Home/Home.js';
+import Home from './Shadow/home/home.js';
 
 let initialized = false;
 
@@ -27,10 +27,6 @@ export default class Dom extends Emitter {
 	init() {
 		this.nodes = new Nodes();
 		this.views = new Views();
-	}
-
-	shadowDom() {
-		// this.pages.home = new HomeElement();
 	}
 
 	event() {
