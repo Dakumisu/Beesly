@@ -3,7 +3,7 @@ import glslify from 'vite-plugin-glslify';
 import handlebars from 'vite-plugin-handlebars';
 import ifdefRollupPlugin from './ifdef/ifdefRollupPlugin';
 
-import rollupConfig from './rollup.config';
+// import rollupConfig from './rollup.config';
 
 import content from '../src/json/content.json';
 
@@ -53,7 +53,7 @@ export default ({ mode }) => {
 
 		assetsInclude: ['**/*.glb', '**/*.gltf'],
 
-		rollupOptions: rollupConfig,
+		// rollupOptions: rollupConfig,
 
 		resolve: {
 			alias: [
