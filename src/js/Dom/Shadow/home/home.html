@@ -1,8 +1,8 @@
 <section class="page page-home">
 	<div class="container">
-		<h1 data-ref="title" class="title">Beesly</h1>
-		<a target="_blank" href="">
-			<span class="doc"></span>
+		<h1 data-ref="title" class="title">{{ home.title }}</h1>
+		<a target="_blank" href={{ home.doc.url }}>
+			<span class="doc">{{ home.doc.text }}</span>
 		</a>
 	</div>
 </section>

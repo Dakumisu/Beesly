@@ -6,6 +6,8 @@ import { wait } from 'philbin-packages/utils';
 import homeStyle from './home.scss';
 import mainStyle from '@scss/main.scss';
 
+import h from './home.html?url';
+
 export default class HomeTest extends ShadowElement {
 	static initialized;
 
@@ -16,11 +18,13 @@ export default class HomeTest extends ShadowElement {
 		this.checkStyle.home = homeStyle;
 		this.checkStyle.main = mainStyle;
 
+		console.log(h);
+
 		this.setShadowComponent();
 	}
 
 	async setShadowComponent() {
-		const html = await loadHTML('./home.html', import.meta.url);
+		const html = await loadHTML(h, import.meta.url);
 
 		const template = document.createElement('template');
 		template.innerHTML = html;
@@ -57,11 +61,16 @@ export default class HomeTest extends ShadowElement {
 				);
 
 				const homeScss = JSON.parse(
-					'"' +
+					`" ${
 						homeScssFile.match(
 							/__vite__css = "((?:.|\n)+?[^\\])"\n/i,
-						)[1] +
-						'"',
+						)[1]
+					}"`,
+					// '"' +
+					// 	homeScssFile.match(
+					// 		/__vite__css = "((?:.|\n)+?[^\\])"\n/i,
+					// 	)[1] +
+					// 	'"',
 				);
 				const mainScss = JSON.parse(
 					'"' +
