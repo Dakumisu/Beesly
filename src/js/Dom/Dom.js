@@ -1,7 +1,7 @@
 import Nodes from './Nodes';
 import Views from './Views';
 
-import Home from './Shadow/home/home';
+import Home from './Shadow/home/homeTest.js';
 
 let initialized = false;
 

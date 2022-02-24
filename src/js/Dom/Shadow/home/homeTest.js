@@ -8,7 +8,7 @@ import mainStyle from '@scss/main.scss';
 
 import html from './home.html?raw';
 
-export default class Home extends ShadowElement {
+export default class HomeTest extends ShadowElement {
 	static initialized;
 
 	constructor() {
@@ -88,4 +88,4 @@ export default class Home extends ShadowElement {
 	}
 }
 
-customElements.define('home-page', Home);
+customElements.define('home-page', HomeTest);
