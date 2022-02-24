@@ -1,4 +1,4 @@
-import ShadowElement from '../shadowElement';
+import ShadowElement from '@js/Dom/Shadow/ShadowElement';
 
 import { loadHTML } from '@utils/loader/loadHTML';
 import { wait } from 'philbin-packages/utils';
