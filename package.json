@@ -16,6 +16,7 @@
     "detect-gpu": "^4.0.7",
     "howler": "^2.2.1",
     "philbin-packages": "^1.0.15",
+    "rollup-plugin-handlebars-plus": "^0.4.2",
     "three": "^0.125.1"
   },
   "devDependencies": {
