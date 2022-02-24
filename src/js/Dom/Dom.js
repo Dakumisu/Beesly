@@ -3,7 +3,7 @@ import Emitter from '@js/Tools/Emitter';
 import Nodes from './Nodes';
 import Views from './Views';
 
-import Home from './Shadow/home/home.js';
+// import Home from './Shadow/home/home.js';
 
 let initialized = false;
 
