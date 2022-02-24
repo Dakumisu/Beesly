@@ -6,6 +6,8 @@ import { wait } from 'philbin-packages/utils';
 import homeStyle from './home.scss';
 import mainStyle from '@scss/main.scss';
 
+import html from './home.html?raw';
+
 export default class Home extends ShadowElement {
 	static initialized;
 
@@ -20,7 +22,7 @@ export default class Home extends ShadowElement {
 	}
 
 	async setShadowComponent() {
-		const html = await loadHTML('./home.html', import.meta.url);
+		// const html = await loadHTML('./home.html', import.meta.url);
 
 		const template = document.createElement('template');
 		template.innerHTML = html;
