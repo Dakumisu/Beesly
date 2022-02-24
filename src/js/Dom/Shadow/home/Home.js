@@ -43,9 +43,6 @@ export default class Home extends ShadowElement {
 	update() {
 		if (import.meta.hot) {
 			import.meta.hot.on('vite:beforeUpdate', async (data) => {
-				let newHomeStyle = this.checkStyle.home;
-				let newMainStyle = this.checkStyle.main;
-
 				const homeScssUrl = new URL('./home.scss', import.meta.url)
 					.href;
 				const homeScssFile = await fetch(homeScssUrl).then((response) =>
@@ -59,14 +56,14 @@ export default class Home extends ShadowElement {
 					response.text(),
 				);
 
-				const homeStyle = JSON.parse(
+				const homeScss = JSON.parse(
 					'"' +
 						homeScssFile.match(
 							/__vite__css = "((?:.|\n)+?[^\\])"\n/i,
 						)[1] +
 						'"',
 				);
-				const mainStyle = JSON.parse(
+				const mainScss = JSON.parse(
 					'"' +
 						mainScssFile.match(
 							/__vite__css = "((?:.|\n)+?[^\\])"\n/i,
@@ -74,14 +71,14 @@ export default class Home extends ShadowElement {
 						'"',
 				);
 
-				if (this.checkStyle.home != homeStyle) {
-					newHomeStyle = homeStyle;
-					this.checkStyle.home = newHomeStyle;
-				}
-				if (this.checkStyle.main != mainStyle) {
-					newMainStyle = mainStyle;
-					this.checkStyle.main = newMainStyle;
-				}
+				let newHomeStyle = this.checkStyle.home;
+				let newMainStyle = this.checkStyle.main;
+
+				if (this.checkStyle.home != homeScss)
+					newHomeStyle = this.checkStyle.home = homeScss;
+
+				if (this.checkStyle.main != mainScss)
+					newMainStyle = this.checkStyle.main = mainScss;
 
 				this.styleNode.data = newHomeStyle + '\n' + newMainStyle;
 			});

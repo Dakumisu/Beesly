@@ -1,18 +1,14 @@
-import Emitter from '@js/Tools/Emitter';
-
 import Nodes from './Nodes';
 import Views from './Views';
 
-import Home from './Shadow/home/home.js';
+import Home from './Shadow/home/home';
 
 let initialized = false;
 
-export default class Dom extends Emitter {
+export default class Dom {
 	static instance;
 
 	constructor() {
-		super();
-
 		if (Dom.instance) {
 			return Dom.instance;
 		}
