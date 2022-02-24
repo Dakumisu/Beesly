@@ -1,4 +1,4 @@
-var handlebars = require('rollup-plugin-handlebars-plus');
+import handlebars from 'rollup-plugin-handlebars';
 
 import content from '../src/json/content.json';
 

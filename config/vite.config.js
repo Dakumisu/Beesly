@@ -53,6 +53,8 @@ export default ({ mode }) => {
 
 		assetsInclude: ['**/*.glb', '**/*.gltf'],
 
+		rollupOptions: rollupConfig,
+
 		resolve: {
 			alias: [
 				{
