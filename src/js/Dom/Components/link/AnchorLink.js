@@ -36,7 +36,7 @@ export default class AnchorLink extends HTMLElement {
 		/// #endif
 
 		const dom = new Dom();
-		dom.nodes.reset();
+		dom.nodes.delete(this.dataset.ref);
 	}
 
 	adoptedCallback() {

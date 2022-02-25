@@ -58,12 +58,11 @@ export default class Nodes extends Emitter {
 			if (this.domElements[key].shadowRoot) {
 				const parent = this.domElements[key];
 				const parentName = this.domElements[key].dataset.ref;
-				const childContainer = parent.shadowRoot.children[0];
 
 				this.shadowElements[parentName] = {};
 
 				this.shadowRef = [
-					...childContainer.querySelectorAll('[data-ref]'),
+					...parent.shadowRoot.querySelectorAll('[data-ref]'),
 				];
 
 				for (const key in this.shadowRef) {
@@ -96,6 +95,11 @@ export default class Nodes extends Emitter {
 
 			resolve();
 		});
+	}
+
+	delete(node) {
+		delete this.domElements[node];
+		delete this.shadowElements[node];
 	}
 
 	destroy() {
