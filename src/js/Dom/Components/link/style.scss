@@ -18,13 +18,13 @@
 			background: var(--secondary-color);
 			transform: scaleX(1);
 			transform-origin: bottom left;
-			transition: transform 1s $ease_in-out-smooth;
+			transition: transform .75s $ease_in-out-smooth;
 		}
 	}
 
 	&:hover span::after {
 		transform-origin: bottom right;
 		transform: scaleX(0);
-		transition: transform 1s $ease_in-out-smooth;
+		transition: transform .75s $ease_in-out-smooth;
 	}
 }
