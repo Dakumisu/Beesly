@@ -1,9 +1,10 @@
 @import '../../../../scss/main.scss';
 
-.lineHoverEffect {
+a.lineHoverEffect {
 	position: relative;
 	pointer-events: all;
 	margin: 0;
+	color: var(--secondary-color);
 
 	span {
 		mix-blend-mode: difference;
