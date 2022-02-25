@@ -3,24 +3,17 @@ import Emitter from '@js/Tools/Emitter';
 import { store } from '@js/Tools/Store';
 import { wait } from 'philbin-packages/utils';
 
-let initialized = false;
-
 export default class Nodes extends Emitter {
 	constructor() {
 		super();
-
-		this.event();
 
 		window.addEventListener('DOMContentLoaded', async () => {
 			await this.getNodes();
 			await wait(100);
 			await this.getShadowNodes();
 
-			initialized = true;
 			this.emit('load');
 		});
-
-		this.event();
 	}
 
 	async getNodes() {
@@ -65,7 +58,7 @@ export default class Nodes extends Emitter {
 			if (this.domElements[key].shadowRoot) {
 				const parent = this.domElements[key];
 				const parentName = this.domElements[key].dataset.ref;
-				const childContainer = parent.shadowRoot.children[1];
+				const childContainer = parent.shadowRoot.children[0];
 
 				this.shadowElements[parentName] = {};
 
@@ -118,9 +111,5 @@ export default class Nodes extends Emitter {
 		await this.getNodes();
 		await wait(100);
 		await this.getShadowNodes();
-	}
-
-	event() {
-		if (!initialized) return;
 	}
 }

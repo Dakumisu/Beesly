@@ -1,0 +1,28 @@
+@import '../../../../scss/main.scss';
+
+.cta {
+	pointer-events: all;
+	position: relative;
+	border: 1px solid var(--primary-color);
+
+	&[size='default'] {
+		width: auto;
+	}
+
+	&[size='large'] {
+		width: 200px;
+	}
+
+	&[size='tiny'] {
+		width: 50px;
+	}
+
+	button {
+		position: relative;
+		width: 100%;
+		height: 100%;
+
+		cursor: pointer;
+		outline: none;
+	}
+}

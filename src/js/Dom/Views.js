@@ -9,8 +9,6 @@ export default class Views extends Emitter {
 		super();
 
 		this.setViewsList();
-
-		this.event();
 	}
 
 	setViewsList() {
@@ -30,6 +28,7 @@ export default class Views extends Emitter {
 
 		this.viewList[view] = view;
 		store.views = this.viewList;
+
 		/// #if DEBUG
 		console.log(`View '${view}' added to the list ✔`);
 		/// #endif
@@ -41,6 +40,7 @@ export default class Views extends Emitter {
 
 		delete this.viewList[view];
 		store.views = this.viewList;
+
 		/// #if DEBUG
 		console.log(`View '${view}' removed to the list ✔`);
 		/// #endif
@@ -58,6 +58,4 @@ export default class Views extends Emitter {
 	getView() {
 		return this.currentView;
 	}
-
-	event() {}
 }

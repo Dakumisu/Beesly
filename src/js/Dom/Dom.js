@@ -1,7 +1,8 @@
+import CtaButton from './Components/button/CtaButton';
+import AnchorLink from './Components/link/AnchorLink';
+
 import Nodes from './Nodes';
 import Views from './Views';
-
-import Home from './Shadow/home/homeTest.js';
 
 let initialized = false;
 

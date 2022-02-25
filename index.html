@@ -34,7 +34,12 @@
 
 <body>
 	<div class="ui">
-		<home-page data-ref="home"></home-page>
+		<h1 data-ref="title" class="title">{{ home.title }}</h1>
+		<anchor-link data-ref="anchor" ref="link" label="{{ home.doc.text }}" link="{{ home.doc.url }}" blank>
+		</anchor-link>
+
+		<!-- button example -->
+		<!-- <cta-button data-ref="cta" ref="button" label="Button" size="large"></cta-button> -->
 	</div>
 
 	<section class="canvas-container">
