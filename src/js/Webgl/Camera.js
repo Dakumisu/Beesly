@@ -23,17 +23,22 @@ export default class Camera {
 	}
 
 	setPerspectiveCamera() {
-		this.camera = new PerspectiveCamera(75, store.aspect.ratio, 0.1, 1000);
-		this.camera.position.set(2, 3, 3);
-		this.camera.lookAt(0, 0, 0);
-		this.camera.rotation.reorder('YXZ');
+		this.instance = new PerspectiveCamera(
+			75,
+			store.aspect.ratio,
+			0.1,
+			1000,
+		);
+		this.instance.position.set(2, 3, 3);
+		this.instance.lookAt(0, 0, 0);
+		this.instance.rotation.reorder('YXZ');
 
-		this.scene.add(this.camera);
+		this.scene.add(this.instance);
 	}
 
 	setOrthographicCamera() {
 		const frustrumSize = 1;
-		this.camera = new OrthographicCamera(
+		this.instance = new OrthographicCamera(
 			frustrumSize / -2,
 			frustrumSize / 2,
 			frustrumSize / 2,
@@ -41,7 +46,7 @@ export default class Camera {
 			-1000,
 			1000,
 		);
-		this.camera.position.set(0, 0, 1);
+		this.instance.position.set(0, 0, 1);
 
 		// If you want to keep the aspect of your image
 		const aspect = 1 / 1; // Aspect of the displayed image
@@ -53,13 +58,13 @@ export default class Camera {
 		store.aspect.a1 = imgAspect.a1;
 		store.aspect.a2 = imgAspect.a2;
 
-		this.scene.add(this.camera);
+		this.scene.add(this.instance);
 	}
 
 	/// #if DEBUG
 	setDebugCamera() {
 		this.debugCam = {};
-		this.debugCam.camera = this.camera.clone();
+		this.debugCam.camera = this.instance.clone();
 		this.debugCam.camera.rotation.reorder('YXZ');
 
 		this.debugCam.orbitControls = new OrbitControls(
@@ -77,8 +82,8 @@ export default class Camera {
 
 	resize() {
 		if (this.type == 'Perspective') {
-			this.camera.aspect = store.aspect.ratio;
-			this.camera.updateProjectionMatrix();
+			this.instance.aspect = store.aspect.ratio;
+			this.instance.updateProjectionMatrix();
 		}
 
 		// If you want to keep the aspect of your image in a shader
@@ -101,9 +106,9 @@ export default class Camera {
 		/// #if DEBUG
 		this.debugCam.orbitControls.update();
 
-		this.camera.position.copy(this.debugCam.camera.position);
-		this.camera.quaternion.copy(this.debugCam.camera.quaternion);
-		this.camera.updateMatrixWorld();
+		this.instance.position.copy(this.debugCam.camera.position);
+		this.instance.quaternion.copy(this.debugCam.camera.quaternion);
+		this.instance.updateMatrixWorld();
 		/// #endif
 	}
 

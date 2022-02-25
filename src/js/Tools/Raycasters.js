@@ -13,7 +13,7 @@ export default class Raycasters extends Emitter {
 		const webgl = new Webgl();
 		this.scene = webgl.scene;
 		this.mouse = webgl.mouse.scene;
-		this.camera = webgl.camera.camera;
+		this.camera = webgl.camera.instance;
 
 		this.initRaycaster();
 

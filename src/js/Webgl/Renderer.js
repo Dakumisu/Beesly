@@ -18,6 +18,8 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 import Webgl from './Webgl';
 
+import PostFX from './PostProcessing/PostProcessing';
+
 import { store } from '@js/Tools/Store';
 import { clamp } from 'philbin-packages/maths';
 
@@ -48,7 +50,7 @@ export default class Renderer {
 		const webgl = new Webgl();
 		const performance = webgl.performance;
 		this.scene = webgl.scene;
-		this.camera = webgl.camera.camera;
+		this.camera = webgl.camera.instance;
 		this.canvas = webgl.canvas;
 
 		performance.on('quality', (quality) => {
@@ -62,8 +64,6 @@ export default class Renderer {
 
 			this.updateSize(resolutionQuality);
 		});
-
-		this.usePostprocess = false;
 
 		this.setRenderer();
 		this.setPostProcess();
@@ -102,22 +102,19 @@ export default class Renderer {
 		};
 
 		this.renderer.setSize(sizes.width, sizes.height);
-		this.postProcess.composer.setSize(sizes.width, sizes.height);
+		this.postFX.resize(sizes.width, sizes.height);
 	}
 
 	resetSize() {
 		this.renderer.setSize(store.resolution.width, store.resolution.height);
-		this.postProcess.composer.setSize(
-			store.resolution.width,
-			store.resolution.height,
-		);
+		this.postFX.resize(store.resolution.width, store.resolution.height);
 	}
 
 	setRenderer() {
 		this.renderer = new WebGLRenderer({
 			canvas: this.canvas,
 			alpha: false,
-			antialias: true,
+			antialias: false,
 			powerPreference: 'high-performance',
 			premultipliedAlpha: false,
 		});
@@ -136,49 +133,13 @@ export default class Renderer {
 	}
 
 	setPostProcess() {
-		this.postProcess = {};
-
-		this.postProcess.renderPass = new RenderPass(this.scene, this.camera);
-
-		const RenderTargetClass =
-			store.resolution.dpr >= 2
-				? WebGLRenderTarget
-				: WebGLMultisampleRenderTarget;
-
-		this.renderTarget = new RenderTargetClass(
-			store.resolution.width,
-			store.resolution.height,
-			{
-				generateMipmaps: false,
-				minFilter: LinearFilter,
-				magFilter: LinearFilter,
-				format: RGBFormat,
-				encoding: sRGBEncoding,
-			},
-		);
-		this.postProcess.composer = new EffectComposer(
-			this.renderer,
-			this.renderTarget,
-		);
-		this.postProcess.composer.setSize(
-			store.resolution.width,
-			store.resolution.height,
-		);
-		this.postProcess.composer.setPixelRatio(
-			Math.min(store.resolution.dpr, 2),
-		);
-
-		this.postProcess.composer.addPass(this.postProcess.renderPass);
+		this.postFX = new PostFX(this.renderer);
 	}
 
 	resize() {
 		this.updateSize(resolutionQuality);
 
 		this.renderer.setPixelRatio(Math.min(store.resolution.dpr, 2));
-
-		this.postProcess.composer.setPixelRatio(
-			Math.min(store.resolution.dpr, 2),
-		);
 	}
 
 	render() {
@@ -186,9 +147,7 @@ export default class Renderer {
 		this.stats.beforeRender();
 		/// #endif
 
-		this.usePostprocess
-			? this.postProcess.composer.render()
-			: this.renderer.render(this.scene, this.camera);
+		this.postFX.render();
 
 		/// #if DEBUG
 		this.stats.afterRender();
@@ -198,8 +157,10 @@ export default class Renderer {
 	destroy() {
 		this.renderer.renderLists.dispose();
 		this.renderer.dispose();
-		this.renderTarget.dispose();
-		this.postProcess.composer.renderTarget1.dispose();
-		this.postProcess.composer.renderTarget2.dispose();
+
+		// this.postFX.destroy();
+		// this.renderTarget.dispose();
+		// this.postProcess.composer.renderTarget1.dispose();
+		// this.postProcess.composer.renderTarget2.dispose();
 	}
 }

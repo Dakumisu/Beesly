@@ -92,11 +92,13 @@ export default class Blueprint {
 	resize() {
 		if (!initialized) return;
 
-		this.object.material.uniforms.uResolution.value = tVec3.set(
+		tVec3.set(
 			store.resolution.width,
 			store.resolution.height,
 			store.resolution.dpr,
 		);
+
+		this.object.material.uniforms.uResolution.value = tVec3;
 	}
 
 	update(et) {
