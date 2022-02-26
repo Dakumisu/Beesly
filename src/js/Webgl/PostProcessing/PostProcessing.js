@@ -19,8 +19,7 @@ import Webgl from '../Webgl';
 
 import { store } from '@js/Tools/Store';
 
-import basicVertex from './basic/vertex.glsl';
-import basicFragment from './basic/fragment.glsl';
+import postProcessingMaterial from './basic/material';
 
 const tVec2 = new Vector2();
 const tVec3 = new Vector3();
@@ -73,19 +72,18 @@ export default class PostFX {
 	}
 
 	setMaterial() {
-		this.material = new RawShaderMaterial({
-			fragmentShader: basicFragment,
-			vertexShader: basicVertex,
+		const opts = {
 			uniforms: {
 				uScene: { value: this.target.texture },
 				uResolution: { value: tVec3 },
 			},
-		});
+		};
+
+		this.material = postProcessingMaterial.get(opts);
 	}
 
 	setPostPro() {
 		this.triangle = new Mesh(this.geometry, this.material);
-
 		this.triangle.frustumCulled = false;
 
 		this.scene.add(this.triangle);
