@@ -12,7 +12,7 @@ import Webgl from '@js/Webgl/Webgl';
 
 import { store } from '@js/Tools/Store';
 
-import blueprintMaterial from './materials/blueprint/blueprintMaterial';
+import blueprintMaterial from './materials/blueprint/material';
 
 const twoPI = Math.PI * 2;
 const tVec3 = new Vector3();

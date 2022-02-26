@@ -14,7 +14,7 @@ import Webgl from '@js/Webgl/Webgl';
 
 import { store } from '@js/Tools/Store';
 
-import particlesMaterial from './materials/particles/particlesMaterial';
+import particlesMaterial from './materials/particles/material';
 
 const tVec3 = new Vector3();
 const tCol = new Color();
