@@ -50,4 +50,9 @@ export default class Debug {
 		const index = checkIndex == -1 ? 0 : checkIndex;
 		return this.tabs.pages[index];
 	}
+
+	destroy() {
+		this.gui.dispose();
+		this.stats.destroy();
+	}
 }

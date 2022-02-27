@@ -6,7 +6,6 @@ export default class Size extends Emitter {
 	constructor() {
 		super();
 
-		// Resize event
 		window.addEventListener('resize', this.resize.bind(this));
 		this.resize();
 	}
@@ -18,5 +17,9 @@ export default class Size extends Emitter {
 		store.aspect.ratio = store.resolution.width / store.resolution.height;
 
 		this.emit('resize');
+	}
+
+	destroy() {
+		window.removeEventListener('resize', this.resize.bind(this));
 	}
 }

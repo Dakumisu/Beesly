@@ -142,4 +142,11 @@ export default class Device extends Emitter {
 		this.checkDevice();
 		this.setHtmlStyle();
 	}
+
+	destroy() {
+		document.removeEventListener(
+			'visibilitychange',
+			this.checkVisibility.bind(this),
+		);
+	}
 }

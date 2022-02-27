@@ -84,4 +84,11 @@ export default class Mouse {
 
 		return { width, height, vFov };
 	}
+
+	destroy() {
+		document.removeEventListener(
+			'mousemove',
+			this.getMousesPositions.bind(this),
+		);
+	}
 }

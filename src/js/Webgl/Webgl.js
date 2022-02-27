@@ -112,5 +112,17 @@ export default class Webgl {
 		if (this.device) this.device.resize();
 	}
 
-	destroy() {}
+	destroy() {
+		/// #if DEBUG
+		this.debug.destroy();
+		/// #endif
+		this.device.destroy();
+		this.size.destroy();
+		this.raf.destroy();
+		this.keyboard.destroy();
+		this.mouse.destroy();
+		this.world.destroy();
+
+		delete this;
+	}
 }

@@ -19,7 +19,7 @@ export default class Stats {
 		document.body.appendChild(this.stats.dom);
 	}
 
-	deactivate() {
+	desactivate() {
 		this.active = false;
 
 		document.body.removeChild(this.stats.dom);
@@ -40,7 +40,7 @@ export default class Stats {
 			_context instanceof WebGL2RenderingContext;
 
 		if (!webGL2 || !this.render.extension) {
-			this.deactivate();
+			this.desactivate();
 		}
 	}
 
@@ -105,6 +105,6 @@ export default class Stats {
 	}
 
 	destroy() {
-		this.deactivate();
+		this.desactivate();
 	}
 }
