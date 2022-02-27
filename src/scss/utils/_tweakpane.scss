@@ -34,6 +34,13 @@
 	padding-right: 4px !important;
 }
 
+.tp-lstv_s:focus, .tp-btnv_b:focus, .tp-p2dv_b:focus {
+	background-color: var(--btn-bg) !important;
+}
+.tp-lstv_s:hover, .tp-btnv_b:hover, .tp-p2dv_b:hover {
+	background-color: var(--btn-bg-f) !important;
+}
+
 .tp-colswv_b {
 	&::after {
 		visibility: hidden;

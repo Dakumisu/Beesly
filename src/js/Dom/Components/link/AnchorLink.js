@@ -100,8 +100,6 @@ export default class AnchorLink extends HTMLElement {
 					}"`,
 				);
 
-				console.log(composentScss);
-
 				this.styleNode.data = composentScss;
 			});
 		}

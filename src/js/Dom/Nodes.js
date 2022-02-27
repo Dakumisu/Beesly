@@ -1,7 +1,7 @@
 import Emitter from '@js/Tools/Emitter';
 
 import { store } from '@js/Tools/Store';
-import { wait } from 'philbin-packages/utils';
+import { wait } from 'philbin-packages/divers';
 
 export default class Nodes extends Emitter {
 	constructor() {

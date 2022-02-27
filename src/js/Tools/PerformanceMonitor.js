@@ -53,9 +53,6 @@ let prevaultInfinitePingPong = 0;
 let needHardReset = false;
 let needReset = false;
 
-let udpateActive = localStorage.getItem('updateQuality')
-	? JSON.parse(localStorage.getItem('updateQuality'))
-	: true;
 let initialized = false;
 
 /// #if DEBUG
@@ -89,6 +86,10 @@ export default class PerfomanceMonitor extends Emitter {
 			fpsHistoryIndex = 0;
 		});
 
+		this.udpateActive = localStorage.getItem('updateQuality')
+			? JSON.parse(localStorage.getItem('updateQuality'))
+			: true;
+
 		/// #if DEBUG
 		debug.instance = webgl.debug;
 		this.debug();
@@ -114,11 +115,13 @@ export default class PerfomanceMonitor extends Emitter {
 		gui.addButton({
 			title: 'Toggle Update',
 		}).on('click', () => {
-			udpateActive = !udpateActive;
-			localStorage.setItem('updateQuality', udpateActive);
+			this.udpateActive = !this.udpateActive;
+			localStorage.setItem('updateQuality', this.udpateActive);
 		});
 
 		gui.addSeparator();
+
+		gui.addMonitor(this, 'udpateActive', { label: 'Update Active' });
 
 		gui.addInput(this, 'quality', {
 			label: 'Debug Quality',
@@ -162,7 +165,7 @@ export default class PerfomanceMonitor extends Emitter {
 		fpsCount = 0;
 		timer = timer % 1000;
 
-		if (!udpateActive) return;
+		if (!this.udpateActive) return;
 		if (!localStorage.getItem('quality')) {
 			if (
 				pingPong < MAX_PING_PONG &&
