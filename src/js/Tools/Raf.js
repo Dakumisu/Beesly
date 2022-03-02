@@ -33,9 +33,7 @@ export default class Raf extends Emitter {
 
 		if (this.delta > 60) this.delta = 60;
 
-		if (this.playing) {
-			this.emit('raf');
-		}
+		if (this.playing) this.emit('raf');
 	}
 
 	destroy() {
