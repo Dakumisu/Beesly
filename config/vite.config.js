@@ -27,10 +27,6 @@ export default ({ mode }) => {
 			hmr: { port: 8080 },
 		},
 
-		json: {
-			stringify: true,
-		},
-
 		plugins: [
 			glslify(),
 			ifdefRollupPlugin(define),

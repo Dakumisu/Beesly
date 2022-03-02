@@ -56,7 +56,6 @@ export default class FBO {
 			store.resolution.width,
 			store.resolution.height,
 		);
-		this.renderTarget.setPixelRatio(Math.min(store.resolution.dpr, 2));
 	}
 
 	preRender(renderer) {

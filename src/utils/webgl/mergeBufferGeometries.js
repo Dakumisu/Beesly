@@ -9,7 +9,7 @@ let geometries = [];
 export default function mergeGeometry(geos = [], models = []) {
 	return new Promise((resolve) => {
 		if (!geos.length && !models.length) {
-			console.error('Geometry required 🚫');
+			console.error('Geometries required 🚫');
 			resolve(null);
 		}
 

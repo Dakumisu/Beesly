@@ -71,7 +71,7 @@ export default class AnchorLink extends HTMLElement {
 		template.innerHTML = html;
 
 		const s = document.createElement('style');
-		s.type = 'text/css';
+		s.setAttribute('type', 'text/css');
 		this.styleNode = document.createTextNode(style);
 		s.appendChild(this.styleNode);
 

@@ -24,7 +24,7 @@
     "fast-random": "^2.0.4",
     "meshoptimizer": "^0.17.0",
     "sass": "^1.35.1",
-    "stats-js": "^1.0.1",
+    "stats.js": "^0.17.0",
     "tweakpane": "^3.0.7",
     "vite": "^2.7.13",
     "vite-plugin-glslify": "^2.0.1",
