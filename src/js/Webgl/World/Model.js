@@ -9,7 +9,7 @@ let initialized = false;
 export default class Model {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
-		this.scene = webgl.scene;
+		this.scene = webgl.scene.instance;
 
 		this.object = {};
 

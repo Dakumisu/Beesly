@@ -33,7 +33,7 @@ export default class Renderer {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
 		const performance = webgl.performance;
-		this.scene = webgl.scene;
+		this.scene = webgl.scene.instance;
 		this.camera = webgl.camera.instance;
 		this.canvas = webgl.canvas;
 

@@ -29,7 +29,7 @@ let initialized = false;
 export default class PostFX {
 	constructor(renderer) {
 		const webgl = getWebgl();
-		this.rendererScene = webgl.scene;
+		this.rendererScene = webgl.scene.instance;
 		this.rendererCamera = webgl.camera.instance;
 
 		this.renderer = renderer;

@@ -19,7 +19,7 @@ let initialized = false;
 export default class GeoMerge {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
-		this.scene = webgl.scene;
+		this.scene = webgl.scene.instance;
 
 		this.object = {};
 

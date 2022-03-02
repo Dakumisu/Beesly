@@ -9,7 +9,7 @@ import { imageAspect } from 'philbin-packages/maths';
 export default class Camera {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
-		this.scene = webgl.scene;
+		this.scene = webgl.scene.instance;
 		this.canvas = webgl.canvas;
 
 		this.type = opt.type || 'Perspective';

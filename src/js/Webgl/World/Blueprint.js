@@ -34,7 +34,7 @@ const debug = {
 export default class Blueprint {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
-		this.scene = webgl.scene;
+		this.scene = webgl.scene.instance;
 
 		this.object = {};
 

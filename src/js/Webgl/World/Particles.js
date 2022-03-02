@@ -43,7 +43,7 @@ export default class Particles {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
 		const performance = webgl.performance;
-		this.scene = webgl.scene;
+		this.scene = webgl.scene.instance;
 
 		performance.on('quality', (quality) => {
 			this.count = particlesCountList[quality];

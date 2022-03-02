@@ -1,5 +1,3 @@
-import { Scene as ThreeScene } from 'three';
-
 import Raf from '@js/Tools/Raf';
 import Size from '@js/Tools/Size';
 import Keyboard from '@js/Tools/Keyboard';
@@ -8,6 +6,7 @@ import Mouse from '@js/Tools/Mouse';
 import Raycasters from '@js/Tools/Raycasters';
 import PerformanceMonitor from '@js/Tools/PerformanceMonitor';
 
+import Scene from './Scene';
 import Renderer from './Renderer';
 import Camera from './Camera';
 import World from './World/World';
@@ -43,7 +42,7 @@ class Webgl {
 		this.size = new Size();
 
 		this.raf = new Raf();
-		this.scene = new ThreeScene();
+		this.scene = new Scene();
 		this.camera = new Camera();
 		this.performance = new PerformanceMonitor();
 		this.renderer = new Renderer();
@@ -130,6 +129,7 @@ class Webgl {
 		this.mouse.destroy();
 		this.performance.destroy();
 
+		this.scene.destroy();
 		this.world.destroy();
 		this.renderer.destroy();
 		this.camera.destroy();
