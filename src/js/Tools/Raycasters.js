@@ -2,7 +2,7 @@ import { Raycaster, ArrowHelper, Vector3 } from 'three';
 
 import Emitter from './Emitter';
 
-import Webgl from '@js/Webgl/Webgl';
+import { getWebgl } from '@js/Webgl/Webgl';
 
 let initialized = false;
 
@@ -10,7 +10,7 @@ export default class Raycasters extends Emitter {
 	constructor(opt = {}) {
 		super();
 
-		const webgl = new Webgl();
+		const webgl = getWebgl();
 		this.scene = webgl.scene;
 		this.mouse = webgl.mouse.scene;
 		this.camera = webgl.camera.instance;
@@ -54,6 +54,14 @@ export default class Raycasters extends Emitter {
 		this.raycaster.params.Points.threshold = 0.01; // ray' size
 
 		initialized = true;
+	}
+
+	destroy() {
+		if (!initialized) return;
+
+		initialized = false;
+
+		this.resolveName('raycast');
 	}
 
 	update() {

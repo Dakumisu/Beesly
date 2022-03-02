@@ -1,11 +1,11 @@
-import StatsJs from 'stats-js';
+import Stats from 'stats.js';
 
 const max = 40;
 const ignoreMaxed = true;
 
-export default class Stats {
+export default class StatsJs {
 	constructor() {
-		this.stats = new StatsJs();
+		this.stats = new Stats();
 		this.stats.showPanel(3);
 
 		this.active = false;
@@ -22,7 +22,7 @@ export default class Stats {
 	desactivate() {
 		this.active = false;
 
-		document.body.removeChild(this.stats.dom);
+		this.stats.dom.remove();
 	}
 
 	setRenderPanel(_context) {
@@ -32,7 +32,7 @@ export default class Stats {
 			'EXT_disjoint_timer_query_webgl2',
 		);
 		this.render.panel = this.stats.addPanel(
-			new StatsJs.Panel('Render (ms)', '#f8f', '#212'),
+			new Stats.Panel('Render (ms)', '#f8f', '#212'),
 		);
 
 		const webGL2 =

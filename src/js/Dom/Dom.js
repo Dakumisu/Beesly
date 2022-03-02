@@ -15,8 +15,6 @@ export default class Dom {
 		}
 		Dom.instance = this;
 
-		this.pages = {};
-
 		this.init();
 	}
 
@@ -27,5 +25,13 @@ export default class Dom {
 
 	event() {
 		if (!initialized) return;
+	}
+
+	destroy() {
+		this.nodes.destroy();
+		this.views.destroy();
+
+		delete this.nodes;
+		delete this.views;
 	}
 }

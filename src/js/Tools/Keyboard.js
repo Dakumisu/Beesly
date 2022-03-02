@@ -14,6 +14,7 @@ export default class Keyboard extends Emitter {
 	}
 
 	destroy() {
+		this.resolveName('key');
 		document.removeEventListener('keydown', this.getKey.bind(this));
 	}
 }

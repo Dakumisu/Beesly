@@ -1,6 +1,6 @@
-import { Vector2 } from 'three';
+import { OrthographicCamera, Vector2 } from 'three';
 
-import Webgl from '@js/Webgl/Webgl';
+import { getWebgl } from '@js/Webgl/Webgl';
 
 const tVec2a = new Vector2();
 const tVec2b = new Vector2();
@@ -9,7 +9,7 @@ const tVec2d = new Vector2();
 
 export default class Mouse {
 	constructor(opt = {}) {
-		const webgl = new Webgl();
+		const webgl = getWebgl();
 		this.camera = webgl.camera.instance;
 
 		document.addEventListener(
@@ -74,6 +74,11 @@ export default class Mouse {
 	}
 
 	viewSize(objectPos = 0) {
+		if (!this.camera instanceof OrthographicCamera) {
+			width = height = vFov = 0;
+			return { width, height, vFov };
+		}
+
 		let cameraZ = this.camera.position.z;
 		let distance = cameraZ - objectPos; // Calcul the z distance between the camera and a random object ('could be a plane, a cube or whatever you want)
 		let aspect = this.camera.aspect;

@@ -1,7 +1,6 @@
 import Emitter from '@js/Tools/Emitter';
 
 import { store } from '@js/Tools/Store';
-import { wait } from 'philbin-packages/divers';
 
 export default class Nodes extends Emitter {
 	constructor() {
@@ -9,7 +8,6 @@ export default class Nodes extends Emitter {
 
 		window.addEventListener('DOMContentLoaded', async () => {
 			await this.getNodes();
-			await wait(100);
 			await this.getShadowNodes();
 
 			this.emit('load');
@@ -22,7 +20,7 @@ export default class Nodes extends Emitter {
 		this.domRef = [...document.querySelectorAll('[data-ref]')];
 		this.domElements = {};
 
-		new Promise((resolve) => {
+		await new Promise((resolve) => {
 			for (const key in this.domRef) {
 				if (this.domElements[this.domRef[key].dataset.ref])
 					this.domElements[this.domRef[key].dataset.ref].push(
@@ -54,33 +52,37 @@ export default class Nodes extends Emitter {
 
 		this.shadowElements = {};
 
-		for (const key in this.domElements) {
-			if (this.domElements[key].shadowRoot) {
-				const parent = this.domElements[key];
-				const parentName = this.domElements[key].dataset.ref;
+		await new Promise((resolve) => {
+			for (const key in this.domElements) {
+				if (this.domElements[key].shadowRoot) {
+					const parent = this.domElements[key];
+					const parentName = this.domElements[key].dataset.ref;
 
-				this.shadowElements[parentName] = {};
+					this.shadowElements[parentName] = {};
 
-				this.shadowRef = [
-					...parent.shadowRoot.querySelectorAll('[data-ref]'),
-				];
+					this.shadowRef = [
+						...parent.shadowRoot.querySelectorAll('[data-ref]'),
+					];
 
-				for (const key in this.shadowRef) {
-					if (
-						this.shadowElements[parentName][
-							this.shadowRef[key].dataset.ref
-						]
-					)
-						this.shadowElements[parentName][
-							this.shadowRef[key].dataset.ref
-						].push(this.shadowRef[key]);
-					else
-						this.shadowElements[parentName][
-							this.shadowRef[key].dataset.ref
-						] = [this.shadowRef[key]];
+					for (const key in this.shadowRef) {
+						if (
+							this.shadowElements[parentName][
+								this.shadowRef[key].dataset.ref
+							]
+						)
+							this.shadowElements[parentName][
+								this.shadowRef[key].dataset.ref
+							].push(this.shadowRef[key]);
+						else
+							this.shadowElements[parentName][
+								this.shadowRef[key].dataset.ref
+							] = [this.shadowRef[key]];
+					}
 				}
 			}
-		}
+
+			resolve();
+		});
 
 		return new Promise((resolve) => {
 			for (const key in this.shadowElements) {
@@ -113,7 +115,6 @@ export default class Nodes extends Emitter {
 		this.destroy();
 
 		await this.getNodes();
-		await wait(100);
 		await this.getShadowNodes();
 	}
 }

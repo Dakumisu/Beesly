@@ -42,9 +42,9 @@ export default class Device extends Emitter {
 
 	checkBrowser() {
 		const agent = navigator.userAgent;
-		let browserName = navigator.appName;
-		let fullVersion = '' + parseFloat(navigator.appVersion);
-		let browserMajorVersion = parseInt(navigator.appVersion, 10);
+		let browserName = '';
+		let fullVersion = '';
+		let browserMajorVersion = '';
 		let offsetName, offsetVersion, ix;
 
 		// In Chrome
@@ -92,7 +92,7 @@ export default class Device extends Emitter {
 		browserMajorVersion = parseInt('' + fullVersion, 10);
 		if (isNaN(browserMajorVersion)) {
 			fullVersion = '' + parseFloat(navigator.appVersion);
-			browserMajorVersion = parseInt(navigator.appVersion, 10);
+			browserMajorVersion = '' + parseInt(navigator.appVersion, 10);
 		}
 
 		html.classList.add(browserName, browserMajorVersion);
@@ -144,6 +144,16 @@ export default class Device extends Emitter {
 	}
 
 	destroy() {
+		store.device = null;
+		store.browser = null;
+		store.style = null;
+
+		html.style.removeProperty('--vp-height');
+		html.style.removeProperty('--vp-width');
+		html.removeAttribute('class');
+
+		this.resolveName('visibility');
+
 		document.removeEventListener(
 			'visibilitychange',
 			this.checkVisibility.bind(this),

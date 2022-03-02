@@ -1,8 +1,6 @@
-import Webgl from '@js/Webgl/Webgl';
+import { getWebgl } from '@js/Webgl/Webgl';
 
 import loadModel from '@utils/loader/loadGLTF';
-
-import { store } from '@js/Tools/Store';
 
 import model from '/assets/model/model.glb';
 
@@ -10,7 +8,7 @@ let initialized = false;
 
 export default class Model {
 	constructor(opt = {}) {
-		const webgl = new Webgl();
+		const webgl = getWebgl();
 		this.scene = webgl.scene;
 
 		this.object = {};
@@ -27,11 +25,13 @@ export default class Model {
 		this.scene.add(this.object.mesh);
 	}
 
-	addObject(object) {
-		this.scene.add(object);
-	}
-
 	update(et) {
 		if (!initialized) return;
+	}
+
+	destroy() {
+		if (!initialized) return;
+
+		initialized = false;
 	}
 }

@@ -4,7 +4,7 @@
 
 import { getGPUTier } from 'detect-gpu';
 
-import Webgl from '@js/Webgl/Webgl';
+import { getWebgl } from '@js/Webgl/Webgl';
 import Emitter from './Emitter';
 
 import { store } from './Store';
@@ -67,7 +67,7 @@ export default class PerfomanceMonitor extends Emitter {
 	constructor() {
 		super();
 
-		const webgl = new Webgl();
+		const webgl = getWebgl();
 		const device = webgl.device;
 		const size = webgl.size;
 
@@ -248,6 +248,16 @@ export default class PerfomanceMonitor extends Emitter {
 		delay = nextDelay || RESTART_DELAY;
 		needReset = needHardReset = false;
 		nextDelay = RESTART_DELAY;
+	}
+
+	destroy() {
+		if (!initialized) return;
+
+		initialized = false;
+		this.resolveName('quality');
+		localStorage.removeItem('quality');
+		this.quality = DEFAULT_QUALITY;
+		this.qualityStr = qualityList[this.quality];
 	}
 
 	update(dt) {

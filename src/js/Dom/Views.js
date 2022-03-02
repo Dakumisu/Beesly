@@ -58,4 +58,10 @@ export default class Views extends Emitter {
 	getView() {
 		return this.currentView;
 	}
+
+	destroy() {
+		this.currentView = '';
+		store.views = null;
+		delete this.viewList;
+	}
 }

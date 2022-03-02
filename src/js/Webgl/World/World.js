@@ -1,7 +1,7 @@
 import Blueprint from './Blueprint';
-import GeoMerge from './GeoMerge';
-import Model from './Model';
 import Particles from './Particles';
+import Model from './Model';
+import GeoMerge from './GeoMerge';
 
 let initialized = false;
 
@@ -34,5 +34,14 @@ export default class World {
 		if (this.particles) this.particles.update(et);
 	}
 
-	destroy() {}
+	destroy() {
+		if (!initialized) return;
+
+		initialized = false;
+
+		this.blueprint.destroy();
+		this.particles.destroy();
+		this.model.destroy();
+		this.geoMerge.destroy();
+	}
 }

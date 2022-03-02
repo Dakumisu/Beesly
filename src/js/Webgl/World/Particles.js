@@ -10,7 +10,7 @@ import {
 	Vector3,
 } from 'three';
 
-import Webgl from '@js/Webgl/Webgl';
+import { getWebgl } from '@js/Webgl/Webgl';
 
 import { store } from '@js/Tools/Store';
 
@@ -41,7 +41,7 @@ const debug = {
 /* FBO Particles coming soon */
 export default class Particles {
 	constructor(opt = {}) {
-		const webgl = new Webgl();
+		const webgl = getWebgl();
 		const performance = webgl.performance;
 		this.scene = webgl.scene;
 
@@ -214,5 +214,11 @@ export default class Particles {
 		if (!initialized) return;
 
 		this.object.mesh.material.uniforms.uTime.value = et;
+	}
+
+	destroy() {
+		if (!initialized) return;
+
+		initialized = false;
 	}
 }

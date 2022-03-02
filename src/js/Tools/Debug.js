@@ -1,13 +1,13 @@
 import { Pane } from 'tweakpane';
 
-import Stats from '@js/Tools/Stats';
+import StatsJs from '@js/Tools/Stats';
 
 const tabList = ['General', 'Stats'];
 
 export default class Debug {
 	constructor() {
 		this.gui = new Pane();
-		this.stats = new Stats();
+		this.stats = new StatsJs();
 
 		this.debugFolders = {};
 		this.tabs = {};

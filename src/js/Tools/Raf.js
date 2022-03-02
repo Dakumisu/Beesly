@@ -1,12 +1,11 @@
 import Emitter from '@js/Tools/Emitter.js';
 
-const start = Date.now();
-
 export default class Raf extends Emitter {
 	constructor() {
 		super();
 
-		this.current = start;
+		this.start = Date.now();
+		this.current = this.start;
 		this.elapsed = 0;
 		this.delta = 16;
 		this.playing = true;
@@ -40,6 +39,7 @@ export default class Raf extends Emitter {
 	}
 
 	destroy() {
+		this.resolveName('raf');
 		window.cancelAnimationFrame(this._raf);
 	}
 }

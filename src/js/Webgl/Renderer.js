@@ -1,22 +1,6 @@
-import {
-	PCFSoftShadowMap,
-	NoToneMapping,
-	LinearToneMapping,
-	sRGBEncoding,
-	WebGLRenderer,
-	ReinhardToneMapping,
-	CineonToneMapping,
-	ACESFilmicToneMapping,
-	Mesh,
-	WebGLRenderTarget,
-	LinearFilter,
-	RGBFormat,
-	WebGLMultisampleRenderTarget,
-} from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { NoToneMapping, sRGBEncoding, WebGLRenderer } from 'three';
 
-import Webgl from './Webgl';
+import { getWebgl } from './Webgl';
 
 import PostFX from './PostProcessing/PostProcessing';
 
@@ -47,7 +31,7 @@ const debug = {
 
 export default class Renderer {
 	constructor(opt = {}) {
-		const webgl = new Webgl();
+		const webgl = getWebgl();
 		const performance = webgl.performance;
 		this.scene = webgl.scene;
 		this.camera = webgl.camera.instance;
@@ -76,9 +60,11 @@ export default class Renderer {
 
 	/// #if DEBUG
 	debug() {
-		this.stats = debug.instance.stats;
-		this.context = this.renderer.getContext();
-		this.stats.setRenderPanel(this.context);
+		if (debug.instance.stats) {
+			this.stats = debug.instance.stats;
+			this.context = this.renderer.getContext();
+			this.stats.setRenderPanel(this.context);
+		}
 
 		debug.instance.setFolder(debug.label);
 		const gui = debug.instance.getFolder(debug.label);
@@ -124,10 +110,7 @@ export default class Renderer {
 		this.renderer.setClearColor(params.clearColor, 1);
 
 		this.renderer.physicallyCorrectLights = true;
-		// this.renderer.gammaOutPut = true
 		this.renderer.outputEncoding = sRGBEncoding;
-		// this.renderer.shadowMap.type = PCFSoftShadowMap
-		// this.renderer.shadowMap.enabled = false
 		this.renderer.toneMapping = NoToneMapping;
 		this.renderer.toneMappingExposure = 1;
 	}
@@ -144,23 +127,19 @@ export default class Renderer {
 
 	render() {
 		/// #if DEBUG
-		this.stats.beforeRender();
+		if (this.stats) this.stats.beforeRender();
 		/// #endif
 
 		this.postFX.render();
 
 		/// #if DEBUG
-		this.stats.afterRender();
+		if (this.stats) this.stats.afterRender();
 		/// #endif
 	}
 
 	destroy() {
 		this.renderer.renderLists.dispose();
+		this.postFX.destroy();
 		this.renderer.dispose();
-
-		// this.postFX.destroy();
-		// this.renderTarget.dispose();
-		// this.postProcess.composer.renderTarget1.dispose();
-		// this.postProcess.composer.renderTarget2.dispose();
 	}
 }
