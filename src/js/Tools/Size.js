@@ -20,7 +20,7 @@ export default class Size extends Emitter {
 	}
 
 	destroy() {
-		this.resolveName('resize');
+		this.off('resize');
 		window.removeEventListener('resize', this.resize.bind(this));
 	}
 }

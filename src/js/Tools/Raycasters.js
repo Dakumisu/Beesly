@@ -56,14 +56,6 @@ export default class Raycasters extends Emitter {
 		initialized = true;
 	}
 
-	destroy() {
-		if (!initialized) return;
-
-		initialized = false;
-
-		this.resolveName('raycast');
-	}
-
 	update() {
 		if (!initialized) return;
 
@@ -76,5 +68,13 @@ export default class Raycasters extends Emitter {
 		for (let i = 0; i < intersects.length; i++) {
 			this.emit('raycast', [intersects[i].object]);
 		}
+	}
+
+	destroy() {
+		if (!initialized) return;
+
+		initialized = false;
+
+		this.off('raycast');
 	}
 }

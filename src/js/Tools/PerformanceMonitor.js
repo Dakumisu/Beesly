@@ -250,16 +250,6 @@ export default class PerfomanceMonitor extends Emitter {
 		nextDelay = RESTART_DELAY;
 	}
 
-	destroy() {
-		if (!initialized) return;
-
-		initialized = false;
-		this.resolveName('quality');
-		localStorage.removeItem('quality');
-		this.quality = DEFAULT_QUALITY;
-		this.qualityStr = qualityList[this.quality];
-	}
-
 	update(dt) {
 		if (!initialized) return;
 		if (bootFrames > 0) return bootFrames--;
@@ -270,5 +260,16 @@ export default class PerfomanceMonitor extends Emitter {
 		timer += dt;
 		fpsCount++;
 		if (timer >= 1000) this.updateFps();
+	}
+
+	destroy() {
+		if (!initialized) return;
+
+		initialized = false;
+
+		this.off('quality');
+		localStorage.removeItem('quality');
+		this.quality = DEFAULT_QUALITY;
+		this.qualityStr = qualityList[this.quality];
 	}
 }

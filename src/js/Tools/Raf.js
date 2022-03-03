@@ -37,7 +37,7 @@ export default class Raf extends Emitter {
 	}
 
 	destroy() {
-		this.resolveName('raf');
+		this.off('raf');
 		window.cancelAnimationFrame(this._raf);
 	}
 }

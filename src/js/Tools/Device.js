@@ -152,7 +152,7 @@ export default class Device extends Emitter {
 		html.style.removeProperty('--vp-width');
 		html.removeAttribute('class');
 
-		this.resolveName('visibility');
+		this.off('visibility');
 
 		document.removeEventListener(
 			'visibilitychange',
