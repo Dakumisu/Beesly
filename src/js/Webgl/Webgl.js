@@ -28,9 +28,6 @@ class Webgl {
 			return null;
 		}
 		this.canvas = _canvas;
-
-		this.init();
-		this.event();
 	}
 
 	init() {
@@ -140,5 +137,10 @@ class Webgl {
 
 export const getWebgl = (canvas) => {
 	if (Webgl.instance) return Webgl.instance;
-	return new Webgl(canvas);
+
+	const w = new Webgl(canvas);
+	w.init();
+	w.event();
+
+	return w;
 };
