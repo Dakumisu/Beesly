@@ -1,10 +1,10 @@
-import Raf from '@js/Tools/Raf';
-import Size from '@js/Tools/Size';
-import Keyboard from '@js/Tools/Keyboard';
-import Device from '@js/Tools/Device';
-import Mouse from '@js/Tools/Mouse';
-import Raycasters from '@js/Tools/Raycasters';
-import PerformanceMonitor from '@js/Tools/PerformanceMonitor';
+import Raf from '@tools/Raf';
+import Size from '@tools/Size';
+import Keyboard from '@tools/Keyboard';
+import Device from '@tools/Device';
+import Mouse from '@tools/Mouse';
+import Raycasters from '@tools/Raycasters';
+import PerformanceMonitor from '@tools/PerformanceMonitor';
 
 import Scene from './Scene';
 import Renderer from './Renderer';
@@ -12,7 +12,7 @@ import Camera from './Camera';
 import World from './World/World';
 
 /// #if DEBUG
-import Debug from '@js/Tools/Debug';
+import Debug from '@tools/Debug';
 /// #endif
 
 let initialized = false;
@@ -28,6 +28,9 @@ class Webgl {
 			return null;
 		}
 		this.canvas = _canvas;
+
+		this.init();
+		this.event();
 	}
 
 	init() {
@@ -138,9 +141,5 @@ class Webgl {
 export const getWebgl = (canvas) => {
 	if (Webgl.instance) return Webgl.instance;
 
-	const w = new Webgl(canvas);
-	w.init();
-	w.event();
-
-	return w;
+	return new Webgl(canvas);
 };

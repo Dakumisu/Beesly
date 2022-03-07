@@ -1,6 +1,6 @@
 import { OrthographicCamera, Vector2 } from 'three';
 
-import { getWebgl } from '@js/Webgl/Webgl';
+import { getWebgl } from '@webgl/Webgl';
 
 const tVec2a = new Vector2();
 const tVec2b = new Vector2();

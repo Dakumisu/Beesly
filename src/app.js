@@ -1,7 +1,7 @@
 import '@scss/main.scss';
 
-import Dom from '@js/Dom/Dom';
-import { getWebgl } from '@js/Webgl/Webgl';
+import Dom from '@dom/Dom';
+import { getWebgl } from '@webgl/Webgl';
 
 const dom = new Dom();
 

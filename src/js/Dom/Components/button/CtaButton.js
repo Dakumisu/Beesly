@@ -1,4 +1,4 @@
-import Dom from '@js/Dom/Dom';
+import Dom from '@dom/Dom';
 
 import html from './template.html?raw';
 import style from './style.scss';

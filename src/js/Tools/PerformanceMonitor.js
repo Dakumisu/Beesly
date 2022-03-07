@@ -4,7 +4,7 @@
 
 import { getGPUTier } from 'detect-gpu';
 
-import { getWebgl } from '@js/Webgl/Webgl';
+import { getWebgl } from '@webgl/Webgl';
 import Emitter from './Emitter';
 
 import { store } from './Store';

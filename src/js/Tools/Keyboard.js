@@ -1,4 +1,4 @@
-import Emitter from '@js/Tools/Emitter';
+import Emitter from '@tools/Emitter';
 
 export default class Keyboard extends Emitter {
 	constructor() {

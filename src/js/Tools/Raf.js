@@ -1,4 +1,4 @@
-import Emitter from '@js/Tools/Emitter.js';
+import Emitter from '@tools/Emitter.js';
 
 export default class Raf extends Emitter {
 	constructor() {

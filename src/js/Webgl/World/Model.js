@@ -1,4 +1,4 @@
-import { getWebgl } from '@js/Webgl/Webgl';
+import { getWebgl } from '@webgl/Webgl';
 
 import loadModel from '@utils/loader/loadGLTF';
 

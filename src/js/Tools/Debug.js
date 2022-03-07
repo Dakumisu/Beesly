@@ -1,6 +1,6 @@
 import { Pane } from 'tweakpane';
 
-import StatsJs from '@js/Tools/Stats';
+import StatsJs from '@tools/Stats';
 
 const tabList = ['General', 'Stats'];
 

@@ -1,6 +1,6 @@
-import Emitter from '@js/Tools/Emitter';
+import Emitter from '@tools/Emitter';
 
-import { store } from '@js/Tools/Store';
+import { store } from '@tools/Store';
 
 export default class Size extends Emitter {
 	constructor() {

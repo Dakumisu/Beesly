@@ -8,7 +8,7 @@ import {
 	Vector3,
 } from 'three';
 
-import { getWebgl } from '@js/Webgl/Webgl';
+import { getWebgl } from '@webgl/Webgl';
 
 import mergeGeometry from '@utils/webgl/mergeBufferGeometries';
 

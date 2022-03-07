@@ -41,6 +41,19 @@ export default ({ mode }) => {
 		resolve: {
 			alias: [
 				{
+					find: '@webgl',
+					replacement: '/src/js/Webgl',
+				},
+				{
+					find: '@dom',
+					replacement: '/src/js/Dom',
+				},
+				{
+					find: '@tools',
+					replacement: '/src/js/Tools',
+				},
+
+				{
 					find: '@js',
 					replacement: '/src/js',
 				},

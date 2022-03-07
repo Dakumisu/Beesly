@@ -7,9 +7,9 @@ import {
 	Vector3,
 } from 'three';
 
-import { getWebgl } from '@js/Webgl/Webgl';
+import { getWebgl } from '@webgl/Webgl';
 
-import { store } from '@js/Tools/Store';
+import { store } from '@tools/Store';
 
 import blueprintMaterial from './materials/blueprint/material';
 

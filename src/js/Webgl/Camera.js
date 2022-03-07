@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import { getWebgl } from './Webgl';
 
-import { store } from '@js/Tools/Store';
+import { store } from '@tools/Store';
 import { imageAspect } from 'philbin-packages/maths';
 
 export default class Camera {

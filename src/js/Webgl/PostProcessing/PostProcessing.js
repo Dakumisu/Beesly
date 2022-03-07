@@ -17,7 +17,7 @@ import {
 
 import { getWebgl } from '../Webgl';
 
-import { store } from '@js/Tools/Store';
+import { store } from '@tools/Store';
 
 import postProcessingMaterial from './basic/material';
 
