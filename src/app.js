@@ -7,7 +7,7 @@ import { initWebgl } from '@webgl/Webgl';
 
 const dom = new Dom();
 
-signal.on('domLoaded', () => {
+signal.once('domLoaded', () => {
 	const webgl = initWebgl(dom.nodes.domElements.canvas);
 });
 

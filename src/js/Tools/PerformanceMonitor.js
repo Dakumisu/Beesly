@@ -97,29 +97,27 @@ export default class PerfomanceMonitor {
 	debug() {
 		debug.instance.setFolder(debug.label, debug.tab);
 		const gui = debug.instance.getFolder(debug.label);
-
 		gui.addMonitor(this, 'fps', { type: 'graph' });
 		gui.addMonitor(this, 'qualityStr', { label: 'quality' });
-
 		gui.addSeparator();
-
 		gui.addButton({
 			title: 'Hard Reset',
 		}).on('click', () => {
 			this.reset(true, RESTART_DELAY, true);
 		});
-
 		gui.addButton({
-			title: 'Toggle Update',
+			title: 'Enable Update',
 		}).on('click', () => {
-			this.udpateActive = !this.udpateActive;
+			this.udpateActive = true;
 			localStorage.setItem('updateQuality', this.udpateActive);
 		});
-
+		gui.addButton({
+			title: 'Disable Update',
+		}).on('click', () => {
+			this.udpateActive = false;
+			localStorage.setItem('updateQuality', this.udpateActive);
+		});
 		gui.addSeparator();
-
-		gui.addMonitor(this, 'udpateActive', { label: 'Update Active' });
-
 		gui.addInput(this, 'quality', {
 			label: 'Debug Quality',
 			min: 0,
