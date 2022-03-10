@@ -2,7 +2,8 @@
 	Credits @pqml (https://github.com/pqml) 🔥
 */
 
-import signal from 'signal-js';
+import signal from 'philbin-packages/signal';
+
 import { getGPUTier } from 'detect-gpu';
 
 import { getWebgl } from '@webgl/Webgl';

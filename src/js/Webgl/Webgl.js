@@ -1,4 +1,4 @@
-import signal from 'signal-js';
+import signal from 'philbin-packages/signal';
 
 import Device from '@tools/Device';
 import Keyboard from '@tools/Keyboard';
@@ -65,6 +65,18 @@ class Webgl {
 		signal.on('raycast', (e) => {
 			/// #if DEBUG
 			// console.log('Raycast something 🔍', e);
+			/// #endif
+		});
+
+		signal.on('keyup', (e) => {
+			/// #if DEBUG
+			console.log(`Key ${e} up 🎹`);
+			/// #endif
+		});
+
+		signal.on('keydown', (e) => {
+			/// #if DEBUG
+			console.log(`Key ${e} down 🎹`);
 			/// #endif
 		});
 

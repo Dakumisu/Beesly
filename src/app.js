@@ -1,6 +1,6 @@
 import '@scss/main.scss';
 
-import signal from 'signal-js';
+import signal from 'philbin-packages/signal';
 
 import Dom from '@dom/Dom';
 import { initWebgl } from '@webgl/Webgl';

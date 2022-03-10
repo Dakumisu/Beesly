@@ -11,6 +11,7 @@
     "public/**/*",
   ],
   "compilerOptions": {
+    "checkJs": true,
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
