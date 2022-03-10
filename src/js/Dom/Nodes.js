@@ -99,7 +99,7 @@ export default class Nodes {
 		signal.emit('domLoaded');
 	}
 
-	delete(node) {
+	deleteNode(node) {
 		delete this.domElements[node];
 		delete this.shadowElements[node];
 	}
