@@ -1,14 +1,14 @@
-import Emitter from '@tools/Emitter';
+import signal from 'signal-js';
 
 import { store } from '@tools/Store';
 
 const defaultViewList = ['home', 'exp'];
 
-export default class Views extends Emitter {
+export default class Views {
 	constructor() {
-		super();
-
 		this.setViewsList();
+
+		signal.on('updateView', (view) => this.changeView(view));
 	}
 
 	setViewsList() {
@@ -52,7 +52,7 @@ export default class Views extends Emitter {
 			return console.error(`View '${view}' doesn't exist 🚫`);
 
 		this.currentView = this.viewList[view];
-		this.emit('changeView', [this.currentView]);
+		signal.emit('viewUpdated', this.currentView);
 	}
 
 	getView() {

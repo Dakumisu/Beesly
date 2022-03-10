@@ -1,15 +1,12 @@
+import signal from 'signal-js';
 import { Raycaster, ArrowHelper, Vector3 } from 'three';
-
-import Emitter from './Emitter';
 
 import { getWebgl } from '@webgl/Webgl';
 
 let initialized = false;
 
-export default class Raycasters extends Emitter {
+export default class Raycasters {
 	constructor(opt = {}) {
-		super();
-
 		const webgl = getWebgl();
 		this.scene = webgl.scene.instance;
 		this.mouse = webgl.mouse.scene;
@@ -56,6 +53,12 @@ export default class Raycasters extends Emitter {
 		initialized = true;
 	}
 
+	destroy() {
+		if (!initialized) return;
+
+		initialized = false;
+	}
+
 	update() {
 		if (!initialized) return;
 
@@ -66,15 +69,7 @@ export default class Raycasters extends Emitter {
 		);
 
 		for (let i = 0; i < intersects.length; i++) {
-			this.emit('raycast', [intersects[i].object]);
+			signal.emit('raycast', intersects[i].object);
 		}
-	}
-
-	destroy() {
-		if (!initialized) return;
-
-		initialized = false;
-
-		this.off('raycast');
 	}
 }

@@ -1,3 +1,4 @@
+import signal from 'signal-js';
 import { NoToneMapping, sRGBEncoding, WebGLRenderer } from 'three';
 
 import { getWebgl } from './Webgl';
@@ -32,12 +33,11 @@ const debug = {
 export default class Renderer {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
-		const performance = webgl.performance;
 		this.scene = webgl.scene.instance;
 		this.camera = webgl.camera.instance;
 		this.canvas = webgl.canvas;
 
-		performance.on('quality', (quality) => {
+		signal.on('quality', (quality) => {
 			const q = clamp(
 				Math.ceil(quality / 2),
 				0,

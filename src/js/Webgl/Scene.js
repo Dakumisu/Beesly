@@ -10,17 +10,17 @@ export default class Scene {
 			if (!object.isMesh) return;
 
 			if (object.material.isMaterial) {
-				cleanMaterial(object.material);
+				this.cleanMaterial(object.material);
 			} else {
 				for (const material of object.material) {
-					cleanMaterial(material);
+					this.cleanMaterial(material);
 				}
 			}
 		});
 	}
 
 	cleanMaterial(mat) {
-		material.dispose();
+		mat.dispose();
 
 		for (const key of Object.keys(mat)) {
 			const value = mat[key];

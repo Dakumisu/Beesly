@@ -1,12 +1,14 @@
 import '@scss/main.scss';
 
+import signal from 'signal-js';
+
 import Dom from '@dom/Dom';
-import { getWebgl } from '@webgl/Webgl';
+import { initWebgl } from '@webgl/Webgl';
 
 const dom = new Dom();
 
-dom.nodes.on('load', () => {
-	const webgl = getWebgl(dom.nodes.domElements.canvas);
+signal.once('domLoaded', () => {
+	const webgl = initWebgl(dom.nodes.domElements.canvas);
 });
 
 /// #if DEBUG

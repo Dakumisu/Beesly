@@ -1,14 +1,16 @@
-import Emitter from '@tools/Emitter.js';
+import signal from 'signal-js';
 
-export default class Raf extends Emitter {
+export default class Raf {
 	constructor() {
-		super();
-
 		this.start = Date.now();
 		this.current = this.start;
 		this.elapsed = 0;
 		this.delta = 16;
 		this.playing = true;
+
+		signal.on('visibility', (visible) => {
+			!visible ? this.pause() : this.play();
+		});
 
 		this.raf();
 	}
@@ -33,11 +35,10 @@ export default class Raf extends Emitter {
 
 		if (this.delta > 60) this.delta = 60;
 
-		if (this.playing) this.emit('raf');
+		if (this.playing) signal.emit('raf');
 	}
 
 	destroy() {
-		this.off('raf');
 		window.cancelAnimationFrame(this._raf);
 	}
 }

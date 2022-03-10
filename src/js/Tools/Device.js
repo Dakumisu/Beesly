@@ -1,14 +1,12 @@
-import Emitter from './Emitter';
+import signal from 'signal-js';
 
 import { store } from './Store';
 
 const html = document.documentElement;
 const deviceList = ['desktop', 'mobile'];
 
-export default class Device extends Emitter {
+export default class Device {
 	constructor() {
-		super();
-
 		this.checkDevice();
 		this.checkBrowser();
 		this.setHtmlStyle();
@@ -135,7 +133,7 @@ export default class Device extends Emitter {
 	}
 
 	checkVisibility() {
-		this.emit('visibility', [!document.hidden]);
+		signal.emit('visibility', !document.hidden);
 	}
 
 	resize() {
@@ -151,8 +149,6 @@ export default class Device extends Emitter {
 		html.style.removeProperty('--vp-height');
 		html.style.removeProperty('--vp-width');
 		html.removeAttribute('class');
-
-		this.off('visibility');
 
 		document.removeEventListener(
 			'visibilitychange',

@@ -1,14 +1,15 @@
-import Raf from '@tools/Raf';
-import Size from '@tools/Size';
-import Keyboard from '@tools/Keyboard';
-import Device from '@tools/Device';
-import Mouse from '@tools/Mouse';
-import Raycasters from '@tools/Raycasters';
-import PerformanceMonitor from '@tools/PerformanceMonitor';
+import signal from 'signal-js';
 
-import Scene from './Scene';
-import Renderer from './Renderer';
+import Device from '@tools/Device';
+import Keyboard from '@tools/Keyboard';
+import Mouse from '@tools/Mouse';
+import PerformanceMonitor from '@tools/PerformanceMonitor';
+import Raf from '@tools/Raf';
+import Raycasters from '@tools/Raycasters';
+import Size from '@tools/Size';
 import Camera from './Camera';
+import Renderer from './Renderer';
+import Scene from './Scene';
 import World from './World/World';
 
 /// #if DEBUG
@@ -21,13 +22,12 @@ class Webgl {
 	static instance;
 
 	constructor(_canvas) {
-		Webgl.instance = this;
-
 		if (!_canvas) {
 			console.error(`Missing 'canvas' property 🚫`);
 			return null;
 		}
 		this.canvas = _canvas;
+		Webgl.instance = this;
 
 		this.init();
 		this.event();
@@ -62,30 +62,20 @@ class Webgl {
 	event() {
 		if (!initialized) return;
 
-		this.keyboard.on('key', (e) => {
-			/// #if DEBUG
-			console.log(`Key ${e} pressed 🎹`);
-			/// #endif
-		});
-
-		this.raycaster.on('raycast', (e) => {
+		signal.on('raycast', (e) => {
 			/// #if DEBUG
 			// console.log('Raycast something 🔍', e);
 			/// #endif
 		});
 
-		this.device.on('visibility', (visible) => {
-			!visible ? this.raf.pause() : this.raf.play();
-		});
-
-		this.size.on('resize', () => {
+		signal.on('resize', () => {
 			this.resize();
 			/// #if DEBUG
 			console.log('Resize spotted 📐');
 			/// #endif
 		});
 
-		this.raf.on('raf', () => {
+		signal.on('raf', () => {
 			this.update();
 			this.render();
 		});
@@ -102,7 +92,7 @@ class Webgl {
 	update() {
 		if (!initialized) return;
 
-		if (this.raycaster) this.raycaster.update();
+		// if (this.raycaster) this.raycaster.update();
 		if (this.performance) this.performance.update(this.raf.delta);
 
 		/// #if DEBUG
@@ -118,6 +108,7 @@ class Webgl {
 	}
 
 	destroy() {
+		signal.clear();
 		/// #if DEBUG
 		this.debug.destroy();
 		/// #endif
@@ -138,8 +129,12 @@ class Webgl {
 	}
 }
 
-export const getWebgl = (canvas) => {
-	if (Webgl.instance) return Webgl.instance;
-
+const initWebgl = (canvas) => {
 	return new Webgl(canvas);
 };
+
+const getWebgl = () => {
+	return Webgl.instance;
+};
+
+export { initWebgl, getWebgl };

@@ -1,11 +1,9 @@
-import Emitter from '@tools/Emitter';
+import signal from 'signal-js';
 
 import { store } from '@tools/Store';
 
-export default class Size extends Emitter {
+export default class Size {
 	constructor() {
-		super();
-
 		window.addEventListener('resize', this.resize.bind(this));
 		this.resize();
 	}
@@ -16,11 +14,10 @@ export default class Size extends Emitter {
 		store.resolution.dpr = window.devicePixelRatio;
 		store.aspect.ratio = store.resolution.width / store.resolution.height;
 
-		this.emit('resize');
+		signal.emit('resize');
 	}
 
 	destroy() {
-		this.off('resize');
 		window.removeEventListener('resize', this.resize.bind(this));
 	}
 }

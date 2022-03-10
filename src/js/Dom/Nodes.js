@@ -1,17 +1,10 @@
-import Emitter from '@tools/Emitter';
+import signal from 'signal-js';
 
 import { store } from '@tools/Store';
 
-export default class Nodes extends Emitter {
+export default class Nodes {
 	constructor() {
-		super();
-
-		window.addEventListener('DOMContentLoaded', async () => {
-			await this.getNodes();
-			await this.getShadowNodes();
-
-			this.emit('load');
-		});
+		window.addEventListener('DOMContentLoaded', this.domLoaded.bind(this));
 	}
 
 	async getNodes() {
@@ -43,7 +36,7 @@ export default class Nodes extends Emitter {
 				}
 			}
 
-			resolve();
+			resolve(this.domElements);
 		});
 	}
 
@@ -95,8 +88,15 @@ export default class Nodes extends Emitter {
 				}
 			}
 
-			resolve();
+			resolve(this.shadowElements);
 		});
+	}
+
+	async domLoaded() {
+		await this.getNodes();
+		await this.getShadowNodes();
+
+		signal.emit('domLoaded');
 	}
 
 	delete(node) {
@@ -109,6 +109,8 @@ export default class Nodes extends Emitter {
 		delete this.shadowRef;
 		delete this.domElements;
 		delete this.shadowElements;
+
+		window.removeEventListener('DOMContentLoaded');
 	}
 
 	async reset() {

@@ -1,3 +1,4 @@
+import signal from 'signal-js';
 import {
 	AdditiveBlending,
 	Color,
@@ -42,10 +43,9 @@ const debug = {
 export default class Particles {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
-		const performance = webgl.performance;
 		this.scene = webgl.scene.instance;
 
-		performance.on('quality', (quality) => {
+		signal.on('quality', (quality) => {
 			this.count = particlesCountList[quality];
 			this.updateAttributes();
 		});
