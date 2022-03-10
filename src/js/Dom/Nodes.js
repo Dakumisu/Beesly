@@ -110,7 +110,10 @@ export default class Nodes {
 		delete this.domElements;
 		delete this.shadowElements;
 
-		window.removeEventListener('DOMContentLoaded');
+		window.removeEventListener(
+			'DOMContentLoaded',
+			this.domLoaded.bind(this),
+		);
 	}
 
 	async reset() {
