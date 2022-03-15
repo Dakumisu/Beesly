@@ -1,12 +1,4 @@
-import {
-	Color,
-	DoubleSide,
-	Mesh,
-	MeshNormalMaterial,
-	PlaneBufferGeometry,
-	ShaderMaterial,
-	Vector3,
-} from 'three';
+import { DoubleSide, Mesh, MeshNormalMaterial } from 'three';
 
 import { getWebgl } from '@webgl/Webgl';
 
