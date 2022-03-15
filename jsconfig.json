@@ -19,18 +19,36 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@webgl/*": ["src/js/Webgl/*"],
-      "@dom/*": ["src/js/Dom/*"],
-      "@tools/*": ["src/js/Tools/*"],
-
-      "@js/*": ["src/js/*"],
-      "@json/*": ["src/json/*"],
-      "@scss/*": ["src/scss/*"],
-      "@utils/*": ["src/utils/*"],
-      "@workers/*": ["src/workers/*"],
-      "@src/*": ["src/*"],
-
-      "@@/*": ["*"],
+      "@webgl/*": [
+        "src/js/Webgl/*"
+      ],
+      "@dom/*": [
+        "src/js/Dom/*"
+      ],
+      "@tools/*": [
+        "src/js/Tools/*"
+      ],
+      "@js/*": [
+        "src/js/*"
+      ],
+      "@json/*": [
+        "src/json/*"
+      ],
+      "@scss/*": [
+        "src/scss/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@workers/*": [
+        "src/workers/*"
+      ],
+      "@src/*": [
+        "src/*"
+      ],
+      "@@/*": [
+        "*"
+      ],
     }
   }
 }
