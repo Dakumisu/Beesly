@@ -5,7 +5,7 @@ import Keyboard from '@tools/Keyboard';
 import Mouse from '@tools/Mouse';
 import PerformanceMonitor from '@tools/PerformanceMonitor';
 import Raf from '@tools/Raf';
-import Raycasters from '@tools/Raycasters';
+import Raycast from '@tools/Raycast';
 import Size from '@tools/Size';
 import Camera from './Camera';
 import Renderer from './Renderer';
@@ -51,7 +51,7 @@ class Webgl {
 		this.mouse = new Mouse();
 
 		this.world = new World();
-		this.raycaster = new Raycasters();
+		this.raycaster = new Raycast();
 
 		this.performance.everythingLoaded();
 		this.resize();
