@@ -10,7 +10,7 @@ import {
 
 import { getWebgl } from '@webgl/Webgl';
 
-import mergeGeometry from '@utils/webgl/mergeBufferGeometries';
+import { mergeGeometry } from '@utils/webgl';
 
 import model from '/assets/model/model.glb';
 

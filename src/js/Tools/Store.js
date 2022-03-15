@@ -13,7 +13,15 @@ const store = {
 	},
 
 	style: null,
-	device: null,
+
+	device: {
+		machine: null,
+		os: {
+			name: '',
+			version: null,
+		},
+	},
+
 	browser: null,
 
 	views: null,

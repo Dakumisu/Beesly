@@ -9,9 +9,9 @@ import {
 
 import wLoadGLTF from '@workers/wLoadGLTF?worker';
 
-export default function loadModel(model) {
+export function loadGLTF(model) {
 	return new Promise((resolve) => {
-		loadGLTF(model).then((response) => {
+		load(model).then((response) => {
 			const geometries = [...response];
 
 			setMesh(geometries).then((response) => {
@@ -21,7 +21,7 @@ export default function loadModel(model) {
 	});
 }
 
-function loadGLTF(src) {
+function load(src) {
 	const worker = wLoadGLTF();
 
 	const geometries = [];

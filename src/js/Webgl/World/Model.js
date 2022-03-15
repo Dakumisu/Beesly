@@ -1,6 +1,6 @@
 import { getWebgl } from '@webgl/Webgl';
 
-import loadModel from '@utils/loader/loadGLTF';
+import { loadGLTF } from '@utils/loader';
 
 import model from '/assets/model/model.glb';
 
@@ -19,7 +19,7 @@ export default class Model {
 	}
 
 	async load() {
-		this.object.mesh = await loadModel(model);
+		this.object.mesh = await loadGLTF(model);
 
 		this.object.mesh.position.set(0, -2, 0);
 		this.scene.add(this.object.mesh);

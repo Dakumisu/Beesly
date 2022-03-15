@@ -2,11 +2,11 @@ import { BufferAttribute, BufferGeometry, Matrix4, Object3D } from 'three';
 
 import wMergeGeo from '@workers/wMergeGeo?worker';
 
-import loadGLTF from '@utils/loader/loadGLTF';
+import { loadGLTF } from '@utils/loader';
 
 let geometries = [];
 
-export default function mergeGeometry(geos = [], models = []) {
+export function mergeGeometry(geos = [], models = []) {
 	return new Promise((resolve) => {
 		if (!geos.length && !models.length) {
 			console.error('Geometries required 🚫');

@@ -1,0 +1,1 @@
+export { loadGLTF } from './loadGLTF';

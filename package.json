@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "bezier-easing": "^2.1.0",
+    "bowser": "^1.9.4",
     "esbuild": "^0.14.23",
     "fast-random": "^2.0.4",
     "meshoptimizer": "^0.17.0",
