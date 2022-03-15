@@ -26,6 +26,13 @@ const tVec3 = new Vector3();
 
 let initialized = false;
 
+/// #if DEBUG
+const debug = {
+	instance: null,
+	label: 'Post Processing',
+};
+/// #endif
+
 export default class PostFX {
 	constructor(renderer) {
 		const webgl = getWebgl();
@@ -36,7 +43,10 @@ export default class PostFX {
 
 		this.renderer.getDrawingBufferSize(tVec2);
 
-		this.usePostprocess = false;
+		this.params = {
+			usePostprocess: false,
+			useFxaa: true,
+		};
 
 		this.setEnvironnement();
 		this.setTriangle();
@@ -45,7 +55,26 @@ export default class PostFX {
 		this.setPostPro();
 
 		initialized = true;
+
+		/// #if DEBUG
+		debug.instance = webgl.debug;
+		this.debug();
+		/// #endif
 	}
+
+	/// #if DEBUG
+	debug() {
+		debug.instance.setFolder(debug.label);
+		const gui = debug.instance.getFolder(debug.label);
+
+		gui.addButton({
+			title: 'Toggle Post Processing',
+		}).on('click', () => {
+			this.material.uniforms.POST_PROCESSING.value =
+				this.params.usePostprocess = !this.params.usePostprocess;
+		});
+	}
+	/// #endif
 
 	setEnvironnement() {
 		this.scene = new Scene();
@@ -73,7 +102,11 @@ export default class PostFX {
 
 	setMaterial() {
 		const opts = {
+			defines: {
+				FXAA: this.params.useFxaa,
+			},
 			uniforms: {
+				POST_PROCESSING: { value: this.params.usePostprocess },
 				uScene: { value: this.target.texture },
 				uResolution: { value: tVec3 },
 			},

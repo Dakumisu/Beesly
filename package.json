@@ -15,7 +15,7 @@
     "animejs": "^3.2.1",
     "detect-gpu": "^4.0.7",
     "howler": "^2.2.1",
-    "philbin-packages": "^1.0.17",
+    "philbin-packages": "^1.0.19",
     "three": "^0.125.1"
   },
   "devDependencies": {
