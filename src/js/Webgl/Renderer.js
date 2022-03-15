@@ -1,4 +1,5 @@
-import signal from 'signal-js';
+import signal from 'philbin-packages/signal';
+
 import { NoToneMapping, sRGBEncoding, WebGLRenderer } from 'three';
 
 import { getWebgl } from './Webgl';

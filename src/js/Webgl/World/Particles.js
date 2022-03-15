@@ -1,4 +1,5 @@
-import signal from 'signal-js';
+import signal from 'philbin-packages/signal';
+
 import {
 	AdditiveBlending,
 	Color,
