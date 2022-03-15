@@ -1,4 +1,5 @@
-import signal from 'signal-js';
+import signal from 'philbin-packages/signal';
+import Bowser from 'bowser';
 
 import { store } from './Store';
 
@@ -35,66 +36,21 @@ export default class Device {
 			else html.classList.remove(e);
 		});
 
-		store.device = device;
+		store.device.machine = device;
 	}
 
 	checkBrowser() {
-		const agent = navigator.userAgent;
-		let browserName = '';
-		let fullVersion = '';
-		let browserMajorVersion = '';
-		let offsetName, offsetVersion, ix;
+		const browser = Bowser;
 
-		// In Chrome
-		if ((offsetVersion = agent.indexOf('Chrome')) != -1) {
-			browserName = 'chrome';
-			fullVersion = agent.substring(offsetVersion + 7);
-		}
+		const osName = browser.osname.toLowerCase();
+		const osVersion = browser.osversion;
+		const browserName = browser.name.toLowerCase().replace(' ', '-');
+		const browserVersion = browser.version.split('.')[0];
 
-		// In Microsoft internet explorer
-		else if ((offsetVersion = agent.indexOf('MSIE')) != -1) {
-			browserName = 'microsoft-internet-explorer';
-			fullVersion = agent.substring(offsetVersion + 5);
-		}
-
-		// In Firefox
-		else if ((offsetVersion = agent.indexOf('Firefox')) != -1) {
-			browserName = 'firefox';
-		}
-
-		// In Safari
-		else if ((offsetVersion = agent.indexOf('Safari')) != -1) {
-			browserName = 'safari';
-			fullVersion = agent.substring(offsetVersion + 7);
-			if ((offsetVersion = agent.indexOf('Version')) != -1)
-				fullVersion = agent.substring(offsetVersion + 8);
-		}
-
-		// For other browser "name/version" is at the end of userAgent
-		else if (
-			(offsetName = agent.lastIndexOf(' ') + 1) <
-			(offsetVersion = agent.lastIndexOf('/'))
-		) {
-			browserName = agent.substring(offsetName, offsetVersion);
-			fullVersion = agent.substring(offsetVersion + 1);
-			if (browserName.toLowerCase() == browserName.toUpperCase()) {
-				browserName = navigator.appName;
-			}
-		}
-
-		// trimming the fullVersion string at semicolon/space if present
-		if ((ix = fullVersion.indexOf(';')) != -1)
-			fullVersion = fullVersion.substring(0, ix);
-		if ((ix = fullVersion.indexOf(' ')) != -1)
-			fullVersion = fullVersion.substring(0, ix);
-		browserMajorVersion = parseInt('' + fullVersion, 10);
-		if (isNaN(browserMajorVersion)) {
-			fullVersion = '' + parseFloat(navigator.appVersion);
-			browserMajorVersion = '' + parseInt(navigator.appVersion, 10);
-		}
-
-		html.classList.add(browserName, browserMajorVersion);
+		html.classList.add(osName, browserName, browserVersion);
 		store.browser = browserName;
+		store.device.os.name = osName;
+		store.device.os.version = osVersion;
 	}
 
 	setHtmlStyle() {
@@ -142,7 +98,8 @@ export default class Device {
 	}
 
 	destroy() {
-		store.device = null;
+		store.device.machine = null;
+		store.device.os = {};
 		store.browser = null;
 		store.style = null;
 
