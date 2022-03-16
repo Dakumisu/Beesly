@@ -1,11 +1,13 @@
-import { OrthographicCamera, PerspectiveCamera } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrthographicCamera, PerspectiveCamera, Vector3 } from 'three';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { orbitController } from '@utils/webgl';
 
 import { getWebgl } from './Webgl';
 
 import { store } from '@tools/Store';
 import { imageAspect } from 'philbin-packages/maths';
 
+let initialized = false;
 export default class Camera {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
@@ -13,6 +15,11 @@ export default class Camera {
 		this.canvas = webgl.canvas;
 
 		this.type = opt.type || 'Perspective';
+
+		this.init();
+	}
+
+	init() {
 		this.type == 'Orthographic'
 			? this.setOrthographicCamera()
 			: this.setPerspectiveCamera();
@@ -20,6 +27,8 @@ export default class Camera {
 		/// #if DEBUG
 		this.setDebugCamera();
 		/// #endif
+
+		initialized = true;
 	}
 
 	setPerspectiveCamera() {
@@ -67,16 +76,24 @@ export default class Camera {
 		this.debugCam.camera = this.instance.clone();
 		this.debugCam.camera.rotation.reorder('YXZ');
 
-		this.debugCam.orbitControls = new OrbitControls(
-			this.debugCam.camera,
-			this.canvas,
-		);
-		this.debugCam.orbitControls.enabled = this.debugCam.active;
-		this.debugCam.orbitControls.screenSpacePanning = true;
-		this.debugCam.orbitControls.enableKeys = false;
-		this.debugCam.orbitControls.zoomSpeed = 0.5;
-		this.debugCam.orbitControls.enableDamping = true;
-		this.debugCam.orbitControls.update();
+		// this.debugCam.camera.position.copy(this.instance.position);
+		// this.debugCam.camera.quaternion.copy(this.instance.quaternion);
+		// this.debugCam.camera.position.set(2, 3, 3);
+		// this.debugCam.camera.lookAt(0, 0, 0);
+		this.debugCam.control = new orbitController(this.debugCam.camera, {
+			element: this.canvas,
+			useOrbitKeyboard: false,
+			target: this.instance.position.clone(),
+			// autoRotate: true,
+		});
+		console.log(this.debugCam.control);
+		console.log(this.debugCam.control.sphericalTarget);
+		// this.debugCam.control.enabled = this.debugCam.active;
+		// this.debugCam.control.screenSpacePanning = true;
+		// this.debugCam.control.enableKeys = false;
+		// this.debugCam.control.zoomSpeed = 0.5;
+		// this.debugCam.control.enableDamping = true;
+		// this.debugCam.control.update();
 	}
 	/// #endif
 
@@ -102,9 +119,10 @@ export default class Camera {
 		/// #endif
 	}
 
-	render() {
+	update() {
+		if (!initialized) return;
 		/// #if DEBUG
-		this.debugCam.orbitControls.update();
+		this.debugCam.control.update();
 
 		this.instance.position.copy(this.debugCam.camera.position);
 		this.instance.quaternion.copy(this.debugCam.camera.quaternion);
@@ -114,7 +132,7 @@ export default class Camera {
 
 	destroy() {
 		/// #if DEBUG
-		this.debugCam.orbitControls.dispose();
+		this.debugCam.control.dispose();
 		/// #endif
 	}
 }

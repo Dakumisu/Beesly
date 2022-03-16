@@ -29,11 +29,11 @@ class Webgl {
 		this.canvas = _canvas;
 		Webgl.instance = this;
 
-		this.init();
+		this.beforeInit();
 		this.event();
 	}
 
-	init() {
+	beforeInit() {
 		/// #if DEBUG
 		this.debug = new Debug();
 		/// #endif
@@ -43,16 +43,25 @@ class Webgl {
 
 		this.raf = new Raf();
 		this.scene = new Scene();
+		this.keyboard = new Keyboard();
+
+		this.init();
+	}
+
+	init() {
 		this.camera = new Camera();
 		this.performance = new PerformanceMonitor();
 		this.renderer = new Renderer();
 
-		this.keyboard = new Keyboard();
 		this.mouse = new Mouse();
 
 		this.world = new World();
 		this.raycaster = new Raycast();
 
+		this.afterInit();
+	}
+
+	afterInit() {
 		this.performance.everythingLoaded();
 		this.resize();
 
@@ -97,13 +106,13 @@ class Webgl {
 		if (!initialized) return;
 
 		if (this.world) this.world.update(this.raf.elapsed, this.raf.delta);
-		if (this.camera) this.camera.render();
 		if (this.renderer) this.renderer.render();
 	}
 
 	update() {
 		if (!initialized) return;
 
+		if (this.camera) this.camera.update();
 		// if (this.raycaster) this.raycaster.update();
 		if (this.performance) this.performance.update(this.raf.delta);
 
@@ -113,6 +122,8 @@ class Webgl {
 	}
 
 	resize() {
+		if (!initialized) return;
+
 		if (this.renderer) this.renderer.resize();
 		if (this.camera) this.camera.resize();
 		if (this.world) this.world.resize();
