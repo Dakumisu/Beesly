@@ -6,14 +6,9 @@ import ifdefRollupPlugin from './ifdef/ifdefRollupPlugin';
 import content from '../src/json/content.json';
 
 export default ({ mode }) => {
-	process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
-	if (!process.env.NODE_ENV) process.env.NODE_ENV = mode;
+	console.log('🏓 Environnement :', mode);
 
-	console.log('🏓 Environnement :', process.env.NODE_ENV);
-
-	const debug = process.env.NODE_ENV
-		? process.env.NODE_ENV != 'production'
-		: true;
+	const debug = mode ? mode != 'production' : true;
 	const define = {
 		DEBUG: debug,
 	};
