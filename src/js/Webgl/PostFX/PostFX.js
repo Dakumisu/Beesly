@@ -24,12 +24,17 @@ import postProcessingMaterial from './basic/material';
 const tVec2 = new Vector2();
 const tVec3 = new Vector3();
 
+const params = {
+	usePostprocess: false,
+	useFxaa: true,
+};
+
 let initialized = false;
 
 /// #if DEBUG
 const debug = {
 	instance: null,
-	label: 'Post Processing',
+	label: 'Post FX',
 };
 /// #endif
 
@@ -42,11 +47,6 @@ export default class PostFX {
 		this.renderer = renderer;
 
 		this.renderer.getDrawingBufferSize(tVec2);
-
-		this.params = {
-			usePostprocess: false,
-			useFxaa: true,
-		};
 
 		this.setEnvironnement();
 		this.setTriangle();
@@ -71,7 +71,7 @@ export default class PostFX {
 			title: 'Toggle Post Processing',
 		}).on('click', () => {
 			this.material.uniforms.POST_PROCESSING.value =
-				this.params.usePostprocess = !this.params.usePostprocess;
+				params.usePostprocess = !params.usePostprocess;
 		});
 	}
 	/// #endif
@@ -103,10 +103,10 @@ export default class PostFX {
 	setMaterial() {
 		const opts = {
 			defines: {
-				FXAA: this.params.useFxaa,
+				FXAA: params.useFxaa,
 			},
 			uniforms: {
-				POST_PROCESSING: { value: this.params.usePostprocess },
+				POST_PROCESSING: { value: params.usePostprocess },
 				uScene: { value: this.target.texture },
 				uResolution: { value: tVec3 },
 			},
