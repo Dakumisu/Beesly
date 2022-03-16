@@ -50,7 +50,7 @@ function orbitController(
 		enableZoom = true,
 		zoomSpeed = 1.25,
 		enablePan = true,
-		panSpeed = 0.15,
+		panSpeed = 0.11,
 		fps = false,
 		minPolarAngle = 0,
 		maxPolarAngle = Math.PI,
@@ -81,8 +81,8 @@ function orbitController(
 	// Touch pressed
 	const pressed = [
 		'ShiftLeft',
-		'KeyZ',
-		'KeyQ',
+		'KeyW',
+		'KeyA',
 		'KeyS',
 		'KeyD',
 		'KeyC',
@@ -155,7 +155,7 @@ function orbitController(
 		// Reset scale every frame to avoid applying scale multiple times
 		sphericalDelta.radius = 1;
 
-		const keyMult = pressed.ShiftLeft ? 4 : pressed.KeyC ? 0.25 : 1;
+		const keyMult = pressed.ShiftLeft ? 1.5 : pressed.KeyC ? 0.05 : 0.15;
 		const keySpeed = 0.1;
 		if (enabled) {
 			if (fps) {
@@ -256,7 +256,7 @@ function orbitController(
 	};
 
 	function handleAutoRotate() {
-		const angle = ((2 * Math.PI) / 60 / 60) * autoRotateSpeed;
+		const angle = ((2 * -Math.PI) / 60 / 60) * autoRotateSpeed;
 		sphericalDelta.theta -= angle;
 	}
 
@@ -566,6 +566,12 @@ function orbitController(
 		},
 		get sphericalTarget() {
 			return sphericalTarget;
+		},
+		get autoRotate() {
+			return autoRotate;
+		},
+		set autoRotate(v) {
+			autoRotate = v;
 		},
 	};
 }

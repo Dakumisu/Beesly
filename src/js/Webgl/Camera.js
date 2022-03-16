@@ -9,6 +9,13 @@ import { imageAspect } from 'philbin-packages/maths';
 
 let initialized = false;
 
+/// #if DEBUG
+const debug = {
+	instance: null,
+	label: 'Camera',
+};
+/// #endif
+
 export default class Camera {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
@@ -18,7 +25,33 @@ export default class Camera {
 		this.type = opt.type || 'Perspective';
 
 		this.init();
+
+		/// #if DEBUG
+		debug.instance = webgl.debug;
+		this.debug();
+		/// #endif
 	}
+
+	/// #if DEBUG
+	debug() {
+		debug.instance.setFolder(debug.label);
+		const gui = debug.instance.getFolder(debug.label);
+
+		gui.addInput(this.orbitParams, 'fps', {
+			label: 'mode',
+			options: { Default: false, FPS: true },
+		}).on('change', (e) => {
+			this.debugCam.control.setFPSMode(e.value);
+		});
+
+		gui.addButton({
+			title: 'Toggle auto rotate',
+		}).on('click', () => {
+			this.debugCam.control.autoRotate =
+				!this.debugCam.control.autoRotate;
+		});
+	}
+	/// #endif
 
 	init() {
 		this.type == 'Orthographic'
@@ -73,7 +106,7 @@ export default class Camera {
 
 	/// #if DEBUG
 	setDebugCamera() {
-		const orbitParams = {
+		this.orbitParams = {
 			spherical: {
 				radius: 5,
 				phi: 1,
@@ -82,6 +115,8 @@ export default class Camera {
 
 			minDistance: 0.5,
 			maxDistance: 20,
+
+			fps: false,
 		};
 
 		this.debugCam = {};
@@ -89,14 +124,14 @@ export default class Camera {
 		this.debugCam.camera.rotation.reorder('YXZ');
 
 		this.debugCam.control = new orbitController(this.debugCam.camera, {
-			element: this.canvas,
-			minDistance: orbitParams.minDistance,
-			maxDistance: orbitParams.maxDistance,
+			minDistance: this.orbitParams.minDistance,
+			maxDistance: this.orbitParams.maxDistance,
+			useOrbitKeyboard: false,
 		});
 		this.debugCam.control.sphericalTarget.set(
-			orbitParams.spherical.radius,
-			orbitParams.spherical.phi,
-			orbitParams.spherical.theta,
+			this.orbitParams.spherical.radius,
+			this.orbitParams.spherical.phi,
+			this.orbitParams.spherical.theta,
 		);
 	}
 	/// #endif
