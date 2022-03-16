@@ -8,6 +8,7 @@ import { store } from '@tools/Store';
 import { imageAspect } from 'philbin-packages/maths';
 
 let initialized = false;
+
 export default class Camera {
 	constructor(opt = {}) {
 		const webgl = getWebgl();
@@ -72,28 +73,31 @@ export default class Camera {
 
 	/// #if DEBUG
 	setDebugCamera() {
+		const orbitParams = {
+			spherical: {
+				radius: 5,
+				phi: 1,
+				theta: 0.5,
+			},
+
+			minDistance: 0.5,
+			maxDistance: 20,
+		};
+
 		this.debugCam = {};
 		this.debugCam.camera = this.instance.clone();
 		this.debugCam.camera.rotation.reorder('YXZ');
 
-		// this.debugCam.camera.position.copy(this.instance.position);
-		// this.debugCam.camera.quaternion.copy(this.instance.quaternion);
-		// this.debugCam.camera.position.set(2, 3, 3);
-		// this.debugCam.camera.lookAt(0, 0, 0);
 		this.debugCam.control = new orbitController(this.debugCam.camera, {
 			element: this.canvas,
-			useOrbitKeyboard: false,
-			target: this.instance.position.clone(),
-			// autoRotate: true,
+			minDistance: orbitParams.minDistance,
+			maxDistance: orbitParams.maxDistance,
 		});
-		console.log(this.debugCam.control);
-		console.log(this.debugCam.control.sphericalTarget);
-		// this.debugCam.control.enabled = this.debugCam.active;
-		// this.debugCam.control.screenSpacePanning = true;
-		// this.debugCam.control.enableKeys = false;
-		// this.debugCam.control.zoomSpeed = 0.5;
-		// this.debugCam.control.enableDamping = true;
-		// this.debugCam.control.update();
+		this.debugCam.control.sphericalTarget.set(
+			orbitParams.spherical.radius,
+			orbitParams.spherical.phi,
+			orbitParams.spherical.theta,
+		);
 	}
 	/// #endif
 
@@ -132,7 +136,7 @@ export default class Camera {
 
 	destroy() {
 		/// #if DEBUG
-		this.debugCam.control.dispose();
+		this.debugCam.control.destroy();
 		/// #endif
 	}
 }

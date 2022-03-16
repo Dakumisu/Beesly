@@ -102,13 +102,6 @@ class Webgl {
 		});
 	}
 
-	render() {
-		if (!initialized) return;
-
-		if (this.world) this.world.update(this.raf.elapsed, this.raf.delta);
-		if (this.renderer) this.renderer.render();
-	}
-
 	update() {
 		if (!initialized) return;
 
@@ -119,6 +112,13 @@ class Webgl {
 		/// #if DEBUG
 		if (this.debug.stats) this.debug.stats.update();
 		/// #endif
+	}
+
+	render() {
+		if (!initialized) return;
+
+		if (this.world) this.world.update(this.raf.elapsed, this.raf.delta);
+		if (this.renderer) this.renderer.render();
 	}
 
 	resize() {

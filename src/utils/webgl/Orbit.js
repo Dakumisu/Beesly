@@ -1,5 +1,4 @@
-// Code from OGL
-// https://github.com/oframe/ogl/blob/master/src/extras/Orbit.js
+/* Code from OGL (https://github.com/oframe/ogl/blob/master/src/extras/Orbit.js) */
 
 import { clamp } from 'philbin-packages/maths';
 import { Vector3 as Vec3, Vector2 as Vec2, Vector3 } from 'three';
@@ -42,16 +41,16 @@ function orbitController(
 		element = document,
 		enabled = true,
 		target = new Vec3(),
-		ease = 0.25,
+		ease = 0.15,
 		inertia = 0.75,
 		enableRotate = true,
-		rotateSpeed = 0.1,
+		rotateSpeed = 0.15,
 		autoRotate = false,
 		autoRotateSpeed = 1.0,
 		enableZoom = true,
-		zoomSpeed = 1,
+		zoomSpeed = 1.25,
 		enablePan = true,
-		panSpeed = 0.1,
+		panSpeed = 0.15,
 		fps = false,
 		minPolarAngle = 0,
 		maxPolarAngle = Math.PI,
@@ -522,7 +521,7 @@ function orbitController(
 		element.addEventListener('touchmove', onTouchMove, { passive: false });
 	}
 
-	function remove() {
+	function destroy() {
 		window.removeEventListener('blur', unpressAllKeys);
 		element.removeEventListener('contextmenu', onContextMenu);
 		element.removeEventListener('mousedown', onMouseDown);
@@ -537,7 +536,7 @@ function orbitController(
 	addHandlers();
 
 	return {
-		remove,
+		destroy,
 		update,
 		updatePosition,
 		offsetToSpherical,
