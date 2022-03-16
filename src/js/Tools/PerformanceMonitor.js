@@ -98,7 +98,22 @@ export default class PerfomanceMonitor {
 	debug() {
 		debug.instance.setFolder(debug.label, debug.tab);
 		const gui = debug.instance.getFolder(debug.label);
-		gui.addMonitor(this, 'fps', { type: 'graph' });
+
+		const fpsGui = gui.addFolder({
+			title: 'fps',
+			expanded: true,
+		});
+		fpsGui.addMonitor(this, 'fps', {
+			label: 'current',
+			type: 'graph',
+		});
+		fpsGui.addMonitor(this, 'fps', {
+			label: 'monitor',
+			type: 'graph',
+			view: 'graph',
+			min: 0,
+			max: 144,
+		});
 		gui.addMonitor(this, 'qualityStr', { label: 'quality' });
 		gui.addSeparator();
 		gui.addButton({
