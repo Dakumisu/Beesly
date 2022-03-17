@@ -1,5 +1,4 @@
 import { OrthographicCamera, PerspectiveCamera, Vector3 } from 'three';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { orbitController } from '@utils/webgl';
 
 import { getWebgl } from './Webgl';
@@ -47,16 +46,13 @@ export default class Camera {
 		gui.addButton({
 			title: 'Toggle auto rotate',
 		}).on('click', () => {
-			this.debugCam.control.autoRotate =
-				!this.debugCam.control.autoRotate;
+			this.debugCam.control.autoRotate = !this.debugCam.control.autoRotate;
 		});
 	}
 	/// #endif
 
 	init() {
-		this.type == 'Orthographic'
-			? this.setOrthographicCamera()
-			: this.setPerspectiveCamera();
+		this.type == 'Orthographic' ? this.setOrthographicCamera() : this.setPerspectiveCamera();
 
 		/// #if DEBUG
 		this.setDebugCamera();
@@ -66,12 +62,7 @@ export default class Camera {
 	}
 
 	setPerspectiveCamera() {
-		this.instance = new PerspectiveCamera(
-			75,
-			store.aspect.ratio,
-			0.1,
-			1000,
-		);
+		this.instance = new PerspectiveCamera(75, store.aspect.ratio, 0.1, 1000);
 		this.instance.position.set(2, 3, 3);
 		this.instance.lookAt(0, 0, 0);
 		this.instance.rotation.reorder('YXZ');
@@ -93,11 +84,7 @@ export default class Camera {
 
 		// If you want to keep the aspect of your image
 		const aspect = 1 / 1; // Aspect of the displayed image
-		const imgAspect = imageAspect(
-			aspect,
-			store.resolution.width,
-			store.resolution.height,
-		);
+		const imgAspect = imageAspect(aspect, store.resolution.width, store.resolution.height);
 		store.aspect.a1 = imgAspect.a1;
 		store.aspect.a2 = imgAspect.a2;
 
@@ -140,22 +127,20 @@ export default class Camera {
 		if (this.instance instanceof PerspectiveCamera) {
 			this.instance.aspect = store.aspect.ratio;
 			this.instance.updateProjectionMatrix();
+
+			/// #if DEBUG
+			this.debugCam.camera.aspect = store.aspect.ratio;
+			this.debugCam.camera.updateProjectionMatrix();
+			/// #endif
 		}
 
-		// If you want to keep the aspect of your image in a shader
-		const aspect = 1 / 1; // Aspect of the displayed image
-		const imgAspect = imageAspect(
-			aspect,
-			store.resolution.width,
-			store.resolution.height,
-		);
-		store.aspect.a1 = imgAspect.a1;
-		store.aspect.a2 = imgAspect.a2;
-
-		/// #if DEBUG
-		this.debugCam.camera.aspect = store.aspect.ratio;
-		this.debugCam.camera.updateProjectionMatrix();
-		/// #endif
+		if (this.instance instanceof OrthographicCamera) {
+			// If you want to keep the aspect of your image in a shader
+			const aspect = 1 / 1; // Aspect of the displayed image
+			const imgAspect = imageAspect(aspect, store.resolution.width, store.resolution.height);
+			store.aspect.a1 = imgAspect.a1;
+			store.aspect.a2 = imgAspect.a2;
+		}
 	}
 
 	update() {
